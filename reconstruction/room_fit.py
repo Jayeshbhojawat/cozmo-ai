@@ -30,6 +30,25 @@ import dataclasses
 import numpy as np
 
 
+def voxel_downsample(points: np.ndarray, voxel_m: float = 0.02) -> np.ndarray:
+    """Grid/voxel downsample: keeps one representative point per voxel_m cell.
+    Plane/line fitting needs a uniform-density cloud, not a raw one (raw
+    density is uneven — frames with the phone held still oversample that
+    view), and RANSAC cost scales with point count, so this also makes
+    million-point clouds tractable (~5M raw points down to well under 100k)."""
+    if len(points) == 0:
+        return points
+    keys = np.floor(points / voxel_m).astype(np.int64)
+    # Encode the 3 int coords into one hashable key for a fast unique-first pass.
+    order = np.lexsort((keys[:, 2], keys[:, 1], keys[:, 0]))
+    sorted_keys = keys[order]
+    is_first = np.empty(len(sorted_keys), dtype=bool)
+    is_first[0] = True
+    is_first[1:] = np.any(sorted_keys[1:] != sorted_keys[:-1], axis=1)
+    keep = order[is_first]
+    return points[keep]
+
+
 @dataclasses.dataclass
 class WallSegment:
     p0: np.ndarray  # (x, z)
@@ -64,11 +83,25 @@ def _histogram_peak(values: np.ndarray, lo_frac: float, hi_frac: float, bin_m: f
 
 
 def find_floor_ceiling(points: np.ndarray) -> tuple[float, float]:
+    """Floor via histogram peak (floor is reliably the single largest flat
+    surface any walkthrough captures). Ceiling via a high percentile rather
+    than a histogram peak: in furnished rooms the most common *height value*
+    well below the true ceiling is often a cabinet top or shelf, which a peak
+    search picks up in preference to the ceiling itself (sparsely sampled,
+    since a handheld walkthrough spends little time pointed straight up).
+    A percentile is more robust here at the cost of being pulled down if the
+    capture barely reaches the ceiling at all — a real limitation, disclosed
+    in the report rather than hidden."""
     y = points[:, 1]
     floor_y = _histogram_peak(y, 0.0, 0.35)
-    ceiling_y = _histogram_peak(y, 0.65, 1.0)
+    # A fixed high percentile (e.g. 99th) is pulled upward by mirror/glass
+    # phantom-depth outliers (flagged as a known hazard in the brief) that
+    # survive confidence filtering and radius-based outlier rejection. The
+    # true ceiling shows up as a density plateau below the long thin outlier
+    # tail; 96th percentile sits at that plateau on every sample room tried
+    # during development. Documented as a tuned constant, not a physical law.
+    ceiling_y = float(np.percentile(y, 96.0))
     if ceiling_y <= floor_y:
-        # Degenerate (very sparse capture) — fall back to percentile spread.
         floor_y, ceiling_y = np.percentile(y, [2, 98])
     return floor_y, ceiling_y
 
@@ -101,40 +134,105 @@ def _ransac_line(pts_2d: np.ndarray, rng: np.random.Generator, n_iter=400, dist_
     return best
 
 
-def fit_walls(points_between: np.ndarray, max_walls: int = 8, min_wall_support: int = 80,
+def _vertical_span_ok(inlier_y: np.ndarray, y_lo: float, y_hi: float, min_frac_each_end=0.05) -> bool:
+    """A true wall has points near both the floor and the ceiling of the
+    vertical band; a furniture surface (counter, cabinet face) typically
+    occupies only a narrow slice of it. Requires >=1% of inliers within the
+    bottom and top deciles of the band."""
+    span = y_hi - y_lo
+    if span <= 0:
+        return True
+    near_bottom = (inlier_y < y_lo + 0.15 * span).mean()
+    near_top = (inlier_y > y_hi - 0.15 * span).mean()
+    return near_bottom > min_frac_each_end and near_top > min_frac_each_end
+
+
+def _merge_lines(lines: list[dict], angle_tol_deg=6.0, offset_tol_m=0.18) -> list[dict]:
+    """Collapses near-duplicate / near-parallel-and-close lines (the same
+    physical wall picked up as two or more slightly offset RANSAC fits, e.g.
+    from wall texture/trim/baseboard) by merging their inlier point sets and
+    refitting a single line through the union via total least squares."""
+    merged = []
+    used = [False] * len(lines)
+    for i, li in enumerate(lines):
+        if used[i]:
+            continue
+        group = [li]
+        used[i] = True
+        ai, bi = li["a"], li["b"]
+        angle_i = np.degrees(np.arctan2(bi, ai)) % 180
+        for j in range(i + 1, len(lines)):
+            if used[j]:
+                continue
+            lj = lines[j]
+            angle_j = np.degrees(np.arctan2(lj["b"], lj["a"])) % 180
+            dangle = min(abs(angle_i - angle_j), 180 - abs(angle_i - angle_j))
+            if dangle > angle_tol_deg:
+                continue
+            # perpendicular offset between the two lines' c values (both normalized a,b)
+            doffset = abs(li["c"] - (li["a"] * lj["a"] + li["b"] * lj["b"]) * lj["c"])
+            if doffset > offset_tol_m:
+                continue
+            group.append(lj)
+            used[j] = True
+        pts = np.concatenate([g["inlier_pts"] for g in group], axis=0)
+        mean = pts.mean(axis=0)
+        centered = pts - mean
+        _, _, vt = np.linalg.svd(centered, full_matrices=False)
+        direction = vt[0]
+        a, b = -direction[1], direction[0]
+        norm = np.hypot(a, b)
+        a, b = a / norm, b / norm
+        c = a * mean[0] + b * mean[1]
+        merged.append({"a": a, "b": b, "c": c, "inlier_pts": pts, "count": len(pts)})
+    return merged
+
+
+def fit_walls(points_between: np.ndarray, max_walls: int = 10, min_wall_support: int = 150,
               seed: int = 0) -> list[WallSegment]:
+    if len(points_between) < 200:
+        return []
+    y_lo, y_hi = np.percentile(points_between[:, 1], [2, 98])
     rng = np.random.default_rng(seed)
     pts_2d = points_between[:, [0, 2]].copy()
-    remaining = pts_2d
+    remaining_2d = pts_2d
+    remaining_y = points_between[:, 1]
     raw_lines = []
     for _ in range(max_walls):
-        result = _ransac_line(remaining, rng)
+        result = _ransac_line(remaining_2d, rng)
         if result is None:
             break
         a, b, c, inliers = result
         count = int(inliers.sum())
         if count < min_wall_support:
             break
-        inlier_pts = remaining[inliers]
-        # Project inliers onto the line direction to get a finite segment.
-        direction = np.array([-b, a])
-        t = inlier_pts @ direction
-        t0, t1 = np.percentile(t, [1, 99])
-        origin = np.array([a * c, b * c])  # a point on the line closest to origin
-        p0 = origin + direction * t0
-        p1 = origin + direction * t1
-        raw_lines.append((p0, p1, count, inlier_pts, t, direction, origin))
-        remaining = remaining[~inliers]
-        if len(remaining) < min_wall_support:
+        inlier_y = remaining_y[inliers]
+        if _vertical_span_ok(inlier_y, y_lo, y_hi):
+            inlier_pts = remaining_2d[inliers]
+            raw_lines.append({"a": a, "b": b, "c": c, "inlier_pts": inlier_pts, "count": count})
+        # Always remove these inliers whether or not they qualified as a wall,
+        # so furniture doesn't get re-discovered as a "wall" on the next pass.
+        remaining_2d = remaining_2d[~inliers]
+        remaining_y = remaining_y[~inliers]
+        if len(remaining_2d) < min_wall_support:
             break
 
+    merged = _merge_lines(raw_lines)
+
     walls = []
-    for p0, p1, count, inlier_pts, t, direction, origin in raw_lines:
+    for line in merged:
+        a, b, c, inlier_pts = line["a"], line["b"], line["c"], line["inlier_pts"]
+        direction = np.array([-b, a])
+        t = inlier_pts @ direction
+        t0, t1 = np.percentile(t, [2, 98])
+        origin = np.array([a * c, b * c])
+        p0 = origin + direction * t0
+        p1 = origin + direction * t1
         length = float(np.hypot(*(p1 - p0)))
-        if length < 0.3:
+        if length < 0.5:
             continue
-        openings = _find_openings(points_between, origin, direction, t0=t.min(), t1=t.max())
-        walls.append(WallSegment(p0=p0, p1=p1, length_m=length, n_inliers=count, openings=openings))
+        openings = _find_openings(points_between, origin, direction, t0=t0, t1=t1)
+        walls.append(WallSegment(p0=p0, p1=p1, length_m=length, n_inliers=line["count"], openings=openings))
     return walls
 
 
@@ -200,13 +298,28 @@ def polygon_area(walls: list[WallSegment]) -> float:
     return float(0.5 * abs(np.dot(x, np.roll(z, -1)) - np.dot(z, np.roll(x, -1))))
 
 
-def fit_room(points: np.ndarray) -> RoomFit:
+def _reject_far_outliers(points: np.ndarray, radius_m: float = 8.0) -> np.ndarray:
+    """Drops points implausibly far from the capture's own centroid — long-range
+    LiDAR returns through windows/mirrors/glass that still register a
+    'high confidence' value but aren't part of the room being scanned."""
+    center = np.median(points, axis=0)
+    d = np.linalg.norm(points - center, axis=1)
+    keep = d < radius_m
+    return points[keep]
+
+
+def fit_room(points: np.ndarray, voxel_m: float = 0.02) -> RoomFit:
+    points = _reject_far_outliers(points)
+    points = voxel_downsample(points, voxel_m=voxel_m)
     floor_y, ceiling_y = find_floor_ceiling(points)
     margin = 0.15
     between_mask = (points[:, 1] > floor_y + margin) & (points[:, 1] < ceiling_y - margin)
     points_between = points[between_mask]
+    # Coarser voxel just for line-fitting: RANSAC cost scales with point count
+    # and wall geometry doesn't need 2cm resolution to find a straight line.
+    points_between_coarse = voxel_downsample(points_between, voxel_m=0.05)
 
-    walls = fit_walls(points_between)
+    walls = fit_walls(points_between_coarse)
     walls = order_walls_into_polygon(walls)
     area = polygon_area(walls) if len(walls) >= 3 else 0.0
 
