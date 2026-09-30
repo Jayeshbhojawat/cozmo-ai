@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+data/raw/
+data/samples/*/depth/
+data/samples/*/confidence/
+data/samples/*/rgb.mp4
+*.mp4
+outputs/
+.DS_Store
