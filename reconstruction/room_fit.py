@@ -56,6 +56,7 @@ class WallSegment:
     length_m: float
     n_inliers: int
     openings: list[tuple[float, float]]  # (start_frac, end_frac) along the wall
+    line: tuple[float, float, float] | None = None  # (a, b, c): ax + bz = c, normalized
 
 
 @dataclasses.dataclass
@@ -147,6 +148,52 @@ def _vertical_span_ok(inlier_y: np.ndarray, y_lo: float, y_hi: float, min_frac_e
     return near_bottom > min_frac_each_end and near_top > min_frac_each_end
 
 
+def _snap_to_manhattan_directions(lines: list[dict], bin_deg: float = 5.0, top_k: int = 2) -> list[dict]:
+    """Snaps each candidate wall line's direction onto one of the room's
+    dominant angle clusters (mod 90 degrees), assuming a rectilinear room —
+    true for the large majority of real rooms, and the single most effective
+    fix found during development for a specific, diagnosed failure: with no
+    drift correction applied yet to the raw per-frame VIO poses (see the
+    drift-accountability section of the report), small heading drift across
+    a 20-40s walk was rotating each wall's apparent angle independently by a
+    few degrees, so wall lines that are physically parallel/perpendicular in
+    the real room were being fit as slightly different angles and then
+    failing to close into a simple polygon. Snapping to the room's own
+    dominant directions (not a fixed world axis) removes that independent
+    per-wall rotation error while leaving each wall's actual offset (hence
+    its position) untouched — a plane-anchored correction, not a rewrite of
+    the poses themselves."""
+    if len(lines) < 2:
+        return lines
+    full_angles = np.array([np.degrees(np.arctan2(l["b"], l["a"])) % 180 for l in lines])
+    mod90_angles = full_angles % 90
+    weights = np.array([l["count"] for l in lines], dtype=float)
+    bins = np.arange(0, 90 + bin_deg, bin_deg)
+    hist = np.zeros(len(bins) - 1)
+    for a, w in zip(mod90_angles, weights):
+        idx = min(int(a // bin_deg), len(hist) - 1)
+        hist[idx] += w
+    top_bins = np.argsort(hist)[::-1][:top_k]
+    bin_centers = (bins[top_bins] + bins[top_bins + 1]) / 2  # each in [0, 90)
+
+    snapped = []
+    for l, full_a in zip(lines, full_angles):
+        # Each dominant mod-90 direction represents TWO real wall families
+        # (θ and θ+90); pick whichever of those two lands closest to this
+        # line's own un-reduced angle, so perpendicular walls don't collapse
+        # onto the same direction.
+        candidates = np.concatenate([bin_centers, bin_centers + 90])
+        d = np.minimum(np.abs(candidates - full_a), 180 - np.abs(candidates - full_a))
+        target = float(candidates[np.argmin(d)]) % 180
+        pts = l["inlier_pts"]
+        mean = pts.mean(axis=0)
+        theta = np.radians(target)
+        a_new, b_new = -np.sin(theta), np.cos(theta)
+        c_new = a_new * mean[0] + b_new * mean[1]
+        snapped.append({"a": a_new, "b": b_new, "c": c_new, "inlier_pts": pts, "count": l["count"]})
+    return snapped
+
+
 def _merge_lines(lines: list[dict], angle_tol_deg=6.0, offset_tol_m=0.18) -> list[dict]:
     """Collapses near-duplicate / near-parallel-and-close lines (the same
     physical wall picked up as two or more slightly offset RANSAC fits, e.g.
@@ -217,7 +264,8 @@ def fit_walls(points_between: np.ndarray, max_walls: int = 10, min_wall_support:
         if len(remaining_2d) < min_wall_support:
             break
 
-    merged = _merge_lines(raw_lines)
+    snapped = _snap_to_manhattan_directions(raw_lines)
+    merged = _merge_lines(snapped)
 
     walls = []
     for line in merged:
@@ -232,7 +280,8 @@ def fit_walls(points_between: np.ndarray, max_walls: int = 10, min_wall_support:
         if length < 0.5:
             continue
         openings = _find_openings(points_between, origin, direction, t0=t0, t1=t1)
-        walls.append(WallSegment(p0=p0, p1=p1, length_m=length, n_inliers=line["count"], openings=openings))
+        walls.append(WallSegment(p0=p0, p1=p1, length_m=length, n_inliers=line["count"], openings=openings,
+                                  line=(a, b, c)))
     return walls
 
 
@@ -271,22 +320,71 @@ def _find_openings(points_between: np.ndarray, origin, direction, t0, t1,
     return openings
 
 
+def _line_intersection(l1, l2):
+    """Intersects two lines given as (a, b, c): ax + bz = c. Returns None if
+    near-parallel (adjacent walls fit to ~the same direction — a sign the
+    RANSAC/merge step under- or over-split, not a real corner)."""
+    a1, b1, c1 = l1
+    a2, b2, c2 = l2
+    det = a1 * b2 - a2 * b1
+    if abs(det) < 1e-6:
+        return None
+    x = (c1 * b2 - c2 * b1) / det
+    z = (a1 * c2 - a2 * c1) / det
+    return np.array([x, z])
+
+
 def order_walls_into_polygon(walls: list[WallSegment]) -> list[WallSegment]:
-    """Chains wall segments end-to-end by nearest-endpoint matching so the
-    result traces a closed loop. Best-effort: does not guarantee a perfect
-    polygon on noisy data, which is disclosed via the confidence field."""
-    if len(walls) <= 1:
+    """Builds a closed room polygon from fitted wall *lines* (not just their
+    raw RANSAC-inlier segment extents): sorts walls by angle around the
+    cloud's centroid (a room is star-shaped around a point inside it, so this
+    always yields a non-self-intersecting traversal order) and sets each
+    wall's endpoints to its intersections with its two neighbors. This
+    replaces nearest-endpoint chaining, which produced crossed/bowtie
+    polygons (correct-looking wall lengths, near-zero shoelace area) whenever
+    endpoint extents from noisy inliers didn't line up — the corners here are
+    computed geometrically instead, so they always meet exactly."""
+    if len(walls) < 3:
         return walls
-    remaining = walls[:]
-    ordered = [remaining.pop(0)]
-    while remaining:
-        last = ordered[-1].p1
-        dists = [min(np.hypot(*(w.p0 - last)), np.hypot(*(w.p1 - last))) for w in remaining]
-        j = int(np.argmin(dists))
-        w = remaining.pop(j)
-        if np.hypot(*(w.p1 - last)) < np.hypot(*(w.p0 - last)):
-            w = WallSegment(p0=w.p1, p1=w.p0, length_m=w.length_m, n_inliers=w.n_inliers, openings=w.openings)
-        ordered.append(w)
+    midpoints = np.array([(w.p0 + w.p1) / 2 for w in walls])
+    centroid = midpoints.mean(axis=0)
+    angles = np.arctan2(midpoints[:, 1] - centroid[1], midpoints[:, 0] - centroid[0])
+    order = np.argsort(angles)
+    sorted_walls = [walls[i] for i in order]
+
+    n = len(sorted_walls)
+    corners = []
+    valid = [True] * n
+    for i in range(n):
+        w_prev = sorted_walls[i - 1]
+        w_cur = sorted_walls[i]
+        pt = _line_intersection(w_prev.line, w_cur.line)
+        if pt is None:
+            # Degenerate corner (near-duplicate/near-parallel adjacent walls
+            # that survived merging) — fall back to the nearer raw endpoint.
+            pt = w_cur.p0 if np.hypot(*(w_cur.p0 - w_prev.p1)) < np.hypot(*(w_cur.p1 - w_prev.p1)) else w_cur.p1
+            valid[i - 1] = valid[i] = False
+        corners.append(pt)
+
+    ordered = []
+    for i, w in enumerate(sorted_walls):
+        p0 = corners[i]
+        p1 = corners[(i + 1) % n]
+        length = float(np.hypot(*(p1 - p0)))
+        # A near-parallel adjacent-line intersection (two walls fit too close
+        # to the same direction) produces a corner far outside any plausible
+        # room. Rather than silently emit a physically impossible dimension,
+        # fall back to this wall's original RANSAC-inlier extent and mark it
+        # untrustworthy via n_inliers=0, which downstream code (CLI/JSON
+        # writer) reads as "flag this wall in the output, don't score it."
+        if length > 25.0:
+            p0, p1 = w.p0, w.p1
+            length = w.length_m
+            ordered.append(WallSegment(p0=p0, p1=p1, length_m=length, n_inliers=0,
+                                        openings=w.openings, line=w.line))
+        else:
+            ordered.append(WallSegment(p0=p0, p1=p1, length_m=length, n_inliers=w.n_inliers,
+                                        openings=w.openings, line=w.line))
     return ordered
 
 
