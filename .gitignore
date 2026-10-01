@@ -10,3 +10,4 @@ outputs/
 .DS_Store
 data/samples/
 data/samples_full/
+models/
