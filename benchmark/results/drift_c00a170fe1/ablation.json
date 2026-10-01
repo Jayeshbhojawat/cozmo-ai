@@ -1,0 +1,58 @@
+{
+  "capture": "c00a170fe1",
+  "off": {
+    "drift_report": {
+      "mode": "off",
+      "applied": false
+    },
+    "registration_voxels": 34969,
+    "n_rooms": 3,
+    "footprint_union_m2": 19.552,
+    "overlap_m2": 0.14,
+    "rooms": {
+      "room_1": 8.476,
+      "room_2": 5.837,
+      "room_3": 5.461
+    }
+  },
+  "on": {
+    "drift_report": {
+      "mode": "on",
+      "theta_deg": 23.1,
+      "max_abs_correction_deg": 0.9500000000000045,
+      "registration_voxels_raw": 34969,
+      "registration_voxels_corrected": 34747,
+      "registration_change_pct": -0.63,
+      "applied": true
+    },
+    "registration_voxels": 34747,
+    "n_rooms": 3,
+    "footprint_union_m2": 19.787,
+    "overlap_m2": 0.0,
+    "rooms": {
+      "room_1": 8.604,
+      "room_2": 5.721,
+      "room_3": 5.479
+    }
+  },
+  "auto": {
+    "drift_report": {
+      "mode": "auto",
+      "theta_deg": 23.1,
+      "max_abs_correction_deg": 0.9500000000000045,
+      "registration_voxels_raw": 34969,
+      "registration_voxels_corrected": 34747,
+      "registration_change_pct": -0.63,
+      "applied": true
+    },
+    "registration_voxels": 34747,
+    "n_rooms": 3,
+    "footprint_union_m2": 19.787,
+    "overlap_m2": 0.0,
+    "rooms": {
+      "room_1": 8.604,
+      "room_2": 5.721,
+      "room_3": 5.479
+    }
+  }
+}

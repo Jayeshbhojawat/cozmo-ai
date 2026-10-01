@@ -1,0 +1,68 @@
+{
+  "capture": "c7d28f72c6",
+  "off": {
+    "drift_report": {
+      "mode": "off",
+      "applied": false
+    },
+    "registration_voxels": 122425,
+    "n_rooms": 6,
+    "footprint_union_m2": 68.984,
+    "overlap_m2": 0.309,
+    "rooms": {
+      "room_1": 28.09,
+      "room_2": 12.008,
+      "room_3": 11.007,
+      "room_4": 7.417,
+      "room_5": 6.669,
+      "room_6": 3.972
+    }
+  },
+  "on": {
+    "drift_report": {
+      "mode": "on",
+      "theta_deg": 27.75,
+      "max_abs_correction_deg": 1.0499999999999983,
+      "registration_voxels_raw": 122425,
+      "registration_voxels_corrected": 143378,
+      "registration_change_pct": 17.11,
+      "applied": true
+    },
+    "registration_voxels": 143378,
+    "n_rooms": 6,
+    "footprint_union_m2": 70.309,
+    "overlap_m2": 0.405,
+    "rooms": {
+      "room_1": 27.705,
+      "room_2": 12.133,
+      "room_3": 11.898,
+      "room_4": 8.406,
+      "room_5": 6.336,
+      "room_6": 4.349
+    }
+  },
+  "auto": {
+    "drift_report": {
+      "mode": "auto",
+      "theta_deg": 27.75,
+      "max_abs_correction_deg": 1.0499999999999983,
+      "registration_voxels_raw": 122425,
+      "registration_voxels_corrected": 143378,
+      "registration_change_pct": 17.11,
+      "applied": false,
+      "reason": "correction rejected: it loosened wall registration, so the VIO poses (already loop-closed by ARKit) were kept after audit"
+    },
+    "registration_voxels": 122425,
+    "n_rooms": 6,
+    "footprint_union_m2": 68.984,
+    "overlap_m2": 0.309,
+    "rooms": {
+      "room_1": 28.09,
+      "room_2": 12.008,
+      "room_3": 11.007,
+      "room_4": 7.417,
+      "room_5": 6.669,
+      "room_6": 3.972
+    }
+  }
+}

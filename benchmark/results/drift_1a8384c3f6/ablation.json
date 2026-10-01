@@ -1,0 +1,64 @@
+{
+  "capture": "1a8384c3f6",
+  "off": {
+    "drift_report": {
+      "mode": "off",
+      "applied": false
+    },
+    "registration_voxels": 78733,
+    "n_rooms": 5,
+    "footprint_union_m2": 66.299,
+    "overlap_m2": 0.0,
+    "rooms": {
+      "room_1": 28.902,
+      "room_2": 16.399,
+      "room_3": 9.687,
+      "room_4": 5.432,
+      "room_5": 5.938
+    }
+  },
+  "on": {
+    "drift_report": {
+      "mode": "on",
+      "theta_deg": 87.0,
+      "max_abs_correction_deg": 3.8499999999999894,
+      "registration_voxels_raw": 78733,
+      "registration_voxels_corrected": 77350,
+      "registration_change_pct": -1.76,
+      "applied": true
+    },
+    "registration_voxels": 77350,
+    "n_rooms": 5,
+    "footprint_union_m2": 67.71,
+    "overlap_m2": 0.022,
+    "rooms": {
+      "room_1": 30.646,
+      "room_2": 15.895,
+      "room_3": 9.673,
+      "room_4": 5.601,
+      "room_5": 5.919
+    }
+  },
+  "auto": {
+    "drift_report": {
+      "mode": "auto",
+      "theta_deg": 87.0,
+      "max_abs_correction_deg": 3.8499999999999894,
+      "registration_voxels_raw": 78733,
+      "registration_voxels_corrected": 77350,
+      "registration_change_pct": -1.76,
+      "applied": true
+    },
+    "registration_voxels": 77350,
+    "n_rooms": 5,
+    "footprint_union_m2": 67.71,
+    "overlap_m2": 0.022,
+    "rooms": {
+      "room_1": 30.646,
+      "room_2": 15.895,
+      "room_3": 9.673,
+      "room_4": 5.601,
+      "room_5": 5.919
+    }
+  }
+}

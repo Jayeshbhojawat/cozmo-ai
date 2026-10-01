@@ -128,7 +128,8 @@ def _scope(damage):
     return items
 
 
-def run_lidar(input_dir: Path, out_dir: Path, max_frames: int = 900, damage: bool = True) -> dict:
+def run_lidar(input_dir: Path, out_dir: Path, max_frames: int = 900, damage: bool = True,
+              drift: str = "auto") -> dict:
     from capture.loader import load_capture
     from reconstruction.backproject import iter_frame_clouds
     from reconstruction.layout import analyze
@@ -137,9 +138,12 @@ def run_lidar(input_dir: Path, out_dir: Path, max_frames: int = 900, damage: boo
     t0 = time.time()
     cap = load_capture(input_dir)
     fs = max(1, len(cap.frames) // max_frames)
-    frame_clouds = [(f.position, p) for f, p in iter_frame_clouds(cap, min_confidence=2, stride=4, frame_stride=fs)]
-    if not frame_clouds:
+    used = list(iter_frame_clouds(cap, min_confidence=2, stride=4, frame_stride=fs))
+    if not used:
         raise SystemExit(f"No depth frames found in {input_dir}/depth -- is this a LiDAR capture?")
+    from reconstruction.drift import correct_drift
+    frame_clouds, drift_report = correct_drift([(f.position, p) for f, p in used],
+                                               [f.timestamp for f, _ in used], mode=drift)
     traj = np.array([f.position[[0, 2]] for f in cap.frames])
     t1 = time.time()
     layout = analyze(frame_clouds, traj)
@@ -156,6 +160,7 @@ def run_lidar(input_dir: Path, out_dir: Path, max_frames: int = 900, damage: boo
     timings = {"load_and_backproject": round(t1 - t0, 2), "layout": round(t2 - t1, 2),
                "damage": round(t3 - t2, 2), "total": round(time.time() - t0, 2)}
     out = layout_to_json(layout, input_dir.name, "lidar", png, damage_by_room, timings)
+    out["drift"] = drift_report
     (out_dir / "plan.json").write_text(json.dumps(out, indent=2))
     return out
 
@@ -182,11 +187,13 @@ def main(argv=None):
     p.add_argument("--out", required=True)
     p.add_argument("--max-frames", type=int, default=900)
     p.add_argument("--no-damage", action="store_true")
+    p.add_argument("--drift", choices=["auto", "on", "off"], default="auto",
+                   help="plane-anchored heading-drift correction (auto = keep only if it improves registration)")
     args = parser.parse_args(argv)
 
     inp, out = Path(args.input), Path(args.out)
     if args.tier == "lidar":
-        res = run_lidar(inp, out, max_frames=args.max_frames, damage=not args.no_damage)
+        res = run_lidar(inp, out, max_frames=args.max_frames, damage=not args.no_damage, drift=args.drift)
     else:
         res = run_monocular(inp, out, args.tier)
     summary = {"rooms": len(res["rooms"]), "adjacency": [a["rooms"] for a in res["stitched_plan"]["adjacency"]],
