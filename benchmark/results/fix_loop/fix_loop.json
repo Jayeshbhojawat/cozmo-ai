@@ -1,0 +1,171 @@
+{
+  "c00a170fe1": {
+    "before": {
+      "convention": "arkit",
+      "floor_below_camera_m": -0.166,
+      "registration_voxels": 194844,
+      "n_rooms": 1,
+      "rooms": [
+        {
+          "room_id": "room_1",
+          "area_m2": 8.2,
+          "ceiling_m": null,
+          "doors": []
+        }
+      ]
+    },
+    "after": {
+      "convention": "opencv",
+      "floor_below_camera_m": 1.402,
+      "registration_voxels": 34969,
+      "n_rooms": 3,
+      "rooms": [
+        {
+          "room_id": "room_1",
+          "area_m2": 8.48,
+          "ceiling_m": null,
+          "doors": [
+            0.622
+          ]
+        },
+        {
+          "room_id": "room_2",
+          "area_m2": 5.84,
+          "ceiling_m": null,
+          "doors": [
+            0.622
+          ]
+        },
+        {
+          "room_id": "room_3",
+          "area_m2": 5.46,
+          "ceiling_m": null,
+          "doors": []
+        }
+      ]
+    }
+  },
+  "1a8384c3f6": {
+    "before": {
+      "convention": "arkit",
+      "floor_below_camera_m": -0.243,
+      "registration_voxels": 204002,
+      "n_rooms": 0,
+      "rooms": []
+    },
+    "after": {
+      "convention": "opencv",
+      "floor_below_camera_m": 1.403,
+      "registration_voxels": 78733,
+      "n_rooms": 5,
+      "rooms": [
+        {
+          "room_id": "room_1",
+          "area_m2": 28.9,
+          "ceiling_m": null,
+          "doors": [
+            0.553,
+            0.861
+          ]
+        },
+        {
+          "room_id": "room_2",
+          "area_m2": 16.4,
+          "ceiling_m": null,
+          "doors": [
+            0.861,
+            0.74
+          ]
+        },
+        {
+          "room_id": "room_3",
+          "area_m2": 9.69,
+          "ceiling_m": null,
+          "doors": [
+            0.553
+          ]
+        },
+        {
+          "room_id": "room_4",
+          "area_m2": 5.43,
+          "ceiling_m": null,
+          "doors": []
+        },
+        {
+          "room_id": "room_5",
+          "area_m2": 5.94,
+          "ceiling_m": null,
+          "doors": [
+            0.74
+          ]
+        }
+      ]
+    }
+  },
+  "c7d28f72c6": {
+    "before": {
+      "convention": "arkit",
+      "floor_below_camera_m": -0.155,
+      "registration_voxels": 321716,
+      "n_rooms": 0,
+      "rooms": []
+    },
+    "after": {
+      "convention": "opencv",
+      "floor_below_camera_m": 1.462,
+      "registration_voxels": 122425,
+      "n_rooms": 6,
+      "rooms": [
+        {
+          "room_id": "room_1",
+          "area_m2": 28.09,
+          "ceiling_m": 2.432,
+          "doors": [
+            0.806,
+            0.74
+          ]
+        },
+        {
+          "room_id": "room_2",
+          "area_m2": 12.01,
+          "ceiling_m": 3.078,
+          "doors": [
+            0.74,
+            0.559
+          ]
+        },
+        {
+          "room_id": "room_3",
+          "area_m2": 11.01,
+          "ceiling_m": 2.957,
+          "doors": [
+            0.806,
+            0.616
+          ]
+        },
+        {
+          "room_id": "room_4",
+          "area_m2": 7.42,
+          "ceiling_m": 2.947,
+          "doors": []
+        },
+        {
+          "room_id": "room_5",
+          "area_m2": 6.67,
+          "ceiling_m": 2.346,
+          "doors": [
+            0.559
+          ]
+        },
+        {
+          "room_id": "room_6",
+          "area_m2": 3.97,
+          "ceiling_m": 2.283,
+          "doors": [
+            0.616
+          ]
+        }
+      ]
+    }
+  }
+}

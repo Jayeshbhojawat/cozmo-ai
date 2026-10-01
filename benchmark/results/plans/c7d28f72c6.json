@@ -1,0 +1,2093 @@
+{
+  "capture_id": "c7d28f72c6",
+  "tier": "lidar",
+  "generated_at": "2026-10-01T08:11:04.585776+00:00",
+  "pipeline_version": "0.2.0",
+  "confidence_note": "All intervals are 95%. LiDAR-tier intervals come from the measurement model (surface-point scatter + per-surface bias + scale term); see benchmark/calibration report for coverage against ground truth.",
+  "plan_frame": {
+    "theta_deg": 28.4,
+    "origin": [
+      -4.1247,
+      -5.8288
+    ],
+    "note": "plan x,y = world (x,z) rotated by -theta so walls are axis-aligned, minus origin"
+  },
+  "rooms": [
+    {
+      "room_id": "room_1",
+      "visited": true,
+      "partial": false,
+      "wall_coverage": 0.923,
+      "ceiling_observed": true,
+      "ceiling_height_m": {
+        "value": 2.4324,
+        "unit": "m",
+        "ci_low": 2.4213,
+        "ci_high": 2.4435,
+        "basis": "ceiling plane minus floor plane, per room (model sigma, 95%)"
+      },
+      "floor_area_m2": {
+        "value": 28.0905,
+        "unit": "m2",
+        "ci_low": 28.0015,
+        "ci_high": 28.1794,
+        "basis": "propagated from every wall-plane sigma"
+      },
+      "polygon": [
+        [
+          3.3553,
+          14.4484
+        ],
+        [
+          3.3553,
+          12.05
+        ],
+        [
+          3.75,
+          12.05
+        ],
+        [
+          3.75,
+          11.6769
+        ],
+        [
+          4.1225,
+          11.6769
+        ],
+        [
+          4.1225,
+          10.8341
+        ],
+        [
+          4.6871,
+          10.8341
+        ],
+        [
+          4.6871,
+          12.4624
+        ],
+        [
+          5.2741,
+          12.4624
+        ],
+        [
+          5.2741,
+          9.5472
+        ],
+        [
+          6.3861,
+          9.5472
+        ],
+        [
+          6.3861,
+          6.2447
+        ],
+        [
+          8.0266,
+          6.2447
+        ],
+        [
+          8.0266,
+          5.9
+        ],
+        [
+          8.6115,
+          5.9
+        ],
+        [
+          8.6115,
+          6.3847
+        ],
+        [
+          9.4158,
+          6.3847
+        ],
+        [
+          9.4158,
+          10.6107
+        ],
+        [
+          7.3054,
+          10.6107
+        ],
+        [
+          7.3054,
+          14.9748
+        ],
+        [
+          6.1457,
+          14.9748
+        ],
+        [
+          6.1457,
+          14.4484
+        ]
+      ],
+      "walls": [
+        {
+          "wall_id": "room_1_w0",
+          "observed": true,
+          "n_support_points": 2970,
+          "p0": [
+            3.3553,
+            14.4484
+          ],
+          "p1": [
+            3.3553,
+            12.05
+          ],
+          "length_m": {
+            "value": 2.3984,
+            "unit": "m",
+            "ci_low": 2.3374,
+            "ci_high": 2.4594,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w1",
+          "observed": false,
+          "n_support_points": 2,
+          "p0": [
+            3.3553,
+            12.05
+          ],
+          "p1": [
+            3.75,
+            12.05
+          ],
+          "length_m": {
+            "value": 0.3947,
+            "unit": "m",
+            "ci_low": 0.3353,
+            "ci_high": 0.4541,
+            "basis": "wall not observed; boundary inferred from free space"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w2",
+          "observed": false,
+          "n_support_points": 1,
+          "p0": [
+            3.75,
+            12.05
+          ],
+          "p1": [
+            3.75,
+            11.6769
+          ],
+          "length_m": {
+            "value": 0.3731,
+            "unit": "m",
+            "ci_low": 0.2899,
+            "ci_high": 0.4563,
+            "basis": "wall not observed; boundary inferred from free space"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w3",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            3.75,
+            11.6769
+          ],
+          "p1": [
+            4.1225,
+            11.6769
+          ],
+          "length_m": {
+            "value": 0.3725,
+            "unit": "m",
+            "ci_low": 0.313,
+            "ci_high": 0.4319,
+            "basis": "wall not observed; boundary inferred from free space"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w4",
+          "observed": false,
+          "n_support_points": 29,
+          "p0": [
+            4.1225,
+            11.6769
+          ],
+          "p1": [
+            4.1225,
+            10.8341
+          ],
+          "length_m": {
+            "value": 0.8428,
+            "unit": "m",
+            "ci_low": 0.7833,
+            "ci_high": 0.9023,
+            "basis": "wall not observed; boundary inferred from free space"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w5",
+          "observed": true,
+          "n_support_points": 1180,
+          "p0": [
+            4.1225,
+            10.8341
+          ],
+          "p1": [
+            4.6871,
+            10.8341
+          ],
+          "length_m": {
+            "value": 0.5647,
+            "unit": "m",
+            "ci_low": 0.5527,
+            "ci_high": 0.5767,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w6",
+          "observed": true,
+          "n_support_points": 724,
+          "p0": [
+            4.6871,
+            10.8341
+          ],
+          "p1": [
+            4.6871,
+            12.4624
+          ],
+          "length_m": {
+            "value": 1.6284,
+            "unit": "m",
+            "ci_low": 1.6137,
+            "ci_high": 1.643,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w7",
+          "observed": true,
+          "n_support_points": 507,
+          "p0": [
+            4.6871,
+            12.4624
+          ],
+          "p1": [
+            5.2741,
+            12.4624
+          ],
+          "length_m": {
+            "value": 0.587,
+            "unit": "m",
+            "ci_low": 0.5753,
+            "ci_high": 0.5986,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w8",
+          "observed": true,
+          "n_support_points": 10148,
+          "p0": [
+            5.2741,
+            12.4624
+          ],
+          "p1": [
+            5.2741,
+            9.5472
+          ],
+          "length_m": {
+            "value": 2.9152,
+            "unit": "m",
+            "ci_low": 2.8948,
+            "ci_high": 2.9356,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": [
+            {
+              "opening_id": "room_1_w8_o0",
+              "kind": "opening_unconfirmed",
+              "leads_to": null,
+              "start_m": 0.05,
+              "end_m": 1.03,
+              "width_m": {
+                "value": 0.98,
+                "unit": "m",
+                "ci_low": 0.9476,
+                "ci_high": 1.0124,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            }
+          ]
+        },
+        {
+          "wall_id": "room_1_w9",
+          "observed": true,
+          "n_support_points": 1365,
+          "p0": [
+            5.2741,
+            9.5472
+          ],
+          "p1": [
+            6.3861,
+            9.5472
+          ],
+          "length_m": {
+            "value": 1.112,
+            "unit": "m",
+            "ci_low": 1.0991,
+            "ci_high": 1.1249,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": [
+            {
+              "opening_id": "room_1_w9_o0",
+              "kind": "door",
+              "leads_to": "room_3",
+              "start_m": 0.1537,
+              "end_m": 0.9595,
+              "width_m": {
+                "value": 0.8058,
+                "unit": "m",
+                "ci_low": 0.7938,
+                "ci_high": 0.8179,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            }
+          ]
+        },
+        {
+          "wall_id": "room_1_w10",
+          "observed": true,
+          "n_support_points": 17409,
+          "p0": [
+            6.3861,
+            9.5472
+          ],
+          "p1": [
+            6.3861,
+            6.2447
+          ],
+          "length_m": {
+            "value": 3.3025,
+            "unit": "m",
+            "ci_low": 3.2802,
+            "ci_high": 3.3249,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w11",
+          "observed": true,
+          "n_support_points": 4970,
+          "p0": [
+            6.3861,
+            6.2447
+          ],
+          "p1": [
+            8.0266,
+            6.2447
+          ],
+          "length_m": {
+            "value": 1.6405,
+            "unit": "m",
+            "ci_low": 1.6257,
+            "ci_high": 1.6552,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w12",
+          "observed": true,
+          "n_support_points": 438,
+          "p0": [
+            8.0266,
+            6.2447
+          ],
+          "p1": [
+            8.0266,
+            5.9
+          ],
+          "length_m": {
+            "value": 0.3447,
+            "unit": "m",
+            "ci_low": 0.2854,
+            "ci_high": 0.4041,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w13",
+          "observed": false,
+          "n_support_points": 10,
+          "p0": [
+            8.0266,
+            5.9
+          ],
+          "p1": [
+            8.6115,
+            5.9
+          ],
+          "length_m": {
+            "value": 0.5849,
+            "unit": "m",
+            "ci_low": 0.5731,
+            "ci_high": 0.5966,
+            "basis": "wall not observed; boundary inferred from free space"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w14",
+          "observed": true,
+          "n_support_points": 455,
+          "p0": [
+            8.6115,
+            5.9
+          ],
+          "p1": [
+            8.6115,
+            6.3847
+          ],
+          "length_m": {
+            "value": 0.4847,
+            "unit": "m",
+            "ci_low": 0.4253,
+            "ci_high": 0.5441,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w15",
+          "observed": true,
+          "n_support_points": 1885,
+          "p0": [
+            8.6115,
+            6.3847
+          ],
+          "p1": [
+            9.4158,
+            6.3847
+          ],
+          "length_m": {
+            "value": 0.8043,
+            "unit": "m",
+            "ci_low": 0.7922,
+            "ci_high": 0.8164,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w16",
+          "observed": true,
+          "n_support_points": 21542,
+          "p0": [
+            9.4158,
+            6.3847
+          ],
+          "p1": [
+            9.4158,
+            10.6107
+          ],
+          "length_m": {
+            "value": 4.2259,
+            "unit": "m",
+            "ci_low": 4.1987,
+            "ci_high": 4.2531,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": [
+            {
+              "opening_id": "room_1_w16_o0",
+              "kind": "door",
+              "leads_to": "room_2",
+              "start_m": 3.306,
+              "end_m": 4.0458,
+              "width_m": {
+                "value": 0.7399,
+                "unit": "m",
+                "ci_low": 0.728,
+                "ci_high": 0.7518,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            }
+          ]
+        },
+        {
+          "wall_id": "room_1_w17",
+          "observed": true,
+          "n_support_points": 9209,
+          "p0": [
+            9.4158,
+            10.6107
+          ],
+          "p1": [
+            7.3054,
+            10.6107
+          ],
+          "length_m": {
+            "value": 2.1103,
+            "unit": "m",
+            "ci_low": 2.0937,
+            "ci_high": 2.127,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w18",
+          "observed": true,
+          "n_support_points": 18023,
+          "p0": [
+            7.3054,
+            10.6107
+          ],
+          "p1": [
+            7.3054,
+            14.9748
+          ],
+          "length_m": {
+            "value": 4.3641,
+            "unit": "m",
+            "ci_low": 4.3362,
+            "ci_high": 4.3921,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w19",
+          "observed": true,
+          "n_support_points": 4698,
+          "p0": [
+            7.3054,
+            14.9748
+          ],
+          "p1": [
+            6.1457,
+            14.9748
+          ],
+          "length_m": {
+            "value": 1.1598,
+            "unit": "m",
+            "ci_low": 1.1467,
+            "ci_high": 1.1728,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w20",
+          "observed": true,
+          "n_support_points": 1219,
+          "p0": [
+            6.1457,
+            14.9748
+          ],
+          "p1": [
+            6.1457,
+            14.4484
+          ],
+          "length_m": {
+            "value": 0.5264,
+            "unit": "m",
+            "ci_low": 0.5148,
+            "ci_high": 0.5379,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w21",
+          "observed": true,
+          "n_support_points": 3834,
+          "p0": [
+            6.1457,
+            14.4484
+          ],
+          "p1": [
+            3.3553,
+            14.4484
+          ],
+          "length_m": {
+            "value": 2.7904,
+            "unit": "m",
+            "ci_low": 2.7706,
+            "ci_high": 2.8102,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        }
+      ],
+      "damage_regions": [],
+      "scope_line_items": []
+    },
+    {
+      "room_id": "room_2",
+      "visited": true,
+      "partial": false,
+      "wall_coverage": 1.0,
+      "ceiling_observed": true,
+      "ceiling_height_m": {
+        "value": 3.078,
+        "unit": "m",
+        "ci_low": 3.0669,
+        "ci_high": 3.0891,
+        "basis": "ceiling plane minus floor plane, per room (model sigma, 95%)"
+      },
+      "floor_area_m2": {
+        "value": 12.0083,
+        "unit": "m2",
+        "ci_low": 11.9568,
+        "ci_high": 12.0598,
+        "basis": "propagated from every wall-plane sigma"
+      },
+      "polygon": [
+        [
+          9.4172,
+          10.4734
+        ],
+        [
+          9.4172,
+          6.6107
+        ],
+        [
+          10.1618,
+          6.6107
+        ],
+        [
+          10.1618,
+          5.7342
+        ],
+        [
+          12.9514,
+          5.7342
+        ],
+        [
+          12.9514,
+          8.7445
+        ],
+        [
+          10.5867,
+          8.7445
+        ],
+        [
+          10.5867,
+          10.4734
+        ]
+      ],
+      "walls": [
+        {
+          "wall_id": "room_2_w0",
+          "observed": true,
+          "n_support_points": 21802,
+          "p0": [
+            9.4172,
+            10.4734
+          ],
+          "p1": [
+            9.4172,
+            6.6107
+          ],
+          "length_m": {
+            "value": 3.8626,
+            "unit": "m",
+            "ci_low": 3.8374,
+            "ci_high": 3.8879,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": [
+            {
+              "opening_id": "room_2_w0_o0",
+              "kind": "door",
+              "leads_to": "room_1",
+              "start_m": 0.0428,
+              "end_m": 0.7827,
+              "width_m": {
+                "value": 0.7399,
+                "unit": "m",
+                "ci_low": 0.728,
+                "ci_high": 0.7518,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            }
+          ]
+        },
+        {
+          "wall_id": "room_2_w1",
+          "observed": true,
+          "n_support_points": 2689,
+          "p0": [
+            9.4172,
+            6.6107
+          ],
+          "p1": [
+            10.1618,
+            6.6107
+          ],
+          "length_m": {
+            "value": 0.7446,
+            "unit": "m",
+            "ci_low": 0.7326,
+            "ci_high": 0.7565,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w2",
+          "observed": true,
+          "n_support_points": 2472,
+          "p0": [
+            10.1618,
+            6.6107
+          ],
+          "p1": [
+            10.1618,
+            5.7342
+          ],
+          "length_m": {
+            "value": 0.8765,
+            "unit": "m",
+            "ci_low": 0.8643,
+            "ci_high": 0.8888,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w3",
+          "observed": true,
+          "n_support_points": 5321,
+          "p0": [
+            10.1618,
+            5.7342
+          ],
+          "p1": [
+            12.9514,
+            5.7342
+          ],
+          "length_m": {
+            "value": 2.7897,
+            "unit": "m",
+            "ci_low": 2.7698,
+            "ci_high": 2.8095,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w4",
+          "observed": true,
+          "n_support_points": 7239,
+          "p0": [
+            12.9514,
+            5.7342
+          ],
+          "p1": [
+            12.9514,
+            8.7445
+          ],
+          "length_m": {
+            "value": 3.0103,
+            "unit": "m",
+            "ci_low": 2.9894,
+            "ci_high": 3.0312,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w5",
+          "observed": true,
+          "n_support_points": 6451,
+          "p0": [
+            12.9514,
+            8.7445
+          ],
+          "p1": [
+            10.5867,
+            8.7445
+          ],
+          "length_m": {
+            "value": 2.3648,
+            "unit": "m",
+            "ci_low": 2.347,
+            "ci_high": 2.3825,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w6",
+          "observed": true,
+          "n_support_points": 5074,
+          "p0": [
+            10.5867,
+            8.7445
+          ],
+          "p1": [
+            10.5867,
+            10.4734
+          ],
+          "length_m": {
+            "value": 1.7288,
+            "unit": "m",
+            "ci_low": 1.7138,
+            "ci_high": 1.7439,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": [
+            {
+              "opening_id": "room_2_w6_o0",
+              "kind": "door",
+              "leads_to": "room_5",
+              "start_m": 1.1233,
+              "end_m": 1.6825,
+              "width_m": {
+                "value": 0.5593,
+                "unit": "m",
+                "ci_low": 0.5477,
+                "ci_high": 0.5708,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            }
+          ]
+        },
+        {
+          "wall_id": "room_2_w7",
+          "observed": true,
+          "n_support_points": 4369,
+          "p0": [
+            10.5867,
+            10.4734
+          ],
+          "p1": [
+            9.4172,
+            10.4734
+          ],
+          "length_m": {
+            "value": 1.1695,
+            "unit": "m",
+            "ci_low": 1.1564,
+            "ci_high": 1.1825,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        }
+      ],
+      "damage_regions": [
+        {
+          "region_id": "room_2_dmg0",
+          "surface_id": "room_2_w3",
+          "surface_type": "wall",
+          "damage_class": "water_stain",
+          "centroid_plan_m": [
+            12.069,
+            5.679
+          ],
+          "height_above_floor_m": 0.949,
+          "extent_m2": {
+            "value": 0.354,
+            "unit": "m2",
+            "ci_low": 0.1806,
+            "ci_high": 0.5275,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 2,
+          "source_frames": [
+            6490,
+            1995
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": false,
+            "rules": [],
+            "rule": "none fired"
+          }
+        }
+      ],
+      "scope_line_items": [
+        {
+          "item": "Stain-block prime and repaint",
+          "surface_id": "room_2_w3",
+          "quantity": 0.354,
+          "unit": "m2",
+          "damage_region_id": "room_2_dmg0"
+        }
+      ]
+    },
+    {
+      "room_id": "room_3",
+      "visited": true,
+      "partial": false,
+      "wall_coverage": 0.929,
+      "ceiling_observed": true,
+      "ceiling_height_m": {
+        "value": 2.957,
+        "unit": "m",
+        "ci_low": 2.9459,
+        "ci_high": 2.9681,
+        "basis": "ceiling plane minus floor plane, per room (model sigma, 95%)"
+      },
+      "floor_area_m2": {
+        "value": 11.0068,
+        "unit": "m2",
+        "ci_low": 10.931,
+        "ci_high": 11.0826,
+        "basis": "propagated from every wall-plane sigma"
+      },
+      "polygon": [
+        [
+          3.3931,
+          4.7288
+        ],
+        [
+          6.3888,
+          4.7288
+        ],
+        [
+          6.3888,
+          8.55
+        ],
+        [
+          6.2348,
+          8.55
+        ],
+        [
+          6.2348,
+          9.575
+        ],
+        [
+          5.2791,
+          9.575
+        ],
+        [
+          5.2791,
+          7.7971
+        ],
+        [
+          3.3931,
+          7.7971
+        ]
+      ],
+      "walls": [
+        {
+          "wall_id": "room_3_w0",
+          "observed": true,
+          "n_support_points": 6379,
+          "p0": [
+            3.3931,
+            4.7288
+          ],
+          "p1": [
+            6.3888,
+            4.7288
+          ],
+          "length_m": {
+            "value": 2.9957,
+            "unit": "m",
+            "ci_low": 2.9749,
+            "ci_high": 3.0165,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": [
+            {
+              "opening_id": "room_3_w0_o0",
+              "kind": "window",
+              "leads_to": "room_4",
+              "start_m": 0.3196,
+              "end_m": 0.9949,
+              "width_m": {
+                "value": 0.6753,
+                "unit": "m",
+                "ci_low": 0.6635,
+                "ci_high": 0.6871,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            }
+          ]
+        },
+        {
+          "wall_id": "room_3_w1",
+          "observed": true,
+          "n_support_points": 20418,
+          "p0": [
+            6.3888,
+            4.7288
+          ],
+          "p1": [
+            6.3888,
+            8.55
+          ],
+          "length_m": {
+            "value": 3.8212,
+            "unit": "m",
+            "ci_low": 3.7578,
+            "ci_high": 3.8847,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_3_w2",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            6.3888,
+            8.55
+          ],
+          "p1": [
+            6.2348,
+            8.55
+          ],
+          "length_m": {
+            "value": 0.154,
+            "unit": "m",
+            "ci_low": 0.1429,
+            "ci_high": 0.1651,
+            "basis": "wall not observed; boundary inferred from free space"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_3_w3",
+          "observed": true,
+          "n_support_points": 6838,
+          "p0": [
+            6.2348,
+            8.55
+          ],
+          "p1": [
+            6.2348,
+            9.575
+          ],
+          "length_m": {
+            "value": 1.025,
+            "unit": "m",
+            "ci_low": 0.9416,
+            "ci_high": 1.1084,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_3_w4",
+          "observed": false,
+          "n_support_points": 23,
+          "p0": [
+            6.2348,
+            9.575
+          ],
+          "p1": [
+            5.2791,
+            9.575
+          ],
+          "length_m": {
+            "value": 0.9557,
+            "unit": "m",
+            "ci_low": 0.9433,
+            "ci_high": 0.9682,
+            "basis": "wall not observed; boundary inferred from free space"
+          },
+          "openings": [
+            {
+              "opening_id": "room_3_w4_o0",
+              "kind": "door",
+              "leads_to": "room_1",
+              "start_m": 0.0012,
+              "end_m": 0.807,
+              "width_m": {
+                "value": 0.8058,
+                "unit": "m",
+                "ci_low": 0.7938,
+                "ci_high": 0.8179,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            }
+          ]
+        },
+        {
+          "wall_id": "room_3_w5",
+          "observed": true,
+          "n_support_points": 6065,
+          "p0": [
+            5.2791,
+            9.575
+          ],
+          "p1": [
+            5.2791,
+            7.7971
+          ],
+          "length_m": {
+            "value": 1.7779,
+            "unit": "m",
+            "ci_low": 1.7177,
+            "ci_high": 1.8382,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": [
+            {
+              "opening_id": "room_3_w5_o0",
+              "kind": "door",
+              "leads_to": "room_6",
+              "start_m": 0.1008,
+              "end_m": 0.7164,
+              "width_m": {
+                "value": 0.6156,
+                "unit": "m",
+                "ci_low": 0.604,
+                "ci_high": 0.6273,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            }
+          ]
+        },
+        {
+          "wall_id": "room_3_w6",
+          "observed": true,
+          "n_support_points": 3474,
+          "p0": [
+            5.2791,
+            7.7971
+          ],
+          "p1": [
+            3.3931,
+            7.7971
+          ],
+          "length_m": {
+            "value": 1.886,
+            "unit": "m",
+            "ci_low": 1.8703,
+            "ci_high": 1.9017,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_3_w7",
+          "observed": true,
+          "n_support_points": 13568,
+          "p0": [
+            3.3931,
+            7.7971
+          ],
+          "p1": [
+            3.3931,
+            4.7288
+          ],
+          "length_m": {
+            "value": 3.0683,
+            "unit": "m",
+            "ci_low": 3.0471,
+            "ci_high": 3.0895,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        }
+      ],
+      "damage_regions": [
+        {
+          "region_id": "room_3_dmg0",
+          "surface_id": "room_3_w1",
+          "surface_type": "wall",
+          "damage_class": "water_stain",
+          "centroid_plan_m": [
+            6.394,
+            8.246
+          ],
+          "height_above_floor_m": 1.247,
+          "extent_m2": {
+            "value": 0.1203,
+            "unit": "m2",
+            "ci_low": 0.0614,
+            "ci_high": 0.1793,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 2,
+          "source_frames": [
+            245,
+            4745
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": false,
+            "rules": [],
+            "rule": "none fired"
+          }
+        }
+      ],
+      "scope_line_items": [
+        {
+          "item": "Stain-block prime and repaint",
+          "surface_id": "room_3_w1",
+          "quantity": 0.12,
+          "unit": "m2",
+          "damage_region_id": "room_3_dmg0"
+        }
+      ]
+    },
+    {
+      "room_id": "room_4",
+      "visited": false,
+      "partial": true,
+      "wall_coverage": 0.639,
+      "ceiling_observed": true,
+      "ceiling_height_m": {
+        "value": 2.9472,
+        "unit": "m",
+        "ci_low": 2.9361,
+        "ci_high": 2.9583,
+        "basis": "ceiling plane minus floor plane, per room (model sigma, 95%)"
+      },
+      "floor_area_m2": {
+        "value": 7.4166,
+        "unit": "m2",
+        "ci_low": 7.259,
+        "ci_high": 7.5742,
+        "basis": "propagated from every wall-plane sigma"
+      },
+      "polygon": [
+        [
+          3.3777,
+          4.7259
+        ],
+        [
+          3.3777,
+          1.2696
+        ],
+        [
+          5.05,
+          1.2696
+        ],
+        [
+          5.05,
+          2.9023
+        ],
+        [
+          5.9476,
+          2.9023
+        ],
+        [
+          5.9476,
+          4.7259
+        ]
+      ],
+      "walls": [
+        {
+          "wall_id": "room_4_w0",
+          "observed": true,
+          "n_support_points": 1343,
+          "p0": [
+            3.3777,
+            4.7259
+          ],
+          "p1": [
+            3.3777,
+            1.2696
+          ],
+          "length_m": {
+            "value": 3.4563,
+            "unit": "m",
+            "ci_low": 3.433,
+            "ci_high": 3.4795,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_4_w1",
+          "observed": true,
+          "n_support_points": 155,
+          "p0": [
+            3.3777,
+            1.2696
+          ],
+          "p1": [
+            5.05,
+            1.2696
+          ],
+          "length_m": {
+            "value": 1.6723,
+            "unit": "m",
+            "ci_low": 1.6121,
+            "ci_high": 1.7324,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_4_w2",
+          "observed": false,
+          "n_support_points": 5,
+          "p0": [
+            5.05,
+            1.2696
+          ],
+          "p1": [
+            5.05,
+            2.9023
+          ],
+          "length_m": {
+            "value": 1.6327,
+            "unit": "m",
+            "ci_low": 1.5725,
+            "ci_high": 1.6928,
+            "basis": "wall not observed; boundary inferred from free space"
+          },
+          "openings": [
+            {
+              "opening_id": "room_4_w2_o0",
+              "kind": "opening_unconfirmed",
+              "leads_to": null,
+              "start_m": 0.09,
+              "end_m": 1.57,
+              "width_m": {
+                "value": 1.48,
+                "unit": "m",
+                "ci_low": 1.447,
+                "ci_high": 1.513,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            }
+          ]
+        },
+        {
+          "wall_id": "room_4_w3",
+          "observed": false,
+          "n_support_points": 11,
+          "p0": [
+            5.05,
+            2.9023
+          ],
+          "p1": [
+            5.9476,
+            2.9023
+          ],
+          "length_m": {
+            "value": 0.8976,
+            "unit": "m",
+            "ci_low": 0.8143,
+            "ci_high": 0.981,
+            "basis": "wall not observed; boundary inferred from free space"
+          },
+          "openings": [
+            {
+              "opening_id": "room_4_w3_o0",
+              "kind": "opening_unconfirmed",
+              "leads_to": null,
+              "start_m": 0.05,
+              "end_m": 0.83,
+              "width_m": {
+                "value": 0.78,
+                "unit": "m",
+                "ci_low": 0.7478,
+                "ci_high": 0.8122,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            }
+          ]
+        },
+        {
+          "wall_id": "room_4_w4",
+          "observed": false,
+          "n_support_points": 10,
+          "p0": [
+            5.9476,
+            2.9023
+          ],
+          "p1": [
+            5.9476,
+            4.7259
+          ],
+          "length_m": {
+            "value": 1.8236,
+            "unit": "m",
+            "ci_low": 1.7633,
+            "ci_high": 1.8839,
+            "basis": "wall not observed; boundary inferred from free space"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_4_w5",
+          "observed": true,
+          "n_support_points": 2445,
+          "p0": [
+            5.9476,
+            4.7259
+          ],
+          "p1": [
+            3.3777,
+            4.7259
+          ],
+          "length_m": {
+            "value": 2.5699,
+            "unit": "m",
+            "ci_low": 2.5087,
+            "ci_high": 2.6311,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        }
+      ],
+      "damage_regions": [],
+      "scope_line_items": []
+    },
+    {
+      "room_id": "room_5",
+      "visited": true,
+      "partial": false,
+      "wall_coverage": 1.0,
+      "ceiling_observed": true,
+      "ceiling_height_m": {
+        "value": 2.3457,
+        "unit": "m",
+        "ci_low": 2.3346,
+        "ci_high": 2.3568,
+        "basis": "ceiling plane minus floor plane, per room (model sigma, 95%)"
+      },
+      "floor_area_m2": {
+        "value": 6.6692,
+        "unit": "m2",
+        "ci_low": 6.6302,
+        "ci_high": 6.7082,
+        "basis": "propagated from every wall-plane sigma"
+      },
+      "polygon": [
+        [
+          10.4753,
+          9.53
+        ],
+        [
+          11.7867,
+          9.53
+        ],
+        [
+          11.7867,
+          8.7291
+        ],
+        [
+          12.9889,
+          8.7291
+        ],
+        [
+          12.9889,
+          11.8002
+        ],
+        [
+          10.4753,
+          11.8002
+        ]
+      ],
+      "walls": [
+        {
+          "wall_id": "room_5_w0",
+          "observed": true,
+          "n_support_points": 764,
+          "p0": [
+            10.4753,
+            9.53
+          ],
+          "p1": [
+            11.7867,
+            9.53
+          ],
+          "length_m": {
+            "value": 1.3114,
+            "unit": "m",
+            "ci_low": 1.2979,
+            "ci_high": 1.325,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_5_w1",
+          "observed": true,
+          "n_support_points": 715,
+          "p0": [
+            11.7867,
+            9.53
+          ],
+          "p1": [
+            11.7867,
+            8.7291
+          ],
+          "length_m": {
+            "value": 0.801,
+            "unit": "m",
+            "ci_low": 0.7889,
+            "ci_high": 0.813,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_5_w2",
+          "observed": true,
+          "n_support_points": 3279,
+          "p0": [
+            11.7867,
+            8.7291
+          ],
+          "p1": [
+            12.9889,
+            8.7291
+          ],
+          "length_m": {
+            "value": 1.2022,
+            "unit": "m",
+            "ci_low": 1.189,
+            "ci_high": 1.2154,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_5_w3",
+          "observed": true,
+          "n_support_points": 12254,
+          "p0": [
+            12.9889,
+            8.7291
+          ],
+          "p1": [
+            12.9889,
+            11.8002
+          ],
+          "length_m": {
+            "value": 3.0711,
+            "unit": "m",
+            "ci_low": 3.0499,
+            "ci_high": 3.0923,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_5_w4",
+          "observed": true,
+          "n_support_points": 5904,
+          "p0": [
+            12.9889,
+            11.8002
+          ],
+          "p1": [
+            10.4753,
+            11.8002
+          ],
+          "length_m": {
+            "value": 2.5136,
+            "unit": "m",
+            "ci_low": 2.4951,
+            "ci_high": 2.5321,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_5_w5",
+          "observed": true,
+          "n_support_points": 4709,
+          "p0": [
+            10.4753,
+            11.8002
+          ],
+          "p1": [
+            10.4753,
+            9.53
+          ],
+          "length_m": {
+            "value": 2.2702,
+            "unit": "m",
+            "ci_low": 2.2528,
+            "ci_high": 2.2875,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": [
+            {
+              "opening_id": "room_5_w5_o0",
+              "kind": "door",
+              "leads_to": "room_2",
+              "start_m": 1.3731,
+              "end_m": 1.9324,
+              "width_m": {
+                "value": 0.5593,
+                "unit": "m",
+                "ci_low": 0.5477,
+                "ci_high": 0.5708,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            }
+          ]
+        }
+      ],
+      "damage_regions": [],
+      "scope_line_items": []
+    },
+    {
+      "room_id": "room_6",
+      "visited": true,
+      "partial": false,
+      "wall_coverage": 1.0,
+      "ceiling_observed": true,
+      "ceiling_height_m": {
+        "value": 2.2827,
+        "unit": "m",
+        "ci_low": 2.2716,
+        "ci_high": 2.2938,
+        "basis": "ceiling plane minus floor plane, per room (model sigma, 95%)"
+      },
+      "floor_area_m2": {
+        "value": 3.9724,
+        "unit": "m2",
+        "ci_low": 3.9457,
+        "ci_high": 3.9991,
+        "basis": "propagated from every wall-plane sigma"
+      },
+      "polygon": [
+        [
+          3.3797,
+          8.6639
+        ],
+        [
+          5.3865,
+          8.6639
+        ],
+        [
+          5.3865,
+          9.9732
+        ],
+        [
+          5.2726,
+          9.9732
+        ],
+        [
+          5.2726,
+          10.8373
+        ],
+        [
+          3.7994,
+          10.8373
+        ],
+        [
+          3.7994,
+          10.1444
+        ],
+        [
+          3.3797,
+          10.1444
+        ]
+      ],
+      "walls": [
+        {
+          "wall_id": "room_6_w0",
+          "observed": true,
+          "n_support_points": 5172,
+          "p0": [
+            3.3797,
+            8.6639
+          ],
+          "p1": [
+            5.3865,
+            8.6639
+          ],
+          "length_m": {
+            "value": 2.0068,
+            "unit": "m",
+            "ci_low": 1.9906,
+            "ci_high": 2.023,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_6_w1",
+          "observed": true,
+          "n_support_points": 346,
+          "p0": [
+            5.3865,
+            8.6639
+          ],
+          "p1": [
+            5.3865,
+            9.9732
+          ],
+          "length_m": {
+            "value": 1.3093,
+            "unit": "m",
+            "ci_low": 1.2957,
+            "ci_high": 1.323,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": [
+            {
+              "opening_id": "room_6_w1_o0",
+              "kind": "door",
+              "leads_to": "room_3",
+              "start_m": 0.1947,
+              "end_m": 0.8103,
+              "width_m": {
+                "value": 0.6156,
+                "unit": "m",
+                "ci_low": 0.604,
+                "ci_high": 0.6273,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            }
+          ]
+        },
+        {
+          "wall_id": "room_6_w2",
+          "observed": true,
+          "n_support_points": 330,
+          "p0": [
+            5.3865,
+            9.9732
+          ],
+          "p1": [
+            5.2726,
+            9.9732
+          ],
+          "length_m": {
+            "value": 0.1139,
+            "unit": "m",
+            "ci_low": 0.1027,
+            "ci_high": 0.1251,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_6_w3",
+          "observed": true,
+          "n_support_points": 6489,
+          "p0": [
+            5.2726,
+            9.9732
+          ],
+          "p1": [
+            5.2726,
+            10.8373
+          ],
+          "length_m": {
+            "value": 0.8641,
+            "unit": "m",
+            "ci_low": 0.8518,
+            "ci_high": 0.8765,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_6_w4",
+          "observed": true,
+          "n_support_points": 4556,
+          "p0": [
+            5.2726,
+            10.8373
+          ],
+          "p1": [
+            3.7994,
+            10.8373
+          ],
+          "length_m": {
+            "value": 1.4731,
+            "unit": "m",
+            "ci_low": 1.4591,
+            "ci_high": 1.4872,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_6_w5",
+          "observed": true,
+          "n_support_points": 2724,
+          "p0": [
+            3.7994,
+            10.8373
+          ],
+          "p1": [
+            3.7994,
+            10.1444
+          ],
+          "length_m": {
+            "value": 0.693,
+            "unit": "m",
+            "ci_low": 0.6811,
+            "ci_high": 0.7048,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_6_w6",
+          "observed": true,
+          "n_support_points": 798,
+          "p0": [
+            3.7994,
+            10.1444
+          ],
+          "p1": [
+            3.3797,
+            10.1444
+          ],
+          "length_m": {
+            "value": 0.4198,
+            "unit": "m",
+            "ci_low": 0.4084,
+            "ci_high": 0.4311,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_6_w7",
+          "observed": true,
+          "n_support_points": 3222,
+          "p0": [
+            3.3797,
+            10.1444
+          ],
+          "p1": [
+            3.3797,
+            8.6639
+          ],
+          "length_m": {
+            "value": 1.4805,
+            "unit": "m",
+            "ci_low": 1.4664,
+            "ci_high": 1.4946,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        }
+      ],
+      "damage_regions": [],
+      "scope_line_items": []
+    }
+  ],
+  "stitched_plan": {
+    "rooms_placed": [
+      "room_1",
+      "room_2",
+      "room_3",
+      "room_4",
+      "room_5",
+      "room_6"
+    ],
+    "adjacency": [
+      {
+        "rooms": [
+          "room_1",
+          "room_2"
+        ],
+        "via_opening": "room_1_w16_o0"
+      },
+      {
+        "rooms": [
+          "room_1",
+          "room_3"
+        ],
+        "via_opening": "room_1_w9_o0"
+      },
+      {
+        "rooms": [
+          "room_2",
+          "room_5"
+        ],
+        "via_opening": "room_2_w6_o0"
+      },
+      {
+        "rooms": [
+          "room_3",
+          "room_4"
+        ],
+        "via_opening": "room_3_w0_o0"
+      },
+      {
+        "rooms": [
+          "room_3",
+          "room_6"
+        ],
+        "via_opening": "room_3_w5_o0"
+      }
+    ],
+    "footprint_m2": {
+      "value": 69.1638,
+      "unit": "m2",
+      "ci_low": 68.9555,
+      "ci_high": 69.3721,
+      "basis": "sum of room areas (rooms are disjoint by construction)"
+    },
+    "render_path": "outputs/c7d28f72c6/plan.png"
+  },
+  "timing_s": {
+    "load_and_backproject": 10.63,
+    "layout": 9.48,
+    "damage": 15.58,
+    "total": 36.06
+  },
+  "drift": {
+    "mode": "auto",
+    "theta_deg": 27.75,
+    "chunks": [
+      {
+        "t_mid": 65768.237587125,
+        "delta_deg": 0.849999999999998,
+        "n_wall_pts": 76852
+      },
+      {
+        "t_mid": 65776.237587125,
+        "delta_deg": 0.15000000000000338,
+        "n_wall_pts": 62706
+      },
+      {
+        "t_mid": 65784.237587125,
+        "delta_deg": -1.0000000000000013,
+        "n_wall_pts": 79872
+      },
+      {
+        "t_mid": 65792.237587125,
+        "delta_deg": 0.4000000000000006,
+        "n_wall_pts": 70369
+      },
+      {
+        "t_mid": 65800.237587125,
+        "delta_deg": -2.15,
+        "n_wall_pts": 74849
+      },
+      {
+        "t_mid": 65808.237587125,
+        "delta_deg": -0.5000000000000007,
+        "n_wall_pts": 101861
+      },
+      {
+        "t_mid": 65816.237587125,
+        "delta_deg": -0.4000000000000006,
+        "n_wall_pts": 75209
+      },
+      {
+        "t_mid": 65824.237587125,
+        "delta_deg": 0.2000000000000003,
+        "n_wall_pts": 90967
+      },
+      {
+        "t_mid": 65832.237587125,
+        "delta_deg": -0.04999999999999689,
+        "n_wall_pts": 64379
+      },
+      {
+        "t_mid": 65840.237587125,
+        "delta_deg": -0.04999999999999689,
+        "n_wall_pts": 63719
+      },
+      {
+        "t_mid": 65848.237587125,
+        "delta_deg": 0.849999999999998,
+        "n_wall_pts": 54045
+      },
+      {
+        "t_mid": 65856.237587125,
+        "delta_deg": 1.350000000000005,
+        "n_wall_pts": 66226
+      },
+      {
+        "t_mid": 65864.237587125,
+        "delta_deg": 1.0499999999999983,
+        "n_wall_pts": 92036
+      },
+      {
+        "t_mid": 65872.237587125,
+        "delta_deg": 0.4000000000000006,
+        "n_wall_pts": 72325
+      },
+      {
+        "t_mid": 65880.237587125,
+        "delta_deg": 1.2000000000000017,
+        "n_wall_pts": 48747
+      },
+      {
+        "t_mid": 65888.237587125,
+        "delta_deg": -1.0499999999999983,
+        "n_wall_pts": 44907
+      },
+      {
+        "t_mid": 65896.237587125,
+        "delta_deg": -0.30000000000000043,
+        "n_wall_pts": 48167
+      },
+      {
+        "t_mid": 65904.237587125,
+        "delta_deg": 0.24999999999999717,
+        "n_wall_pts": 48143
+      },
+      {
+        "t_mid": 65912.237587125,
+        "delta_deg": -1.8999999999999964,
+        "n_wall_pts": 26677
+      },
+      {
+        "t_mid": 65920.237587125,
+        "delta_deg": -0.2000000000000003,
+        "n_wall_pts": 24836
+      },
+      {
+        "t_mid": 65928.237587125,
+        "delta_deg": -0.700000000000001,
+        "n_wall_pts": 34629
+      },
+      {
+        "t_mid": 65936.237587125,
+        "delta_deg": -0.2000000000000003,
+        "n_wall_pts": 29405
+      },
+      {
+        "t_mid": 65944.237587125,
+        "delta_deg": -0.3500000000000037,
+        "n_wall_pts": 33297
+      },
+      {
+        "t_mid": 65952.237587125,
+        "delta_deg": 0.24999999999999717,
+        "n_wall_pts": 32326
+      },
+      {
+        "t_mid": 65960.237587125,
+        "delta_deg": 0.2000000000000003,
+        "n_wall_pts": 44445
+      },
+      {
+        "t_mid": 65968.237587125,
+        "delta_deg": 0.7500000000000042,
+        "n_wall_pts": 38370
+      },
+      {
+        "t_mid": 65976.237587125,
+        "delta_deg": 0.8000000000000012,
+        "n_wall_pts": 24335
+      }
+    ],
+    "max_abs_correction_deg": 1.0499999999999983,
+    "registration_voxels_raw": 122425,
+    "registration_voxels_corrected": 143378,
+    "registration_change_pct": 17.11,
+    "applied": false,
+    "reason": "correction rejected: it loosened wall registration, so the VIO poses (already loop-closed by ARKit) were kept after audit"
+  }
+}

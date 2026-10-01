@@ -1,0 +1,1103 @@
+{
+  "capture_id": "c00a170fe1",
+  "tier": "lidar",
+  "generated_at": "2026-10-01T08:10:04.096285+00:00",
+  "pipeline_version": "0.2.0",
+  "confidence_note": "All intervals are 95%. LiDAR-tier intervals come from the measurement model (surface-point scatter + per-surface bias + scale term); see benchmark/calibration report for coverage against ground truth.",
+  "plan_frame": {
+    "theta_deg": 23.25,
+    "origin": [
+      -6.1326,
+      -2.0069
+    ],
+    "note": "plan x,y = world (x,z) rotated by -theta so walls are axis-aligned, minus origin"
+  },
+  "rooms": [
+    {
+      "room_id": "room_1",
+      "visited": true,
+      "partial": false,
+      "wall_coverage": 0.956,
+      "ceiling_observed": false,
+      "ceiling_height_m": {
+        "value": 1.3609,
+        "unit": "m",
+        "ci_low": 1.3609,
+        "ci_high": 4.5,
+        "basis": "ceiling NOT observed in this capture: value is the highest surface seen (lower bound); upper bound is a plausibility limit, not a measurement"
+      },
+      "floor_area_m2": {
+        "value": 8.6038,
+        "unit": "m2",
+        "ci_low": 8.534,
+        "ci_high": 8.6735,
+        "basis": "propagated from every wall-plane sigma"
+      },
+      "polygon": [
+        [
+          0.6254,
+          5.6323
+        ],
+        [
+          0.6254,
+          4.5046
+        ],
+        [
+          2.0186,
+          4.5046
+        ],
+        [
+          2.0186,
+          4.1332
+        ],
+        [
+          5.0841,
+          4.1332
+        ],
+        [
+          5.0841,
+          3.5223
+        ],
+        [
+          5.3945,
+          3.5223
+        ],
+        [
+          5.3945,
+          3.125
+        ],
+        [
+          6.1053,
+          3.125
+        ],
+        [
+          6.1053,
+          5.6323
+        ]
+      ],
+      "walls": [
+        {
+          "wall_id": "room_1_w0",
+          "observed": true,
+          "n_support_points": 3447,
+          "p0": [
+            0.6254,
+            5.6323
+          ],
+          "p1": [
+            0.6254,
+            4.5046
+          ],
+          "length_m": {
+            "value": 1.1277,
+            "unit": "m",
+            "ci_low": 1.1146,
+            "ci_high": 1.1408,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w1",
+          "observed": true,
+          "n_support_points": 177,
+          "p0": [
+            0.6254,
+            4.5046
+          ],
+          "p1": [
+            2.0186,
+            4.5046
+          ],
+          "length_m": {
+            "value": 1.3932,
+            "unit": "m",
+            "ci_low": 1.3794,
+            "ci_high": 1.407,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w2",
+          "observed": true,
+          "n_support_points": 1560,
+          "p0": [
+            2.0186,
+            4.5046
+          ],
+          "p1": [
+            2.0186,
+            4.1332
+          ],
+          "length_m": {
+            "value": 0.3714,
+            "unit": "m",
+            "ci_low": 0.3596,
+            "ci_high": 0.3832,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w3",
+          "observed": true,
+          "n_support_points": 166,
+          "p0": [
+            2.0186,
+            4.1332
+          ],
+          "p1": [
+            5.0841,
+            4.1332
+          ],
+          "length_m": {
+            "value": 3.0655,
+            "unit": "m",
+            "ci_low": 3.0443,
+            "ci_high": 3.0867,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w4",
+          "observed": true,
+          "n_support_points": 957,
+          "p0": [
+            5.0841,
+            4.1332
+          ],
+          "p1": [
+            5.0841,
+            3.5223
+          ],
+          "length_m": {
+            "value": 0.611,
+            "unit": "m",
+            "ci_low": 0.5988,
+            "ci_high": 0.6231,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w5",
+          "observed": true,
+          "n_support_points": 149,
+          "p0": [
+            5.0841,
+            3.5223
+          ],
+          "p1": [
+            5.3945,
+            3.5223
+          ],
+          "length_m": {
+            "value": 0.3104,
+            "unit": "m",
+            "ci_low": 0.2991,
+            "ci_high": 0.3217,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w6",
+          "observed": true,
+          "n_support_points": 773,
+          "p0": [
+            5.3945,
+            3.5223
+          ],
+          "p1": [
+            5.3945,
+            3.125
+          ],
+          "length_m": {
+            "value": 0.3973,
+            "unit": "m",
+            "ci_low": 0.3378,
+            "ci_high": 0.4567,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w7",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            5.3945,
+            3.125
+          ],
+          "p1": [
+            6.1053,
+            3.125
+          ],
+          "length_m": {
+            "value": 0.7108,
+            "unit": "m",
+            "ci_low": 0.6989,
+            "ci_high": 0.7227,
+            "basis": "wall not observed; boundary inferred from free space"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w8",
+          "observed": true,
+          "n_support_points": 4739,
+          "p0": [
+            6.1053,
+            3.125
+          ],
+          "p1": [
+            6.1053,
+            5.6323
+          ],
+          "length_m": {
+            "value": 2.5073,
+            "unit": "m",
+            "ci_low": 2.4462,
+            "ci_high": 2.5685,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": [
+            {
+              "opening_id": "room_1_w8_o0",
+              "kind": "door",
+              "leads_to": "room_3",
+              "start_m": 0.05,
+              "end_m": 0.75,
+              "width_m": {
+                "value": 0.7,
+                "unit": "m",
+                "ci_low": 0.6679,
+                "ci_high": 0.7321,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            },
+            {
+              "opening_id": "room_1_w8_o1",
+              "kind": "door",
+              "leads_to": "room_2",
+              "start_m": 1.7596,
+              "end_m": 2.4015,
+              "width_m": {
+                "value": 0.6419,
+                "unit": "m",
+                "ci_low": 0.6302,
+                "ci_high": 0.6536,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            }
+          ]
+        },
+        {
+          "wall_id": "room_1_w9",
+          "observed": true,
+          "n_support_points": 12514,
+          "p0": [
+            6.1053,
+            5.6323
+          ],
+          "p1": [
+            0.6254,
+            5.6323
+          ],
+          "length_m": {
+            "value": 5.4799,
+            "unit": "m",
+            "ci_low": 5.4458,
+            "ci_high": 5.514,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        }
+      ],
+      "damage_regions": [
+        {
+          "region_id": "room_1_dmg0",
+          "surface_id": "room_1_w9",
+          "surface_type": "wall",
+          "damage_class": "water_stain",
+          "centroid_plan_m": [
+            5.993,
+            5.591
+          ],
+          "height_above_floor_m": 0.917,
+          "extent_m2": {
+            "value": 0.0567,
+            "unit": "m2",
+            "ci_low": 0.0289,
+            "ci_high": 0.0845,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 2,
+          "source_frames": [
+            703,
+            659
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": true,
+            "rules": [
+              {
+                "id": "WS-BASE",
+                "rule": "water staining reaches within 0.20 m of the floor at the wall base -> possible rising damp or slab/plumbing leak behind the skirting; open up and moisture-meter"
+              }
+            ],
+            "rule": "WS-BASE: water staining reaches within 0.20 m of the floor at the wall base -> possible rising damp or slab/plumbing leak behind the skirting; open up and moisture-meter"
+          }
+        }
+      ],
+      "scope_line_items": [
+        {
+          "item": "Stain-block prime and repaint",
+          "surface_id": "room_1_w9",
+          "quantity": 0.1,
+          "unit": "m2",
+          "damage_region_id": "room_1_dmg0"
+        },
+        {
+          "item": "Investigate concealed damage: WS-BASE: water staining reaches within 0.20 m of the floor at the wall base -> possible rising damp or slab/plumbing leak behind the skirting; open up and moisture-meter",
+          "surface_id": "room_1_w9",
+          "quantity": 1,
+          "unit": "ea",
+          "damage_region_id": "room_1_dmg0"
+        }
+      ]
+    },
+    {
+      "room_id": "room_2",
+      "visited": true,
+      "partial": false,
+      "wall_coverage": 0.984,
+      "ceiling_observed": false,
+      "ceiling_height_m": {
+        "value": 1.8489,
+        "unit": "m",
+        "ci_low": 1.8489,
+        "ci_high": 4.5,
+        "basis": "ceiling NOT observed in this capture: value is the highest surface seen (lower bound); upper bound is a plausibility limit, not a measurement"
+      },
+      "floor_area_m2": {
+        "value": 5.7208,
+        "unit": "m2",
+        "ci_low": 5.6822,
+        "ci_high": 5.7594,
+        "basis": "propagated from every wall-plane sigma"
+      },
+      "polygon": [
+        [
+          5.922,
+          6.9059
+        ],
+        [
+          5.922,
+          5.742
+        ],
+        [
+          6.1004,
+          5.742
+        ],
+        [
+          6.1004,
+          4.8454
+        ],
+        [
+          7.886,
+          4.8454
+        ],
+        [
+          7.886,
+          3.899
+        ],
+        [
+          8.496,
+          3.899
+        ],
+        [
+          8.496,
+          6.9059
+        ]
+      ],
+      "walls": [
+        {
+          "wall_id": "room_2_w0",
+          "observed": true,
+          "n_support_points": 6606,
+          "p0": [
+            5.922,
+            6.9059
+          ],
+          "p1": [
+            5.922,
+            5.742
+          ],
+          "length_m": {
+            "value": 1.1639,
+            "unit": "m",
+            "ci_low": 1.1042,
+            "ci_high": 1.2236,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w1",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            5.922,
+            5.742
+          ],
+          "p1": [
+            6.1004,
+            5.742
+          ],
+          "length_m": {
+            "value": 0.1784,
+            "unit": "m",
+            "ci_low": 0.1672,
+            "ci_high": 0.1896,
+            "basis": "wall not observed; boundary inferred from free space"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w2",
+          "observed": true,
+          "n_support_points": 988,
+          "p0": [
+            6.1004,
+            5.742
+          ],
+          "p1": [
+            6.1004,
+            4.8454
+          ],
+          "length_m": {
+            "value": 0.8965,
+            "unit": "m",
+            "ci_low": 0.837,
+            "ci_high": 0.9561,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": [
+            {
+              "opening_id": "room_2_w2_o0",
+              "kind": "door",
+              "leads_to": "room_1",
+              "start_m": 0.2154,
+              "end_m": 0.8574,
+              "width_m": {
+                "value": 0.6419,
+                "unit": "m",
+                "ci_low": 0.6302,
+                "ci_high": 0.6536,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            }
+          ]
+        },
+        {
+          "wall_id": "room_2_w3",
+          "observed": true,
+          "n_support_points": 1162,
+          "p0": [
+            6.1004,
+            4.8454
+          ],
+          "p1": [
+            7.886,
+            4.8454
+          ],
+          "length_m": {
+            "value": 1.7856,
+            "unit": "m",
+            "ci_low": 1.7701,
+            "ci_high": 1.801,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": [
+            {
+              "opening_id": "room_2_w3_o0",
+              "kind": "opening_unconfirmed",
+              "leads_to": null,
+              "start_m": 0.5281,
+              "end_m": 1.7229,
+              "width_m": {
+                "value": 1.1947,
+                "unit": "m",
+                "ci_low": 1.1816,
+                "ci_high": 1.2079,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            }
+          ]
+        },
+        {
+          "wall_id": "room_2_w4",
+          "observed": true,
+          "n_support_points": 79,
+          "p0": [
+            7.886,
+            4.8454
+          ],
+          "p1": [
+            7.886,
+            3.899
+          ],
+          "length_m": {
+            "value": 0.9464,
+            "unit": "m",
+            "ci_low": 0.934,
+            "ci_high": 0.9589,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w5",
+          "observed": true,
+          "n_support_points": 4595,
+          "p0": [
+            7.886,
+            3.899
+          ],
+          "p1": [
+            8.496,
+            3.899
+          ],
+          "length_m": {
+            "value": 0.61,
+            "unit": "m",
+            "ci_low": 0.5981,
+            "ci_high": 0.6219,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w6",
+          "observed": true,
+          "n_support_points": 13597,
+          "p0": [
+            8.496,
+            3.899
+          ],
+          "p1": [
+            8.496,
+            6.9059
+          ],
+          "length_m": {
+            "value": 3.0069,
+            "unit": "m",
+            "ci_low": 2.986,
+            "ci_high": 3.0277,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": [
+            {
+              "opening_id": "room_2_w6_o0",
+              "kind": "window",
+              "leads_to": null,
+              "start_m": 1.5997,
+              "end_m": 2.0473,
+              "width_m": {
+                "value": 0.4476,
+                "unit": "m",
+                "ci_low": 0.4362,
+                "ci_high": 0.459,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            }
+          ]
+        },
+        {
+          "wall_id": "room_2_w7",
+          "observed": true,
+          "n_support_points": 11118,
+          "p0": [
+            8.496,
+            6.9059
+          ],
+          "p1": [
+            5.922,
+            6.9059
+          ],
+          "length_m": {
+            "value": 2.5739,
+            "unit": "m",
+            "ci_low": 2.5552,
+            "ci_high": 2.5927,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        }
+      ],
+      "damage_regions": [
+        {
+          "region_id": "room_2_dmg0",
+          "surface_id": "room_2_w2",
+          "surface_type": "wall",
+          "damage_class": "water_stain",
+          "centroid_plan_m": [
+            6.099,
+            5.688
+          ],
+          "height_above_floor_m": 0.984,
+          "extent_m2": {
+            "value": 0.1703,
+            "unit": "m2",
+            "ci_low": 0.0869,
+            "ci_high": 0.2537,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 2,
+          "source_frames": [
+            747,
+            791
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": true,
+            "rules": [
+              {
+                "id": "WS-BASE",
+                "rule": "water staining reaches within 0.20 m of the floor at the wall base -> possible rising damp or slab/plumbing leak behind the skirting; open up and moisture-meter"
+              }
+            ],
+            "rule": "WS-BASE: water staining reaches within 0.20 m of the floor at the wall base -> possible rising damp or slab/plumbing leak behind the skirting; open up and moisture-meter"
+          }
+        },
+        {
+          "region_id": "room_2_dmg1",
+          "surface_id": "room_2_w6",
+          "surface_type": "wall",
+          "damage_class": "water_stain",
+          "centroid_plan_m": [
+            8.487,
+            4.265
+          ],
+          "height_above_floor_m": 1.183,
+          "extent_m2": {
+            "value": 0.0881,
+            "unit": "m2",
+            "ci_low": 0.0449,
+            "ci_high": 0.1313,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 2,
+          "source_frames": [
+            1098,
+            1098
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": false,
+            "rules": [],
+            "rule": "none fired"
+          }
+        },
+        {
+          "region_id": "room_2_dmg2",
+          "surface_id": "room_2_w2",
+          "surface_type": "wall",
+          "damage_class": "water_stain",
+          "centroid_plan_m": [
+            6.088,
+            5.654
+          ],
+          "height_above_floor_m": 0.441,
+          "extent_m2": {
+            "value": 0.0532,
+            "unit": "m2",
+            "ci_low": 0.0271,
+            "ci_high": 0.0792,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 2,
+          "source_frames": [
+            791,
+            835
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": true,
+            "rules": [
+              {
+                "id": "WS-BASE",
+                "rule": "water staining reaches within 0.20 m of the floor at the wall base -> possible rising damp or slab/plumbing leak behind the skirting; open up and moisture-meter"
+              }
+            ],
+            "rule": "WS-BASE: water staining reaches within 0.20 m of the floor at the wall base -> possible rising damp or slab/plumbing leak behind the skirting; open up and moisture-meter"
+          }
+        },
+        {
+          "region_id": "room_2_dmg3",
+          "surface_id": "room_2_w6",
+          "surface_type": "wall",
+          "damage_class": "water_stain",
+          "centroid_plan_m": [
+            8.466,
+            4.863
+          ],
+          "height_above_floor_m": 0.834,
+          "extent_m2": {
+            "value": 0.0164,
+            "unit": "m2",
+            "ci_low": 0.0083,
+            "ci_high": 0.0244,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 2,
+          "source_frames": [
+            1098,
+            1054
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": false,
+            "rules": [],
+            "rule": "none fired"
+          }
+        }
+      ],
+      "scope_line_items": [
+        {
+          "item": "Stain-block prime and repaint",
+          "surface_id": "room_2_w2",
+          "quantity": 0.17,
+          "unit": "m2",
+          "damage_region_id": "room_2_dmg0"
+        },
+        {
+          "item": "Investigate concealed damage: WS-BASE: water staining reaches within 0.20 m of the floor at the wall base -> possible rising damp or slab/plumbing leak behind the skirting; open up and moisture-meter",
+          "surface_id": "room_2_w2",
+          "quantity": 1,
+          "unit": "ea",
+          "damage_region_id": "room_2_dmg0"
+        },
+        {
+          "item": "Stain-block prime and repaint",
+          "surface_id": "room_2_w6",
+          "quantity": 0.1,
+          "unit": "m2",
+          "damage_region_id": "room_2_dmg1"
+        },
+        {
+          "item": "Stain-block prime and repaint",
+          "surface_id": "room_2_w2",
+          "quantity": 0.1,
+          "unit": "m2",
+          "damage_region_id": "room_2_dmg2"
+        },
+        {
+          "item": "Investigate concealed damage: WS-BASE: water staining reaches within 0.20 m of the floor at the wall base -> possible rising damp or slab/plumbing leak behind the skirting; open up and moisture-meter",
+          "surface_id": "room_2_w2",
+          "quantity": 1,
+          "unit": "ea",
+          "damage_region_id": "room_2_dmg2"
+        },
+        {
+          "item": "Stain-block prime and repaint",
+          "surface_id": "room_2_w6",
+          "quantity": 0.1,
+          "unit": "m2",
+          "damage_region_id": "room_2_dmg3"
+        }
+      ]
+    },
+    {
+      "room_id": "room_3",
+      "visited": true,
+      "partial": false,
+      "wall_coverage": 0.885,
+      "ceiling_observed": false,
+      "ceiling_height_m": {
+        "value": 1.7092,
+        "unit": "m",
+        "ci_low": 1.7092,
+        "ci_high": 4.5,
+        "basis": "ceiling NOT observed in this capture: value is the highest surface seen (lower bound); upper bound is a plausibility limit, not a measurement"
+      },
+      "floor_area_m2": {
+        "value": 5.4791,
+        "unit": "m2",
+        "ci_low": 5.4116,
+        "ci_high": 5.5467,
+        "basis": "propagated from every wall-plane sigma"
+      },
+      "polygon": [
+        [
+          6.6357,
+          3.8974
+        ],
+        [
+          6.6357,
+          1.85
+        ],
+        [
+          6.8,
+          1.85
+        ],
+        [
+          6.8,
+          0.887
+        ],
+        [
+          8.5083,
+          0.887
+        ],
+        [
+          8.5083,
+          3.8974
+        ]
+      ],
+      "walls": [
+        {
+          "wall_id": "room_3_w0",
+          "observed": true,
+          "n_support_points": 41,
+          "p0": [
+            6.6357,
+            3.8974
+          ],
+          "p1": [
+            6.6357,
+            1.85
+          ],
+          "length_m": {
+            "value": 2.0474,
+            "unit": "m",
+            "ci_low": 1.9869,
+            "ci_high": 2.1079,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_3_w1",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            6.6357,
+            1.85
+          ],
+          "p1": [
+            6.8,
+            1.85
+          ],
+          "length_m": {
+            "value": 0.1643,
+            "unit": "m",
+            "ci_low": 0.1049,
+            "ci_high": 0.2237,
+            "basis": "wall not observed; boundary inferred from free space"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_3_w2",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            6.8,
+            1.85
+          ],
+          "p1": [
+            6.8,
+            0.887
+          ],
+          "length_m": {
+            "value": 0.963,
+            "unit": "m",
+            "ci_low": 0.9034,
+            "ci_high": 1.0226,
+            "basis": "wall not observed; boundary inferred from free space"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_3_w3",
+          "observed": true,
+          "n_support_points": 4341,
+          "p0": [
+            6.8,
+            0.887
+          ],
+          "p1": [
+            8.5083,
+            0.887
+          ],
+          "length_m": {
+            "value": 1.7083,
+            "unit": "m",
+            "ci_low": 1.6481,
+            "ci_high": 1.7685,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_3_w4",
+          "observed": true,
+          "n_support_points": 12111,
+          "p0": [
+            8.5083,
+            0.887
+          ],
+          "p1": [
+            8.5083,
+            3.8974
+          ],
+          "length_m": {
+            "value": 3.0105,
+            "unit": "m",
+            "ci_low": 2.9896,
+            "ci_high": 3.0314,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_3_w5",
+          "observed": true,
+          "n_support_points": 14107,
+          "p0": [
+            8.5083,
+            3.8974
+          ],
+          "p1": [
+            6.6357,
+            3.8974
+          ],
+          "length_m": {
+            "value": 1.8726,
+            "unit": "m",
+            "ci_low": 1.8566,
+            "ci_high": 1.8886,
+            "basis": "bounded by the two perpendicular wall planes (model sigma, 95%)"
+          },
+          "openings": []
+        }
+      ],
+      "damage_regions": [
+        {
+          "region_id": "room_3_dmg0",
+          "surface_id": "room_3_floor",
+          "surface_type": "floor",
+          "damage_class": "water_stain",
+          "centroid_plan_m": [
+            7.628,
+            3.007
+          ],
+          "height_above_floor_m": 0.051,
+          "extent_m2": {
+            "value": 0.0496,
+            "unit": "m2",
+            "ci_low": 0.0253,
+            "ci_high": 0.0739,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 2,
+          "source_frames": [
+            527,
+            351
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": false,
+            "rules": [],
+            "rule": "none fired"
+          }
+        }
+      ],
+      "scope_line_items": [
+        {
+          "item": "Stain-block prime and repaint",
+          "surface_id": "room_3_floor",
+          "quantity": 0.1,
+          "unit": "m2",
+          "damage_region_id": "room_3_dmg0"
+        }
+      ]
+    }
+  ],
+  "stitched_plan": {
+    "rooms_placed": [
+      "room_1",
+      "room_2",
+      "room_3"
+    ],
+    "adjacency": [
+      {
+        "rooms": [
+          "room_1",
+          "room_2"
+        ],
+        "via_opening": "room_1_w8_o1"
+      },
+      {
+        "rooms": [
+          "room_1",
+          "room_3"
+        ],
+        "via_opening": "room_1_w8_o0"
+      }
+    ],
+    "footprint_m2": {
+      "value": 19.8037,
+      "unit": "m2",
+      "ci_low": 19.6992,
+      "ci_high": 19.9082,
+      "basis": "sum of room areas (rooms are disjoint by construction)"
+    },
+    "render_path": "outputs/c00a170fe1/plan.png"
+  },
+  "timing_s": {
+    "load_and_backproject": 15.1,
+    "layout": 15.8,
+    "damage": 13.73,
+    "total": 44.79
+  },
+  "drift": {
+    "mode": "auto",
+    "theta_deg": 23.1,
+    "chunks": [
+      {
+        "t_mid": 65579.597600791,
+        "delta_deg": -0.15000000000000338,
+        "n_wall_pts": 999092
+      },
+      {
+        "t_mid": 65587.597600791,
+        "delta_deg": 0.700000000000001,
+        "n_wall_pts": 723679
+      },
+      {
+        "t_mid": 65595.597600791,
+        "delta_deg": -1.6000000000000023,
+        "n_wall_pts": 673110
+      },
+      {
+        "t_mid": 65603.597600791,
+        "delta_deg": -0.9500000000000045,
+        "n_wall_pts": 763004
+      },
+      {
+        "t_mid": 65611.597600791,
+        "delta_deg": 0.15000000000000338,
+        "n_wall_pts": 393067
+      }
+    ],
+    "max_abs_correction_deg": 0.9500000000000045,
+    "registration_voxels_raw": 34969,
+    "registration_voxels_corrected": 34747,
+    "registration_change_pct": -0.63,
+    "applied": true
+  }
+}

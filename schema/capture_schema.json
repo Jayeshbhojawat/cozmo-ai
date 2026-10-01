@@ -1,91 +1,21 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Cozmo AI Capture Output",
+  "title": "Cozmo AI capture output",
+  "description": "One file per capture. Plan coordinates are metres in an axis-aligned plan frame (see plan_frame). Every measurement carries a 95% interval and the basis for its width.",
   "type": "object",
-  "required": ["capture_id", "tier", "generated_at", "rooms", "stitched_plan", "confidence_note"],
+  "required": ["capture_id", "tier", "generated_at", "pipeline_version", "confidence_note", "plan_frame", "rooms", "stitched_plan"],
   "properties": {
     "capture_id": {"type": "string"},
-    "tier": {"type": "string", "enum": ["photo", "video", "lidar"]},
-    "generated_at": {"type": "string", "format": "date-time"},
+    "tier": {"enum": ["photo", "video", "lidar"]},
+    "generated_at": {"type": "string"},
     "pipeline_version": {"type": "string"},
-    "confidence_note": {
-      "type": "string",
-      "description": "Human-readable statement of how intervals were derived for this run."
+    "confidence_note": {"type": "string"},
+    "plan_frame": {
+      "type": "object",
+      "required": ["theta_deg", "origin"],
+      "properties": {"theta_deg": {"type": "number"}, "origin": {"$ref": "#/definitions/point2d"}, "note": {"type": "string"}}
     },
-    "rooms": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["room_id", "ceiling_height_m", "floor_area_m2", "walls", "damage_regions", "confidence"],
-        "properties": {
-          "room_id": {"type": "string"},
-          "ceiling_height_m": {"$ref": "#/definitions/measurement"},
-          "floor_area_m2": {"$ref": "#/definitions/measurement"},
-          "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
-          "walls": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "required": ["wall_id", "length_m", "p0", "p1", "openings", "trusted"],
-              "properties": {
-                "wall_id": {"type": "string"},
-                "length_m": {"$ref": "#/definitions/measurement"},
-                "p0": {"$ref": "#/definitions/point2d"},
-                "p1": {"$ref": "#/definitions/point2d"},
-                "trusted": {"type": "boolean"},
-                "openings": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "required": ["opening_id", "start_frac", "end_frac", "width_m"],
-                    "properties": {
-                      "opening_id": {"type": "string"},
-                      "start_frac": {"type": "number"},
-                      "end_frac": {"type": "number"},
-                      "width_m": {"$ref": "#/definitions/measurement"}
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "damage_regions": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "required": ["region_id", "surface_wall_id", "damage_class", "extent_m2", "concealed_flag"],
-              "properties": {
-                "region_id": {"type": "string"},
-                "surface_wall_id": {"type": "string"},
-                "damage_class": {"type": "string"},
-                "extent_m2": {"$ref": "#/definitions/measurement"},
-                "concealed_flag": {
-                  "type": "object",
-                  "required": ["flagged", "rule"],
-                  "properties": {
-                    "flagged": {"type": "boolean"},
-                    "rule": {"type": "string"}
-                  }
-                }
-              }
-            }
-          },
-          "scope_line_items": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "required": ["item", "surface_wall_id", "quantity", "unit"],
-              "properties": {
-                "item": {"type": "string"},
-                "surface_wall_id": {"type": "string"},
-                "quantity": {"type": "number"},
-                "unit": {"type": "string"}
-              }
-            }
-          }
-        }
-      }
-    },
+    "rooms": {"type": "array", "items": {"$ref": "#/definitions/room"}},
     "stitched_plan": {
       "type": "object",
       "required": ["rooms_placed", "adjacency", "footprint_m2", "render_path"],
@@ -93,12 +23,21 @@
         "rooms_placed": {"type": "array", "items": {"type": "string"}},
         "adjacency": {
           "type": "array",
-          "items": {"type": "array", "items": {"type": "string"}, "minItems": 2, "maxItems": 2}
+          "items": {
+            "type": "object",
+            "required": ["rooms", "via_opening"],
+            "properties": {
+              "rooms": {"type": "array", "items": {"type": "string"}, "minItems": 2, "maxItems": 2},
+              "via_opening": {"type": ["string", "null"]}
+            }
+          }
         },
         "footprint_m2": {"$ref": "#/definitions/measurement"},
-        "render_path": {"type": "string"}
+        "render_path": {"type": ["string", "null"]}
       }
-    }
+    },
+    "drift": {"type": "object", "description": "Drift-correction audit for this capture (LiDAR tier)."},
+    "timing_s": {"type": "object"}
   },
   "definitions": {
     "point2d": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
@@ -106,11 +45,79 @@
       "type": "object",
       "required": ["value", "unit", "ci_low", "ci_high", "basis"],
       "properties": {
-        "value": {"type": "number"},
-        "unit": {"type": "string"},
-        "ci_low": {"type": "number"},
-        "ci_high": {"type": "number"},
-        "basis": {"type": "string"}
+        "value": {"type": "number"}, "unit": {"type": "string"},
+        "ci_low": {"type": "number"}, "ci_high": {"type": "number"}, "basis": {"type": "string"}
+      }
+    },
+    "opening": {
+      "type": "object",
+      "required": ["opening_id", "kind", "leads_to", "start_m", "end_m", "width_m"],
+      "properties": {
+        "opening_id": {"type": "string"},
+        "kind": {"enum": ["door", "window", "opening_unconfirmed"]},
+        "leads_to": {"type": ["string", "null"]},
+        "start_m": {"type": "number"}, "end_m": {"type": "number"},
+        "width_m": {"$ref": "#/definitions/measurement"}
+      }
+    },
+    "wall": {
+      "type": "object",
+      "required": ["wall_id", "observed", "p0", "p1", "length_m", "openings"],
+      "properties": {
+        "wall_id": {"type": "string"},
+        "observed": {"type": "boolean", "description": "false = boundary inferred from free space, no wall surface seen"},
+        "n_support_points": {"type": "integer"},
+        "p0": {"$ref": "#/definitions/point2d"}, "p1": {"$ref": "#/definitions/point2d"},
+        "length_m": {"$ref": "#/definitions/measurement"},
+        "openings": {"type": "array", "items": {"$ref": "#/definitions/opening"}}
+      }
+    },
+    "damage_region": {
+      "type": "object",
+      "required": ["region_id", "surface_id", "surface_type", "damage_class", "extent_m2", "concealed_flag"],
+      "properties": {
+        "region_id": {"type": "string"},
+        "surface_id": {"type": "string"},
+        "surface_type": {"enum": ["wall", "floor", "ceiling"]},
+        "damage_class": {"enum": ["water_stain", "crack"]},
+        "extent_m2": {"$ref": "#/definitions/measurement"},
+        "length_m": {"$ref": "#/definitions/measurement"},
+        "concealed_flag": {
+          "type": "object",
+          "required": ["flagged", "rule"],
+          "properties": {
+            "flagged": {"type": "boolean"},
+            "rule": {"type": "string"},
+            "rules": {"type": "array"}
+          }
+        }
+      }
+    },
+    "room": {
+      "type": "object",
+      "required": ["room_id", "partial", "ceiling_observed", "ceiling_height_m", "floor_area_m2", "polygon", "walls", "damage_regions", "scope_line_items"],
+      "properties": {
+        "room_id": {"type": "string"},
+        "visited": {"type": "boolean"},
+        "partial": {"type": "boolean"},
+        "wall_coverage": {"type": "number"},
+        "ceiling_observed": {"type": "boolean"},
+        "ceiling_height_m": {"$ref": "#/definitions/measurement"},
+        "floor_area_m2": {"$ref": "#/definitions/measurement"},
+        "polygon": {"type": "array", "items": {"$ref": "#/definitions/point2d"}, "minItems": 4},
+        "walls": {"type": "array", "items": {"$ref": "#/definitions/wall"}},
+        "damage_regions": {"type": "array", "items": {"$ref": "#/definitions/damage_region"}},
+        "scope_line_items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["item", "surface_id", "quantity", "unit"],
+            "properties": {
+              "item": {"type": "string"}, "surface_id": {"type": "string"},
+              "quantity": {"type": "number"}, "unit": {"type": "string"}, "damage_region_id": {"type": "string"}
+            }
+          }
+        }
       }
     }
   }

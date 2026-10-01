@@ -18,6 +18,9 @@ from capture.loader import Capture, Frame
 
 MM_TO_M = 1.0 / 1000.0
 
+import os
+CAMERA_CONVENTION = os.environ.get("COZMO_CAMERA_CONVENTION", "opencv")  # "arkit" = fix-loop before
+
 # RGB frame resolution StrayScanner assumes for the recorded fx/fy/cx/cy
 # (1920x1440 on most iPhone Pro LiDAR captures @ 4:3). Used only to derive the
 # depth/RGB intrinsic scale factor; if wrong, wall lengths would scale
@@ -72,6 +75,10 @@ def backproject_frame(capture: Capture, frame: Frame, min_confidence: int = 2, s
     x_cam = (xs - cx) / fx * d
     y_cam = (ys - cy) / fy * d
     z_cam = d
+    if CAMERA_CONVENTION == "arkit":
+        # Reproduces the pre-fix behaviour for the Part 4 fix-loop "before"
+        # run (benchmark/fix_loop.py). Never the default.
+        y_cam, z_cam = -y_cam, -z_cam
     pts_cam = np.stack([x_cam, y_cam, z_cam], axis=1)
 
     T = frame.pose_matrix()

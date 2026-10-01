@@ -166,7 +166,11 @@ def run_lidar(input_dir: Path, out_dir: Path, max_frames: int = 900, damage: boo
 
 
 def run_monocular(input_path: Path, out_dir: Path, tier: str) -> dict:
-    from reconstruction.sfm import monocular_layout
+    try:
+        from reconstruction.sfm import monocular_layout
+    except ImportError:
+        raise SystemExit(f"The {tier} tier is not implemented in this build yet "
+                         "(see docs/compliance_matrix.md). Use --tier lidar.")
     from reconstruction.render import render_plan
     t0 = time.time()
     layout, stats = monocular_layout(input_path, tier)

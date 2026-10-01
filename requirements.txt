@@ -5,3 +5,4 @@ Pillow>=10.0
 matplotlib>=3.7
 pytest>=7.4
 scikit-image>=0.21
+jsonschema>=4.0
