@@ -1,7 +1,7 @@
 {
   "capture_id": "c00a170fe1",
   "tier": "lidar",
-  "generated_at": "2026-10-01T08:10:04.096285+00:00",
+  "generated_at": "2026-10-01T17:13:51.431288+00:00",
   "pipeline_version": "0.2.0",
   "confidence_note": "All intervals are 95%. LiDAR-tier intervals come from the measurement model (surface-point scatter + per-surface bias + scale term); see benchmark/calibration report for coverage against ground truth.",
   "plan_frame": {
@@ -1059,10 +1059,10 @@
     "render_path": "outputs/c00a170fe1/plan.png"
   },
   "timing_s": {
-    "load_and_backproject": 15.1,
-    "layout": 15.8,
-    "damage": 13.73,
-    "total": 44.79
+    "load_and_backproject": 43.68,
+    "layout": 22.31,
+    "damage": 26.69,
+    "total": 92.84
   },
   "drift": {
     "mode": "auto",
