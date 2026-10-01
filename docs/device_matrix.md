@@ -1,13 +1,15 @@
 # Device Matrix
 
-| Tier   | Minimum hardware              | Capture tool          | Sensors used                                   | Honest accuracy target (this submission) |
-|--------|--------------------------------|------------------------|-------------------------------------------------|-------------------------------------------|
-| Photos | iPhone 15 or newer (any model) | Native Camera app      | RGB only, no depth/pose                          | Wall lengths within ±8%, calibrated intervals; footprint within ±8% on the stitched multi-room plan |
-| Video  | iPhone 15 or newer (any model) | Native Camera app (video) | RGB video only, no depth/pose                 | Wall lengths within ±3%, calibrated intervals |
-| LiDAR  | iPhone 12 Pro/Pro Max or newer ("Pro" line, any generation) | StrayScanner (App Store) | LiDAR depth (256x192, mm), per-pixel ARKit confidence (0/1/2), 6-DoF pose + per-frame intrinsics, raw IMU | Openings ≤2cm on ≥85% detected; ceiling height ≤1.5cm/room, ≤1cm repeat spread |
+| Tier | Hardware | Capture | Sensors used | Accuracy this build delivers (honest) |
+|---|---|---|---|---|
+| LiDAR | iPhone 12 Pro or newer, Pro models only (LiDAR) | StrayScanner (App Store, free), one continuous walk | LiDAR depth 256x192 mm + confidence, ARKit 6-DoF pose + per-frame intrinsics, RGB, IMU | Model 95% intervals: walls +-6-14 mm, doors +-8-12 mm, ceiling +-6 mm (only if the ceiling was filmed). **Not yet confirmed against tape/laser.** |
+| Video | Any iPhone 15 or newer | Stock Camera (Video), one clip, full turn on the spot in every room | RGB only; depth from Depth Anything V2 (ViT-S, metric indoor) for shape; scale from camera height (1.42 m) | Measured on pivot scans vs LiDAR: room area error RMS 22 % (+-11 % per length). **Does not meet the brief's +-3 % video gate.** Intervals are +-22 %/length to stay calibrated. |
+| Photo | Any iPhone 15 or newer | Stock Camera, 6-8 overlapping stills turning on the spot per room, one folder per room | RGB + EXIF focal length; same depth model and scale source | Same pipeline and same measured error as video (+-11 % per length RMS). **Does not meet the +-8 % photo gate yet.** |
 
-Non-Pro iPhones (15/16/17 base, non-Pro) cannot run the LiDAR tier — StrayScanner
-requires the LiDAR scanner hardware only present on Pro-class devices. They fall
-back to photo or video tier automatically; the pipeline's tier selection is by
-which input files are present, not by device model string, so this is enforced
-by what the phone is physically able to produce rather than by a check in code.
+Tier selection follows from the input given (`--tier`), so a non-Pro phone
+simply cannot produce a LiDAR capture; it uses the photo or video tier.
+
+Scale assumption for photo/video: the phone is held at chest height. On our
+three LiDAR walks the measured camera height was 1.40, 1.40 and 1.46 m
+(same person). A much taller or shorter person shifts every dimension
+proportionally; this is the dominant systematic error of those tiers.

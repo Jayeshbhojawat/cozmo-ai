@@ -61,19 +61,36 @@ This one page is what a non-engineer follows, verbatim, for every room.
    (see README). One command per capture. A walk through several rooms in one
    recording gives the whole stitched plan from that one command.
 
-## Photo tier (no LiDAR needed)
+## Photo tier (any iPhone, stock Camera app)
 
-Use the iPhone's native Camera app. Take 2–8 stills per room, walking a loop and
-photographing each wall roughly head-on, plus one photo into any doorway/opening.
-Put each room's stills in their own folder (`kitchen/`, `hallway/`, ...). No app
-install beyond the stock Camera app.
+For each room, in the order you walk through the home:
 
-## Video tier (no LiDAR needed)
+1. Make a folder named with a number and the room, e.g. `01_hall`,
+   `02_kitchen`, `03_bedroom` (the number is the walking order).
+2. Stand near the middle of the room, phone upright (portrait), at chest
+   height, pointing straight ahead (not at the floor or ceiling).
+3. Take a photo, then turn on the spot about a quarter of the way left and
+   take the next one, until you are back where you started: **6 to 8
+   photos per room, each overlapping the previous one by about a third**.
+   Keep your feet in the same place; only turn.
+4. Make sure every doorway of the room appears in at least one photo,
+   with both sides of its frame visible.
+5. Put that room's photos in its folder. Put all room folders in one
+   parent folder, then run:
+   `python -m cli.run capture --input <parent folder> --tier photo --out outputs/<name>`
 
-Use the iPhone's native Camera app in **Video** mode. Same walking instructions
-as the LiDAR tier above (perimeter walk, 20–45 seconds, through connectors without
-stopping), just without LiDAR depth recorded. Save as a single `.mov`/`.mp4` per
-room (or one continuous clip for a multi-room walkthrough).
+## Video tier (any iPhone, stock Camera app, Video mode)
+
+1. Start recording in the first room, phone upright at chest height.
+2. **In the middle of every room: stop and turn slowly on the spot through
+   one full circle** (about 10-15 seconds per circle). Keep your feet still.
+3. Walk to the next room (through the doorway, at a normal pace) and do
+   the same. Repeat for every room. One continuous clip for the whole home.
+4. Run: `python -m cli.run capture --input <video file> --tier video --out outputs/<name>`
+
+Why the full turn: plain painted walls give the phone almost nothing to
+track while walking; turning on the spot lets the pipeline use the room's
+own walls, floor and ceiling as the reference instead.
 
 ## If this page is ambiguous
 

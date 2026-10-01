@@ -24,7 +24,13 @@ Z95 = 1.96
 # otherwise (1.0 = trust the model as-is). Set by benchmark/calibrate.py.
 LIDAR_SIGMA_INFLATION = 1.0
 
-TIER_REL_HALF_WIDTH = {"video": 0.03, "photo": 0.08}
+# Photo/video (pivot-scan) tiers: measured, not assumed. Five pivot
+# reconstructions vs the LiDAR plan of the same rooms gave room-area errors
+# of -2, +30, -28, +32, -3.5 % (RMS 22 %, i.e. ~11 % per length). The 95 %
+# half-width per length is set to 2 x 11 % ~= 22 %; the brief's tier
+# tolerances (photo 8 %, video 3 %) are therefore NOT met yet, and the
+# intervals say so instead of pretending.
+TIER_REL_HALF_WIDTH = {"video": 0.22, "photo": 0.22}
 
 
 @dataclasses.dataclass
@@ -53,7 +59,8 @@ def tier_prior(value: float, tier: str, unit: str = "m", power: int = 1) -> Meas
     rel = TIER_REL_HALF_WIDTH[tier] * power
     hw = abs(value) * rel
     return Measurement(value, unit, max(0.0, value - hw), value + hw,
-                       f"{tier}-tier prior: +-{rel*100:.0f}% (monocular scale from assumed camera height)")
+                       f"{tier}-tier interval +-{rel*100:.0f}% from measured pivot-scan error vs LiDAR "
+                       f"(5 rooms, area RMS 22%); monocular depth, scale from camera height")
 
 
 def lower_bound(value: float, upper: float, unit: str, basis: str) -> Measurement:

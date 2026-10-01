@@ -3,16 +3,24 @@
 Ordered by impact on the score. Each says what is wrong, the evidence, and
 what would fix it.
 
-## 1. Photo and video tiers do not exist yet
-`--tier video|photo` exits with a message. `reconstruction/sfm.py` holds a
-classical SfM prototype with a known bug (unit-norm translations chained
-without scale propagation -> scale explodes). Plan: ORB/essential-matrix
-poses with shared-track scale propagation + a small monocular depth model
-(MiDaS small; weights fetchable from GitHub releases by script) aligned per
-frame to the SfM points, metric scale from the floor-plane camera height,
-then the existing `layout.analyze` unchanged. The rgb.mp4 in every LiDAR
-capture is a real iPhone walkthrough video, so the video tier can be scored
-against the LiDAR result of the same walk.
+## 1. Photo and video tiers: working, but not accurate enough for their gates
+Built on per-room pivot scans (`reconstruction/pivot.py`): learned depth
+(Depth Anything V2 ViT-S, metric-indoor ONNX, fetched by script) for shape,
+room orientation from surface normals (no texture needed), scale from the
+chest-height camera. Measured against LiDAR on 5 pivot reconstructions:
+room-area error -2, +30, -28, +32, -3.5 % (RMS 22 %). The brief's gates are
++-8 % (photo) and +-3 % (video): **not met**. Intervals are widened to the
+measured error so they stay calibrated.
+Why feature tracking was abandoned: plain walls/ceilings/mirrors give
+24-73 ORB keypoints per frame; a free-walk PnP tracker reached 0.4 deg
+per-step rotation accuracy but could not relocalise after blank-wall
+moments (ATE ~1 m). Kept in `reconstruction/mono.py` (history) as evidence.
+Known failure cases: tiny rooms with mirrors (phantom depth), pivots done
+in a doorway (free space leaks into the next room), pivots short of a full
+turn (unseen walls). Room placement uses doorway matching; rooms with no
+detected opening are placed apart and reported unconnected.
+Not yet tested on real protocol captures (none exist yet): the numbers
+above come from natural pivots (~230 deg) inside the LiDAR walks.
 
 ## 2. No ground truth yet -> no scored gates, no calibration
 All intervals are model-based (surface-point scatter + 4 mm per-surface

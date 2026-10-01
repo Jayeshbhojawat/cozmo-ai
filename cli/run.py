@@ -165,20 +165,26 @@ def run_lidar(input_dir: Path, out_dir: Path, max_frames: int = 900, damage: boo
     return out
 
 
-def run_monocular(input_path: Path, out_dir: Path, tier: str) -> dict:
-    try:
-        from reconstruction.sfm import monocular_layout
-    except ImportError:
-        raise SystemExit(f"The {tier} tier is not implemented in this build yet "
-                         "(see docs/compliance_matrix.md). Use --tier lidar.")
+def run_monocular(input_path: Path, out_dir: Path, tier: str, rotate: str = "none") -> dict:
+    from reconstruction.monotier import photo_tier, video_tier
     from reconstruction.render import render_plan
     t0 = time.time()
-    layout, stats = monocular_layout(input_path, tier)
+    if tier == "photo":
+        layout, stats = photo_tier(input_path)
+    else:
+        video = input_path
+        if input_path.is_dir():
+            vids = sorted([p for p in input_path.iterdir() if p.suffix.lower() in (".mp4", ".mov", ".m4v")])
+            if not vids:
+                raise SystemExit(f"No video file in {input_path}")
+            video = vids[0]
+        layout, stats = video_tier(video, rotate=rotate)
     out_dir.mkdir(parents=True, exist_ok=True)
     png = render_plan(layout, str(out_dir / "plan.png"), title=f"{input_path.name} - {tier} tier")
-    timings = {"total": round(time.time() - t0, 2), **{f"sfm_{k}": v for k, v in stats.items()}}
+    timings = {"total": round(time.time() - t0, 2), **{f"rec_{k}": v for k, v in stats.items()}}
     out = layout_to_json(layout, input_path.name, tier, png, {}, timings, sigma_basis=tier)
-    (out_dir / "plan.json").write_text(json.dumps(out, indent=2))
+    out["reconstruction"] = {k: v for k, v in layout.diagnostics.items()}
+    (out_dir / "plan.json").write_text(json.dumps(out, indent=2, default=str))
     return out
 
 
@@ -191,6 +197,8 @@ def main(argv=None):
     p.add_argument("--out", required=True)
     p.add_argument("--max-frames", type=int, default=900)
     p.add_argument("--no-damage", action="store_true")
+    p.add_argument("--rotate", choices=["none", "cw", "ccw", "180"], default="none",
+                   help="video tier: rotate frames upright if the file has no orientation metadata")
     p.add_argument("--drift", choices=["auto", "on", "off"], default="auto",
                    help="plane-anchored heading-drift correction (auto = keep only if it improves registration)")
     args = parser.parse_args(argv)
@@ -199,7 +207,7 @@ def main(argv=None):
     if args.tier == "lidar":
         res = run_lidar(inp, out, max_frames=args.max_frames, damage=not args.no_damage, drift=args.drift)
     else:
-        res = run_monocular(inp, out, args.tier)
+        res = run_monocular(inp, out, args.tier, rotate=args.rotate)
     summary = {"rooms": len(res["rooms"]), "adjacency": [a["rooms"] for a in res["stitched_plan"]["adjacency"]],
                "footprint_m2": res["stitched_plan"]["footprint_m2"]["value"], "timing_s": res["timing_s"],
                "json": str(out / "plan.json"), "png": str(out / "plan.png")}
