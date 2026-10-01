@@ -13,7 +13,9 @@ This one page is what a non-engineer follows, verbatim, for every room.
 ## What to install
 
 1. Open the App Store on the iPhone (iPhone 12 Pro or newer, any "Pro" model, for
-   the LiDAR tier — any iPhone 15 or newer for photo/video tiers).
+   the LiDAR tier — any iPhone 15 or newer for photo/video tiers). A
+   non-Pro iPhone 15 has no LiDAR, so StrayScanner refuses to run on it:
+   use the video tier (Spectacular Rec) or photo tier on that phone.
 2. Search **"Stray Scanner"**, install it (free). No account/login required.
 3. Open the app once and grant camera access when prompted. Nothing else to
    configure.
@@ -79,18 +81,31 @@ For each room, in the order you walk through the home:
    parent folder, then run:
    `python -m cli.run capture --input <parent folder> --tier photo --out outputs/<name>`
 
-## Video tier (any iPhone, stock Camera app, Video mode)
+## Video tier (any iPhone 15 or newer) — recommended: Spectacular Rec
 
-1. Start recording in the first room, phone upright at chest height.
-2. **In the middle of every room: stop and turn slowly on the spot through
-   one full circle** (about 10-15 seconds per circle). Keep your feet still.
-3. Walk to the next room (through the doorway, at a normal pace) and do
-   the same. Repeat for every room. One continuous clip for the whole home.
-4. Run: `python -m cli.run capture --input <video file> --tier video --out outputs/<name>`
+**App:** "Spectacular Rec" (free, App Store, by Spectacular AI). It records
+normal video **plus the phone's motion sensors**, which lets the pipeline
+compute where the phone was at every frame in real metres. No LiDAR needed.
 
-Why the full turn: plain painted walls give the phone almost nothing to
-track while walking; turning on the spot lets the pipeline use the room's
-own walls, floor and ceiling as the reference instead.
+1. Install Spectacular Rec, open it, allow camera + motion access.
+2. Stand in the first room, phone upright (portrait) at chest height. Tap record.
+3. **Hold still for 2 seconds** (the motion sensors settle), then walk the
+   room slowly (~0.3 m/s), pointing at every wall, corner and doorway for
+   about 2 seconds each. Tilt up to the ceiling once in the middle of the room.
+4. Walk slowly through the doorway into the next room and repeat. One
+   continuous recording for the whole home. Avoid fast spins.
+5. Stop. In the app's recordings list, share the recording folder (it holds
+   `data.mov`, `data.jsonl`, `calibration.json`, `metadata.json`) to the
+   computer, then run:
+   `python -m cli.run capture --input <recording folder> --tier video --out outputs/<name>`
+   (on Apple Silicon Macs use the Docker command in the README: the
+   motion-tracking library ships Linux/Windows x86 builds only.)
+
+**Fallback (no app install possible): stock Camera app, Video mode.**
+In the middle of every room stop and turn slowly on the spot through one
+full circle (10-15 s); walk to the next room and repeat; one clip. Run the
+same command with the video file as `--input`. This path has no motion
+sensors, so it estimates scale from camera height and is much less accurate.
 
 ## If this page is ambiguous
 

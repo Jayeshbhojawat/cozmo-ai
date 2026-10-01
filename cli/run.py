@@ -165,6 +165,38 @@ def run_lidar(input_dir: Path, out_dir: Path, max_frames: int = 900, damage: boo
     return out
 
 
+def run_posed_video(input_path: Path, out_dir: Path, recompute: bool = False, max_frames: int = 250) -> dict:
+    """Video tier with the phone's motion tracking: Spectacular Rec recording
+    (poses from video + motion sensors via the Spectacular AI SDK), or a
+    StrayScanner folder used as video + poses only (LiDAR depth ignored)."""
+    from reconstruction.video_posed import posed_clouds
+    from reconstruction.layout import analyze
+    from reconstruction.render import render_plan
+    t0 = time.time()
+    if (input_path / "data.jsonl").exists():
+        from capture.spectacular import load_spectacular
+        cap = load_spectacular(input_path, recompute=recompute)
+        video, source = input_path / "data.mov", "spectacular_rec"
+    else:
+        from capture.loader import load_capture
+        cap = load_capture(input_path)
+        video, source = input_path / "rgb.mp4", "strayscanner_video_and_poses_only"
+    t1 = time.time()
+    clouds, used, st = posed_clouds(cap, video, max_frames=max_frames)
+    traj = np.array([f.position[[0, 2]] for f in cap.frames])
+    from reconstruction.drift import correct_drift
+    clouds, drift_report = correct_drift(clouds, [f.timestamp for f in used], mode="auto")
+    layout = analyze(clouds, traj)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    png = render_plan(layout, str(out_dir / "plan.png"), title=f"{input_path.name} - video tier")
+    timings = {"poses": round(t1 - t0, 2), "total": round(time.time() - t0, 2)}
+    out = layout_to_json(layout, input_path.name, "video", png, {}, timings, sigma_basis="video_posed")
+    out["reconstruction"] = {"path": "posed_video", "pose_source": source, **st}
+    out["drift"] = drift_report
+    (out_dir / "plan.json").write_text(json.dumps(out, indent=2, default=str))
+    return out
+
+
 def run_monocular(input_path: Path, out_dir: Path, tier: str, rotate: str = "none") -> dict:
     from reconstruction.monotier import photo_tier, video_tier
     from reconstruction.render import render_plan
@@ -199,6 +231,8 @@ def main(argv=None):
     p.add_argument("--no-damage", action="store_true")
     p.add_argument("--rotate", choices=["none", "cw", "ccw", "180"], default="none",
                    help="video tier: rotate frames upright if the file has no orientation metadata")
+    p.add_argument("--recompute-poses", action="store_true",
+                   help="video tier (Spectacular Rec): recompute camera poses instead of using poses_cache.json")
     p.add_argument("--drift", choices=["auto", "on", "off"], default="auto",
                    help="plane-anchored heading-drift correction (auto = keep only if it improves registration)")
     args = parser.parse_args(argv)
@@ -206,6 +240,8 @@ def main(argv=None):
     inp, out = Path(args.input), Path(args.out)
     if args.tier == "lidar":
         res = run_lidar(inp, out, max_frames=args.max_frames, damage=not args.no_damage, drift=args.drift)
+    elif args.tier == "video" and inp.is_dir() and ((inp / "data.jsonl").exists() or (inp / "odometry.csv").exists()):
+        res = run_posed_video(inp, out, recompute=args.recompute_poses)
     else:
         res = run_monocular(inp, out, args.tier, rotate=args.rotate)
     summary = {"rooms": len(res["rooms"]), "adjacency": [a["rooms"] for a in res["stitched_plan"]["adjacency"]],

@@ -29,6 +29,15 @@ rooms. Pivot windows are now capped at 20 s (protocol: a full circle in
 10-15 s). At the protocol threshold (270 deg) the same walk yields 0
 pivots and a clear protocol error instead of phantom rooms.
 
+## 1b. Posed video tier (Spectacular Rec): new, unscored
+Metric poses from video + motion sensors (works on non-Pro iPhones);
+learned depth scaled per frame by triangulation against neighbouring posed
+frames (reprojection < 2 px, parallax > 2 deg). First iPhone 15 recording
+(corridor + bathroom + bedroom, not a protocol walk): 2 rooms + a door,
+ceiling not seen; the corridor and bedroom merged into one L-shaped room.
+No damage detection on this tier yet. Runtime ~4.5 min on CPU (depth model
+over 250 frames). Needs a protocol recording + tape measurements to score.
+
 ## 2. No ground truth yet -> no scored gates, no calibration
 All intervals are model-based (surface-point scatter + 4 mm per-surface
 bias + 0.3% scale). They have not been checked against tape/laser.

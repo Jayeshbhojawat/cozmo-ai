@@ -289,3 +289,78 @@ def video_frame_clouds_v2(cap, video_path, max_frames=300, stride=4, max_depth=5
     stats = {"frames": len(used), "global_scale": float(lam), "scale_median": float(np.median(scales)),
              "scale_p10_p90": [float(np.percentile(scales, 10)), float(np.percentile(scales, 90))]}
     return clouds, used, stats
+
+
+def posed_clouds(cap, video_path, max_frames=300, stride=4, max_depth=5.0, log=None):
+    """Generic posed-video path (frames looked up by video frame number, so it
+    works for any pose source: StrayScanner odometry or Spectacular AI VIO).
+    Per-frame scale from triangulation against nearby frames using the known
+    poses; frames without enough triangulated points borrow neighbours' scale.
+    Returns (frame_clouds, used_frames, stats)."""
+    by_idx = {f.index: f for f in cap.frames}
+    nums = sorted(by_idx)
+    step = max(1, len(nums) // max_frames)
+    want = nums[::step]
+    want_set = set(want)
+    vc = cv2.VideoCapture(str(video_path))
+    imgs, grays, i = {}, {}, 0
+    while True:
+        ok = vc.grab()
+        if not ok:
+            break
+        if i in want_set:
+            ok, img = vc.retrieve()
+            if ok:
+                imgs[i] = img
+                g = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                grays[i] = cv2.resize(g, (FEAT_W, int(round(g.shape[0] * FEAT_W / g.shape[1]))))
+        i += 1
+    vc.release()
+    seq = [k for k in want if k in imgs]
+    orb = cv2.ORB_create(nfeatures=3000, fastThreshold=10)
+    bf = cv2.BFMatcher(cv2.NORM_HAMMING)
+    depths, sc, npts = {}, [], []
+    for c, k in enumerate(seq):
+        fa = by_idx[k]
+        depths[k] = depth_for_frame(imgs[k], fa.rotation_matrix())
+        best = (None, 0)
+        for off in (3, -3, 5, -5, 8, -8, 12, -12):
+            j = c + off
+            if not (0 <= j < len(seq)):
+                continue
+            fb = by_idx[seq[j]]
+            if np.linalg.norm(fb.position - fa.position) < 0.10:
+                continue
+            s, m = triangulated_scale(fa, fb, grays[k], grays[seq[j]], depths[k], cap.rgb_shape, orb, bf)
+            if s is not None and m > best[1]:
+                best = (s, m)
+            if best[1] >= 80:
+                break
+        sc.append(best[0] if best[0] is not None else np.nan)
+        npts.append(best[1])
+        if log and c % 50 == 0:
+            log(f"  posed video: {c}/{len(seq)} frames")
+    sv = np.array(sc, float)
+    good = np.isfinite(sv)
+    if good.sum() < 3:
+        raise SystemExit("Too few frames could be scaled by triangulation (video too static, blurred or textureless).")
+    filled = np.interp(np.arange(len(seq)), np.where(good)[0], sv[good])
+    smooth = np.array([np.median(filled[max(0, a - 4):a + 5]) for a in range(len(seq))])
+    ys, xs = np.mgrid[0:DEPTH_H:stride, 0:DEPTH_W:stride].astype(np.float32)
+    sx, sy = DEPTH_W / cap.rgb_shape[1], DEPTH_H / cap.rgb_shape[0]
+    clouds, used = [], []
+    for a, k in enumerate(seq):
+        f = by_idx[k]
+        d = depths[k][::stride, ::stride] * smooth[a]
+        gy, gx = np.gradient(np.log(np.maximum(depths[k], 1e-3)))
+        m = (d > 0.3) & (d < max_depth) & (np.hypot(gx, gy)[::stride, ::stride] < 0.08)
+        fx, fy, cx, cy = f.fx * sx, f.fy * sy, f.cx * sx, f.cy * sy
+        P = np.stack([(xs[m] - cx) / fx * d[m], (ys[m] - cy) / fy * d[m], d[m]], 1)
+        T = f.pose_matrix()
+        clouds.append((f.position, P @ T[:3, :3].T + T[:3, 3]))
+        used.append(f)
+    stats = {"frames": len(seq), "frames_scaled_directly": int(good.sum()),
+             "median_triangulated_points": float(np.median(npts)),
+             "scale_median": float(np.median(smooth)),
+             "scale_p10_p90": [float(np.percentile(smooth, 10)), float(np.percentile(smooth, 90))]}
+    return clouds, used, stats

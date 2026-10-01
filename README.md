@@ -44,7 +44,22 @@ Photo tier (one sub-folder of 6-8 stills per room, taken turning on the spot):
 python -m cli.run capture --input path/to/photo_folders --tier photo --out outputs/my_flat_photo
 ```
 
-Video tier (one clip; turn a full circle in the middle of every room):
+Video tier, recommended (Spectacular Rec recording folder: video + motion sensors,
+any iPhone 15+; needs `pip install -r requirements-video.txt`, Linux/Windows x86_64):
+
+```bash
+python -m cli.run capture --input path/to/spectacular_recording --tier video --out outputs/my_flat_video
+```
+
+On an Apple Silicon Mac (no native build of the motion-tracking library), use Docker:
+
+```bash
+docker build --platform linux/amd64 -t cozmo .
+docker run --rm --platform linux/amd64 -v "$PWD/data:/data" -v "$PWD/outputs:/outputs" cozmo \
+    capture --input /data/my_recording --tier video --out /outputs/my_flat_video
+```
+
+Video tier fallback (stock Camera clip; turn a full circle in the middle of every room):
 
 ```bash
 python -m cli.run capture --input path/to/walk.mov --tier video --out outputs/my_flat_video
@@ -69,7 +84,7 @@ Raw captures are not in git (size); they are shipped separately and go in
 ## Layout
 
 ```
-capture/         StrayScanner export -> frames, poses, intrinsics
+capture/         StrayScanner export / Spectacular Rec recording -> frames, poses, intrinsics
 reconstruction/  backproject (depth -> points), drift (yaw correction),
                  layout (rooms, walls, doors, ceilings), confidence, render, sfm (WIP)
 damage/          per-surface damage detection + concealed-damage rules

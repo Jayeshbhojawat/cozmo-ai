@@ -30,7 +30,14 @@ LIDAR_SIGMA_INFLATION = 1.0
 # half-width per length is set to 2 x 11 % ~= 22 %; the brief's tier
 # tolerances (photo 8 %, video 3 %) are therefore NOT met yet, and the
 # intervals say so instead of pretending.
-TIER_REL_HALF_WIDTH = {"video": 0.22, "photo": 0.22}
+TIER_REL_HALF_WIDTH = {"video": 0.22, "photo": 0.22, "video_posed": 0.22}
+_BASIS = {
+    "video": "from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height",
+    "photo": "from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height",
+    "video_posed": ("PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the "
+                    "pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion "
+                    "(visual-inertial) poses, learned depth scaled by triangulation"),
+}
 
 
 @dataclasses.dataclass
@@ -59,8 +66,7 @@ def tier_prior(value: float, tier: str, unit: str = "m", power: int = 1) -> Meas
     rel = TIER_REL_HALF_WIDTH[tier] * power
     hw = abs(value) * rel
     return Measurement(value, unit, max(0.0, value - hw), value + hw,
-                       f"{tier}-tier interval +-{rel*100:.0f}% from measured pivot-scan error vs LiDAR "
-                       f"(5 rooms, area RMS 22%); monocular depth, scale from camera height")
+                       f"{tier}-tier interval +-{rel*100:.0f}% {_BASIS[tier]}")
 
 
 def lower_bound(value: float, upper: float, unit: str, basis: str) -> Measurement:

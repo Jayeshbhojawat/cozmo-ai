@@ -1,0 +1,4 @@
+# Video tier pose computation (Spectacular Rec recordings). The SDK ships
+# wheels for Linux x86_64 and Windows only; on macOS use the Docker image
+# (see README). Free for non-commercial use; disclosed in the report.
+spectacularAI>=1.53
