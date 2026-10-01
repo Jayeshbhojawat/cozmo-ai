@@ -8,3 +8,5 @@ data/samples/*/rgb.mp4
 *.mp4
 outputs/
 .DS_Store
+data/samples/
+data/samples_full/
