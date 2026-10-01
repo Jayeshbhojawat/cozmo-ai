@@ -1,169 +1,143 @@
-"""Stitches multiple single-room RoomFits into one whole-property plan.
+"""Placing separately-captured rooms into one plan, and correcting drift
+between repeated captures.
 
-Input: a list of (room_id, RoomFit, capture) where `capture` is the loaded
-Capture for that room (its pose trajectory is what lets us place rooms
-relative to each other). Two placement paths:
+A single continuous LiDAR walkthrough does not need this module: every room
+comes out of `reconstruction/layout.py` already in one shared plan frame,
+with adjacency from the doorway cuts. This module is for the cases where
+rooms do NOT share a pose frame:
+  * photo tier (one folder of stills per room), and
+  * the repeatability / drift ablation (the same room captured twice).
 
-1. **Single continuous capture spanning multiple rooms** (the brief's
-   "connector" pass): all rooms share one unbroken pose trajectory, so every
-   room's walls are already in the same world frame — stitching is just
-   concatenating them, no alignment needed. This is the expected case for
-   the required multi-room benchmark capture.
-
-2. **Separately-captured rooms** (e.g. per-room photo folders, or separate
-   LiDAR sessions per room): no shared pose frame exists. These need a
-   relative transform from somewhere else -- a shared doorway/wall detected
-   in both captures, or a user-supplied adjacency hint. This build supports
-   explicit adjacency hints (room A's wall i touches room B's wall j at a
-   given opening) and solves for the rigid transform that aligns those two
-   walls; it does not yet attempt automatic overlap detection between
-   independently-posed captures.
-
-Drift accountability (Part 2 gate): `stitch_rooms(..., correct_drift=True/False)`
-exposes the on/off switch the ablation requires. When True, this applies a
-simple pose-graph-lite correction: for every room that appears more than
-once in the capture list (same `room_id` on separate passes), the later
-pass is rigidly aligned to the first pass by minimizing wall-corner
-distance, and that same correction is propagated to any room stitched
-relative to it. "Poses used as-is" (correct_drift=False) is kept available
-specifically so the required ablation can show both.
+Bugs fixed in this version (found in review, each now covered by a test in
+tests/test_stitch.py):
+  * wall-to-wall alignment translated by a.p0 - R b.p0; facing walls run in
+    opposite directions, so that placed the neighbour diagonally, touching
+    only at a corner. Now aligns wall midpoints.
+  * repeated-room alignment paired walls by list index, but wall order is
+    not stable between captures. Now uses ICP over points sampled along the
+    walls (correspondence-free).
+  * the "footprint" used for the drift ablation was a sum of per-room areas,
+    which a rigid transform cannot change, so the ablation would always show
+    no difference. Now it is the area of the union of the placed polygons
+    (overlaps counted once), and overlap area is reported separately.
 """
 from __future__ import annotations
 
-import dataclasses
-
 import numpy as np
-
-from reconstruction.room_fit import RoomFit, WallSegment
-
-
-@dataclasses.dataclass
-class PlacedRoom:
-    room_id: str
-    fit: RoomFit
-    transform: np.ndarray  # 3x3 homogeneous 2D transform applied to this room's wall coords
+from matplotlib.path import Path as MplPath
+from scipy.spatial import cKDTree
 
 
-def _apply_transform(fit: RoomFit, T: np.ndarray) -> RoomFit:
-    def tx(p):
-        v = np.array([p[0], p[1], 1.0])
-        v2 = T @ v
-        return v2[:2]
-    new_walls = [
-        WallSegment(p0=tx(w.p0), p1=tx(w.p1), length_m=w.length_m, n_inliers=w.n_inliers,
-                    openings=w.openings, line=None)
-        for w in fit.walls
-    ]
-    return RoomFit(floor_y=fit.floor_y, ceiling_y=fit.ceiling_y, ceiling_height_m=fit.ceiling_height_m,
-                    walls=new_walls, floor_area_m2=fit.floor_area_m2, n_points=fit.n_points,
-                    confidence=fit.confidence)
+def transform(T: np.ndarray, pts: np.ndarray) -> np.ndarray:
+    pts = np.asarray(pts, float)
+    return pts @ T[:2, :2].T + T[:2, 2]
 
 
-def stitch_continuous_capture(room_fits: dict[str, RoomFit]) -> dict[str, PlacedRoom]:
-    """Rooms segmented out of one continuous walkthrough already share a world
-    frame (all poses came from the same unbroken trajectory) -- identity
-    transform for every room. This is the straightforward, intended case."""
-    identity = np.eye(3)
-    return {rid: PlacedRoom(room_id=rid, fit=fit, transform=identity) for rid, fit in room_fits.items()}
-
-
-def _rigid_align_wall_to_wall(wall_a: WallSegment, wall_b: WallSegment) -> np.ndarray:
-    """Returns the 3x3 transform that maps wall_b onto wall_a (endpoints
-    coincide, direction reversed since the two rooms face each other across
-    the shared wall/opening)."""
-    da = wall_a.p1 - wall_a.p0
-    db = wall_b.p1 - wall_b.p0
-    angle_a = np.arctan2(da[1], da[0])
-    angle_b = np.arctan2(db[1], db[0])
-    theta = angle_a - angle_b + np.pi  # +pi: shared wall faces the other room
+def _T(theta, t):
     c, s = np.cos(theta), np.sin(theta)
-    R = np.array([[c, -s], [s, c]])
-    t = wall_a.p0 - R @ wall_b.p0
     T = np.eye(3)
-    T[:2, :2] = R
+    T[:2, :2] = [[c, -s], [s, c]]
     T[:2, 2] = t
     return T
 
 
-def stitch_with_adjacency_hints(room_fits: dict[str, RoomFit],
-                                 anchor_room: str,
-                                 adjacency: list[tuple[str, int, str, int]]) -> dict[str, PlacedRoom]:
-    """adjacency: list of (room_a, wall_index_a, room_b, wall_index_b) pairs
-    stating that these two walls are the same shared partition. Rooms are
-    placed by propagating transforms outward from `anchor_room` (identity)
-    through the adjacency graph via BFS."""
-    placed: dict[str, np.ndarray] = {anchor_room: np.eye(3)}
-    adj_by_room: dict[str, list[tuple[str, int, str, int]]] = {}
-    for a, ia, b, ib in adjacency:
-        adj_by_room.setdefault(a, []).append((a, ia, b, ib))
-        adj_by_room.setdefault(b, []).append((b, ib, a, ia))
+def align_shared_wall(a0, a1, b0, b1) -> np.ndarray:
+    """Transform for room B such that its wall (b0->b1) lies on room A's wall
+    (a0->a1), facing it (directions opposite, midpoints coincident). Works
+    when the two rooms measured the shared wall with different lengths."""
+    a0, a1, b0, b1 = map(lambda p: np.asarray(p, float), (a0, a1, b0, b1))
+    da, db = a1 - a0, b1 - b0
+    theta = np.arctan2(da[1], da[0]) - np.arctan2(db[1], db[0]) + np.pi
+    R = _T(theta, [0, 0])[:2, :2]
+    t = (a0 + a1) / 2 - R @ ((b0 + b1) / 2)
+    return _T(theta, t)
 
-    frontier = [anchor_room]
+
+def place_by_adjacency(polygons: dict, anchor: str, hints: list) -> dict:
+    """polygons: {room_id: (N,2) polygon in its own frame}.
+    hints: [(room_a, wall_idx_a, room_b, wall_idx_b)] where wall k of a room
+    is polygon[k] -> polygon[k+1]. BFS from the anchor room. Returns
+    {room_id: 3x3 transform}; rooms unreachable from the anchor are omitted
+    (reported as unplaced rather than dropped somewhere arbitrary)."""
+    placed = {anchor: np.eye(3)}
+    adj = {}
+    for a, ia, b, ib in hints:
+        adj.setdefault(a, []).append((ia, b, ib))
+        adj.setdefault(b, []).append((ib, a, ia))
+    frontier = [anchor]
     while frontier:
-        room = frontier.pop()
-        for (ra, ia, rb, ib) in adj_by_room.get(room, []):
-            if rb in placed:
+        a = frontier.pop()
+        Pa = transform(placed[a], polygons[a])
+        for ia, b, ib in adj.get(a, []):
+            if b in placed:
                 continue
-            wall_a_local = room_fits[ra].walls[ia]
-            wall_a_world = wall_a_local
-            if not np.array_equal(placed[ra], np.eye(3)):
-                def tx(p, T=placed[ra]):
-                    v = np.array([p[0], p[1], 1.0])
-                    return (T @ v)[:2]
-                wall_a_world = WallSegment(p0=tx(wall_a_local.p0), p1=tx(wall_a_local.p1),
-                                            length_m=wall_a_local.length_m, n_inliers=wall_a_local.n_inliers,
-                                            openings=wall_a_local.openings, line=None)
-            wall_b_local = room_fits[rb].walls[ib]
-            T_b = _rigid_align_wall_to_wall(wall_a_world, wall_b_local)
-            placed[rb] = T_b
-            frontier.append(rb)
-
-    result = {}
-    for rid, fit in room_fits.items():
-        T = placed.get(rid, np.eye(3))
-        result[rid] = PlacedRoom(room_id=rid, fit=_apply_transform(fit, T), transform=T)
-    return result
+            Pb = np.asarray(polygons[b], float)
+            nA, nB = len(Pa), len(Pb)
+            placed[b] = align_shared_wall(Pa[ia], Pa[(ia + 1) % nA], Pb[ib], Pb[(ib + 1) % nB])
+            frontier.append(b)
+    return placed
 
 
-def correct_drift_repeated_rooms(placed: dict[str, PlacedRoom],
-                                  repeat_pairs: list[tuple[str, str]]) -> dict[str, PlacedRoom]:
-    """For each (first_pass_room_id, second_pass_room_id) pair of the SAME
-    physical room captured twice, rigidly aligns the second pass onto the
-    first (least-squares over wall midpoints) and applies that same
-    correction to the transform. This is the 'plane-anchored correction'
-    named in Part 2's drift-accountability gate -- anchors later passes back
-    to the first-seen geometry of a known-shared plane (the repeated room)
-    rather than trusting accumulated pose drift."""
-    corrected = dict(placed)
-    for first_id, second_id in repeat_pairs:
-        if first_id not in placed or second_id not in placed:
-            continue
-        mids_first = np.array([(w.p0 + w.p1) / 2 for w in placed[first_id].fit.walls])
-        mids_second = np.array([(w.p0 + w.p1) / 2 for w in placed[second_id].fit.walls])
-        n = min(len(mids_first), len(mids_second))
-        if n < 2:
-            continue
-        mids_first, mids_second = mids_first[:n], mids_second[:n]
-        mean_f, mean_s = mids_first.mean(axis=0), mids_second.mean(axis=0)
-        H = (mids_second - mean_s).T @ (mids_first - mean_f)
+def _sample_boundary(P, step=0.05):
+    P = np.asarray(P, float)
+    out = []
+    for k in range(len(P)):
+        a, b = P[k], P[(k + 1) % len(P)]
+        n = max(int(np.linalg.norm(b - a) / step), 1)
+        out.append(a + (b - a) * (np.arange(n)[:, None] / n))
+    return np.vstack(out)
+
+
+def icp_2d(src_pts, dst_pts, iters=40, max_dist=0.5) -> np.ndarray:
+    """Rigid 2D ICP, src -> dst. Returns 3x3 transform."""
+    tree = cKDTree(dst_pts)
+    T = np.eye(3)
+    cur = np.asarray(src_pts, float).copy()
+    # initialise with centroid alignment
+    T0 = _T(0.0, dst_pts.mean(0) - cur.mean(0))
+    cur = transform(T0, cur)
+    T = T0 @ T
+    for _ in range(iters):
+        d, idx = tree.query(cur)
+        m = d < max_dist
+        if m.sum() < 3:
+            break
+        A, B = cur[m], dst_pts[idx[m]]
+        ma, mb = A.mean(0), B.mean(0)
+        H = (A - ma).T @ (B - mb)
         U, _, Vt = np.linalg.svd(H)
         R = Vt.T @ U.T
         if np.linalg.det(R) < 0:
-            Vt[-1, :] *= -1
+            Vt[-1] *= -1
             R = Vt.T @ U.T
-        t = mean_f - R @ mean_s
-        T_correction = np.eye(3)
-        T_correction[:2, :2] = R
-        T_correction[:2, 2] = t
-        new_T = T_correction @ placed[second_id].transform
-        corrected[second_id] = PlacedRoom(room_id=second_id,
-                                           fit=_apply_transform(placed[second_id].fit, T_correction),
-                                           transform=new_T)
-    return corrected
+        step = np.eye(3)
+        step[:2, :2] = R
+        step[:2, 2] = mb - R @ ma
+        cur = transform(step, cur)
+        T = step @ T
+        if np.linalg.norm(step[:2, 2]) < 1e-5 and abs(np.arctan2(R[1, 0], R[0, 0])) < 1e-6:
+            break
+    return T
 
 
-def footprint_area_m2(placed: dict[str, PlacedRoom]) -> float:
-    """Sum of per-room polygon areas (rooms assumed non-overlapping once
-    placed) -- a simple proxy for whole-property footprint used by the
-    drift-ablation comparison (on vs off)."""
-    return float(sum(p.fit.floor_area_m2 for p in placed.values()))
+def align_repeat(poly_first, poly_second) -> np.ndarray:
+    """Plane-anchored drift correction between two captures of the same room:
+    align the second pass's walls onto the first pass's walls (ICP over wall
+    samples, no index correspondence assumed)."""
+    # dense target (1cm) so point-to-point matches are not biased by sample spacing
+    return icp_2d(_sample_boundary(poly_second, 0.05), _sample_boundary(poly_first, 0.01))
+
+
+def raster_union_overlap(polygons: list, res=0.02):
+    """(union_area, overlap_area) of placed polygons via rasterisation."""
+    allp = np.vstack(polygons)
+    lo, hi = allp.min(0) - res, allp.max(0) + res
+    xs = np.arange(lo[0], hi[0], res) + res / 2
+    ys = np.arange(lo[1], hi[1], res) + res / 2
+    gx, gy = np.meshgrid(xs, ys)
+    pts = np.stack([gx.ravel(), gy.ravel()], 1)
+    count = np.zeros(len(pts), np.int16)
+    for P in polygons:
+        count += MplPath(P).contains_points(pts)
+    cell = res * res
+    return float((count >= 1).sum() * cell), float((count >= 2).sum() * cell)

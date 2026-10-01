@@ -40,10 +40,12 @@ def opening_width_gate(predicted_openings: list[dict], ground_truth_openings: li
     n_phantom = len(predicted_openings) - len(pairs)
     n_missed = total - len(pairs)
     n_correct_width = sum(1 for p, g in pairs if abs(p["width_m"] - g["width_m"]) <= tol_m)
-    denom = max(total, 1)
+    # Brief: "a missed opening and a phantom opening each count as a miss" ->
+    # phantoms must enter the denominator, otherwise over-detection is free.
+    denom = max(total + n_phantom, 1)
     pass_rate = n_correct_width / denom
     passed = pass_rate >= 0.85
-    detail = (f"{n_correct_width}/{total} openings within {tol_m*100:.0f}cm "
+    detail = (f"{n_correct_width}/{total + n_phantom} scored openings within {tol_m*100:.0f}cm "
               f"({n_missed} missed, {n_phantom} phantom)")
     return GateResult("opening_widths", passed, detail, pass_rate)
 
@@ -64,10 +66,42 @@ def ceiling_height_gate(predicted_m: float, ground_truth_m: float,
     return GateResult("ceiling_height", passed, detail)
 
 
+def match_walls(poly_first, poly_second):
+    """Pairs walls of two captures of the same room without assuming the same
+    wall order: align pass 2 onto pass 1 (ICP), then match each wall to the
+    parallel wall with the nearest midpoint. Returns [(len1, len2)]; walls
+    with no counterpart within 0.3m are returned as (len1, None)."""
+    import numpy as np
+    from stitching.stitch import align_repeat, transform
+    P1 = np.asarray(poly_first, float)
+    P2 = transform(align_repeat(P1, poly_second), poly_second)
+    def walls(P):
+        out = []
+        for k in range(len(P)):
+            a, b = P[k], P[(k + 1) % len(P)]
+            d = b - a
+            out.append(((a + b) / 2, d / (np.linalg.norm(d) + 1e-12), float(np.linalg.norm(d))))
+        return out
+    w2 = walls(P2)
+    pairs = []
+    for m1, d1, l1 in walls(P1):
+        best, bd = None, 0.3
+        for m2, d2, l2 in w2:
+            if abs(abs(d1 @ d2) - 1) < 0.02 and np.linalg.norm(m1 - m2) < bd:
+                best, bd = l2, float(np.linalg.norm(m1 - m2))
+        pairs.append((l1, best))
+    return pairs
+
+
 def repeatability_gate(wall_lengths_pass1: list[float], wall_lengths_pass2: list[float],
                         abs_tol_m: float = 0.01, rel_tol: float = 0.005) -> GateResult:
+    """Lengths must already be paired wall-by-wall (use match_walls() on the
+    two room polygons; list order of two captures is not a correspondence)."""
     if len(wall_lengths_pass1) != len(wall_lengths_pass2) or not wall_lengths_pass1:
         return GateResult("repeatability", False, "wall count mismatch between passes -- cannot compare")
+    if any(b is None for b in wall_lengths_pass2):
+        n_missing = sum(b is None for b in wall_lengths_pass2)
+        return GateResult("repeatability", False, f"{n_missing} wall(s) have no counterpart in the repeat capture")
     diffs = [abs(a - b) for a, b in zip(wall_lengths_pass1, wall_lengths_pass2)]
     tols = [max(abs_tol_m, rel_tol * a) for a in wall_lengths_pass1]
     n_ok = sum(1 for d, t in zip(diffs, tols) if d <= t)

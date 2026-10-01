@@ -16,8 +16,9 @@ def test_opening_width_gate_counts_missed_and_phantom():
     pred = [{"position_m": 1.0, "width_m": 0.81}, {"position_m": 9.0, "width_m": 0.5}]  # phantom
     gt = [{"position_m": 1.0, "width_m": 0.81}, {"position_m": 3.0, "width_m": 1.2}]  # one missed
     r = opening_width_gate(pred, gt)
-    assert not r.passed  # 1/2 = 50% < 85%
-    assert r.pass_rate == 0.5
+    assert not r.passed
+    # 1 correct out of (2 ground truth + 1 phantom): phantoms count as misses
+    assert abs(r.pass_rate - 1 / 3) < 1e-9
 
 
 def test_ceiling_height_gate_flags_unrepeatable():
@@ -51,3 +52,19 @@ def test_photo_tier_stitch_gate():
     r2 = photo_tier_stitch_gate(predicted_footprint_m2=23.5, ground_truth_footprint_m2=25.0,
                                  rooms_placed=2, rooms_expected=3, no_overlaps=True)
     assert not r2.passed  # a room failed to place
+
+
+def test_phantom_openings_are_penalised():
+    gt = [{"position_m": 1.0, "width_m": 0.80}]
+    pred = [{"position_m": 1.0, "width_m": 0.80}, {"position_m": 5.0, "width_m": 0.9}]
+    r = opening_width_gate(pred, gt)
+    assert r.pass_rate == 0.5 and not r.passed
+
+
+def test_match_walls_independent_of_order():
+    import numpy as np
+    from benchmark.gates import match_walls
+    a = np.array([[0, 0], [4, 0], [4, 3], [0, 3]], float)
+    b = np.roll(a + [0.1, -0.05], 1, axis=0)
+    pairs = match_walls(a, b)
+    assert all(p2 is not None and abs(p1 - p2) < 1e-3 for p1, p2 in pairs)
