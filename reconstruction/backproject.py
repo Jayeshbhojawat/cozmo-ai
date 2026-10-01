@@ -58,17 +58,38 @@ def backproject_frame(capture: Capture, frame: Frame, min_confidence: int = 2, s
     if len(d) == 0:
         return np.zeros((0, 3), dtype=np.float32)
 
-    # Pinhole back-projection into camera space (ARKit camera: +x right, +y up,
-    # -z forward from the camera's point of view for the depth buffer's row
-    # convention; image row 0 is top).
+    # Pinhole back-projection in the OpenCV camera convention (+x right,
+    # +y down, +z forward). StrayScanner writes odometry.csv poses already
+    # converted to this convention (same as its reference StrayVisualizer,
+    # which feeds the raw pose straight into Open3D's OpenCV-convention
+    # RGBD projection). An earlier version of this file applied ARKit's
+    # native (+y up, -z forward) convention on top, i.e. flipped y/z twice.
+    # Verified empirically on all 3 sample captures: the OpenCV convention
+    # registers frames 2-4x more tightly (occupied 5cm voxels: 40k vs 169k,
+    # 107k vs 258k, 174k vs 317k) and puts the floor ~1.45-1.5m *below* the
+    # camera (chest height, per the capture protocol) instead of above it.
+    # World frame stays ARKit's gravity-aligned frame: +y is up.
     x_cam = (xs - cx) / fx * d
-    y_cam = -(ys - cy) / fy * d
-    z_cam = -d
+    y_cam = (ys - cy) / fy * d
+    z_cam = d
     pts_cam = np.stack([x_cam, y_cam, z_cam], axis=1)
 
     T = frame.pose_matrix()
     pts_world = (T[:3, :3] @ pts_cam.T).T + T[:3, 3]
     return pts_world.astype(np.float32)
+
+
+def iter_frame_clouds(capture: Capture, min_confidence: int = 2, stride: int = 4, frame_stride: int = 1):
+    """Yields (frame, world_points) per frame, keeping frame association
+    (needed for free-space ray carving: each point's ray starts at its own
+    frame's camera position)."""
+    for frame in capture.frames[::frame_stride]:
+        try:
+            pts = backproject_frame(capture, frame, min_confidence=min_confidence, stride=stride)
+        except FileNotFoundError:
+            continue
+        if len(pts):
+            yield frame, pts
 
 
 def build_point_cloud(capture: Capture, min_confidence: int = 2, stride: int = 2, frame_stride: int = 1):

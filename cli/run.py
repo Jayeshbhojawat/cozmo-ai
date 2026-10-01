@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
-"""One command per capture, as required by the output contract.
+"""One command per capture.
 
-Usage:
-    python -m cli.run capture --input <folder> --tier lidar|video|photo \
-        --room-id living_room --out outputs/living_room
+    python -m cli.run capture --input <folder> --tier lidar --out outputs/<name>
 
-Produces, under --out:
-    plan.json     JSON to schema/capture_schema.json
-    plan.png      rendered top-down plan
+LiDAR tier input: a StrayScanner export folder (rgb.mp4, depth/, confidence/,
+odometry.csv, imu.csv, camera_matrix.csv). A single continuous walk can
+cover one room or a whole property; rooms, doors and adjacency are found
+automatically and the stitched plan comes out of the same command.
+
+Video tier input: a folder containing one walkthrough video (or a path to
+the video file). Photo tier input: a folder of per-room sub-folders of
+stills. See docs/capture_protocol.md.
+
+Writes <out>/plan.json (schema/capture_schema.json) and <out>/plan.png.
 """
 from __future__ import annotations
 
@@ -15,129 +20,180 @@ import argparse
 import datetime
 import json
 import sys
+import time
 from pathlib import Path
 
 import numpy as np
 
-from capture.loader import load_capture
-from reconstruction.backproject import build_point_cloud
-from reconstruction.room_fit import fit_room
-from reconstruction.render import render_room_plan
-from reconstruction.confidence import interval_for_length, interval_for_height, interval_for_area, Measurement
-from damage.detect import detect_damage_for_room
-
-PIPELINE_VERSION = "0.1.0-24h-build"
+PIPELINE_VERSION = "0.2.0"
+CEILING_PLAUSIBLE_MAX = 4.5
 
 
-def _measurement_to_dict(m: Measurement) -> dict:
-    return {"value": round(m.value, 4), "unit": m.unit, "ci_low": round(m.ci_low, 4),
-            "ci_high": round(m.ci_high, 4), "basis": m.basis}
+def _opening_json(o, wall_id, j):
+    from reconstruction.confidence import from_sigma
+    return {
+        "opening_id": f"{wall_id}_o{j}", "kind": o.kind, "leads_to": o.leads_to,
+        "start_m": round(o.start_m, 4), "end_m": round(o.end_m, 4),
+        "width_m": from_sigma(o.width_m, o.width_sigma_m, "m",
+                              "jamb-to-jamb from surface points (model sigma, 95%)").to_dict(),
+    }
 
 
-def run_lidar_capture(input_dir: Path, room_id: str, out_dir: Path, min_confidence: int = 2,
-                       stride: int = 3) -> dict:
-    cap = load_capture(input_dir)
-    points = build_point_cloud(cap, min_confidence=min_confidence, stride=stride, frame_stride=1)
-    fit = fit_room(points)
-
-    walls_json = []
-    wall_measurements = []
-    for i, w in enumerate(fit.walls):
-        length_meas = interval_for_length(w.length_m, tier="lidar", n_inliers=w.n_inliers)
-        wall_measurements.append(length_meas)
-        openings_json = []
-        for j, (s, e) in enumerate(w.openings):
-            width_m = w.length_m * (e - s)
-            width_meas = interval_for_length(width_m, tier="lidar", n_inliers=w.n_inliers)
-            openings_json.append({
-                "opening_id": f"{room_id}_w{i}_o{j}", "start_frac": round(float(s), 4),
-                "end_frac": round(float(e), 4), "width_m": _measurement_to_dict(width_meas),
+def layout_to_json(layout, capture_id, tier, render_path, damage_by_room, timings, sigma_basis="lidar"):
+    from reconstruction.confidence import from_sigma, lower_bound, tier_prior
+    rooms_json = []
+    for r in layout.rooms:
+        walls = []
+        for w in r.walls:
+            if sigma_basis == "lidar":
+                length = from_sigma(w.length_m, w.length_sigma_m, "m",
+                                    "bounded by the two perpendicular wall planes (model sigma, 95%)"
+                                    if w.observed else "wall not observed; boundary inferred from free space")
+            else:
+                length = tier_prior(w.length_m, sigma_basis)
+            walls.append({
+                "wall_id": w.wall_id, "observed": bool(w.observed), "n_support_points": int(w.n_support),
+                "p0": [round(float(w.p0[0]), 4), round(float(w.p0[1]), 4)],
+                "p1": [round(float(w.p1[0]), 4), round(float(w.p1[1]), 4)],
+                "length_m": length.to_dict(),
+                "openings": [_opening_json(o, w.wall_id, j) for j, o in enumerate(w.openings)],
             })
-        walls_json.append({
-            "wall_id": f"{room_id}_w{i}", "length_m": _measurement_to_dict(length_meas),
-            "p0": [round(float(w.p0[0]), 4), round(float(w.p0[1]), 4)],
-            "p1": [round(float(w.p1[0]), 4), round(float(w.p1[1]), 4)],
-            "trusted": bool(w.n_inliers > 0), "openings": openings_json,
+        if r.ceiling_observed:
+            ceiling = (from_sigma(r.ceiling_height_m, r.ceiling_sigma_m, "m",
+                                  "ceiling plane minus floor plane, per room (model sigma, 95%)")
+                       if sigma_basis == "lidar" else tier_prior(r.ceiling_height_m, sigma_basis))
+        else:
+            ceiling = lower_bound(r.ceiling_height_m, CEILING_PLAUSIBLE_MAX, "m",
+                                  "ceiling NOT observed in this capture: value is the highest surface seen "
+                                  "(lower bound); upper bound is a plausibility limit, not a measurement")
+        area = (from_sigma(r.floor_area_m2, r.area_sigma_m2, "m2", "propagated from every wall-plane sigma")
+                if sigma_basis == "lidar" else tier_prior(r.floor_area_m2, sigma_basis, "m2", power=2))
+        dmg = damage_by_room.get(r.room_id, [])
+        rooms_json.append({
+            "room_id": r.room_id, "visited": bool(r.visited), "partial": bool(r.partial),
+            "wall_coverage": round(r.wall_coverage, 3),
+            "ceiling_observed": bool(r.ceiling_observed), "ceiling_height_m": ceiling.to_dict(),
+            "floor_area_m2": area.to_dict(),
+            "polygon": [[round(float(x), 4), round(float(y), 4)] for x, y in r.polygon],
+            "walls": walls, "damage_regions": dmg, "scope_line_items": _scope(dmg),
         })
 
-    ceiling_meas = interval_for_height(fit.ceiling_height_m, tier="lidar")
-    area_meas = interval_for_area(fit.floor_area_m2, tier="lidar", wall_measurements=wall_measurements)
+    adjacency = []
+    for a, b in layout.adjacency:
+        via = None
+        for r in layout.rooms:
+            if r.room_id != a:
+                continue
+            for w in r.walls:
+                for j, o in enumerate(w.openings):
+                    if o.leads_to == b:
+                        via = f"{w.wall_id}_o{j}"
+        adjacency.append({"rooms": [a, b], "via_opening": via})
+
+    total_area = sum(r.floor_area_m2 for r in layout.rooms)
+    total_sigma = float(np.sqrt(sum(r.area_sigma_m2 ** 2 for r in layout.rooms)))
+    from reconstruction.confidence import from_sigma as fs, tier_prior as tp
+    footprint = (fs(total_area, total_sigma, "m2", "sum of room areas (rooms are disjoint by construction)")
+                 if sigma_basis == "lidar" else tp(total_area, sigma_basis, "m2", power=2))
+    return {
+        "capture_id": capture_id, "tier": tier,
+        "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "pipeline_version": PIPELINE_VERSION,
+        "confidence_note": ("All intervals are 95%. LiDAR-tier intervals come from the measurement model "
+                            "(surface-point scatter + per-surface bias + scale term); see "
+                            "benchmark/calibration report for coverage against ground truth."
+                            if sigma_basis == "lidar" else
+                            f"{tier}-tier intervals are priors (no depth sensor; scale from assumed camera height)."),
+        "plan_frame": {"theta_deg": round(float(np.degrees(layout.theta_rad)), 3),
+                       "origin": [round(float(v), 4) for v in layout.origin],
+                       "note": "plan x,y = world (x,z) rotated by -theta so walls are axis-aligned, minus origin"},
+        "rooms": rooms_json,
+        "stitched_plan": {"rooms_placed": [r.room_id for r in layout.rooms], "adjacency": adjacency,
+                          "footprint_m2": footprint.to_dict(), "render_path": render_path},
+        "timing_s": timings,
+    }
+
+
+def _scope(damage):
+    items = []
+    for d in damage:
+        verb = {"water_stain": "Stain-block prime and repaint", "crack": "Rake out, fill and repaint crack"}
+        items.append({"item": verb.get(d["damage_class"], "Repair"), "surface_id": d["surface_id"],
+                      "quantity": round(max(d["extent_m2"]["value"], 0.1), 3), "unit": "m2",
+                      "damage_region_id": d["region_id"]})
+        if d["concealed_flag"]["flagged"]:
+            items.append({"item": "Investigate concealed damage: " + d["concealed_flag"]["rule"],
+                          "surface_id": d["surface_id"], "quantity": 1, "unit": "ea",
+                          "damage_region_id": d["region_id"]})
+    return items
+
+
+def run_lidar(input_dir: Path, out_dir: Path, max_frames: int = 900, damage: bool = True) -> dict:
+    from capture.loader import load_capture
+    from reconstruction.backproject import iter_frame_clouds
+    from reconstruction.layout import analyze
+    from reconstruction.render import render_plan
+
+    t0 = time.time()
+    cap = load_capture(input_dir)
+    fs = max(1, len(cap.frames) // max_frames)
+    frame_clouds = [(f.position, p) for f, p in iter_frame_clouds(cap, min_confidence=2, stride=4, frame_stride=fs)]
+    if not frame_clouds:
+        raise SystemExit(f"No depth frames found in {input_dir}/depth -- is this a LiDAR capture?")
+    traj = np.array([f.position[[0, 2]] for f in cap.frames])
+    t1 = time.time()
+    layout = analyze(frame_clouds, traj)
+    t2 = time.time()
+
+    damage_by_room = {}
+    if damage:
+        from damage.detect import detect_damage
+        damage_by_room = detect_damage(cap, layout)
+    t3 = time.time()
 
     out_dir.mkdir(parents=True, exist_ok=True)
-    png_path = out_dir / "plan.png"
-    render_room_plan(fit, str(png_path), room_id=room_id)
-
-    damage_regions = detect_damage_for_room(input_dir, fit, room_id)
-
-    room_json = {
-        "room_id": room_id,
-        "ceiling_height_m": _measurement_to_dict(ceiling_meas),
-        "floor_area_m2": _measurement_to_dict(area_meas),
-        "confidence": fit.confidence,
-        "walls": walls_json,
-        "damage_regions": damage_regions,
-        "scope_line_items": _scope_from_damage(damage_regions, room_id),
-    }
-
-    output = {
-        "capture_id": input_dir.name,
-        "tier": "lidar",
-        "generated_at": datetime.datetime.utcnow().isoformat() + "Z",
-        "pipeline_version": PIPELINE_VERSION,
-        "confidence_note": (
-            "LiDAR-tier intervals are anchored to Part 2's gate targets (openings <=2cm, "
-            "ceiling <=1.5cm) and widened for low-support walls or degenerate "
-            "(untrusted) geometry. Not yet replaced with measured calibration "
-            "from ground truth -- see benchmark report."
-        ),
-        "rooms": [room_json],
-        "stitched_plan": {
-            "rooms_placed": [room_id], "adjacency": [],
-            "footprint_m2": _measurement_to_dict(area_meas),
-            "render_path": str(png_path),
-        },
-    }
-
-    json_path = out_dir / "plan.json"
-    json_path.write_text(json.dumps(output, indent=2))
-    return output
+    png = render_plan(layout, str(out_dir / "plan.png"), title=f"{input_dir.name} - LiDAR tier")
+    timings = {"load_and_backproject": round(t1 - t0, 2), "layout": round(t2 - t1, 2),
+               "damage": round(t3 - t2, 2), "total": round(time.time() - t0, 2)}
+    out = layout_to_json(layout, input_dir.name, "lidar", png, damage_by_room, timings)
+    (out_dir / "plan.json").write_text(json.dumps(out, indent=2))
+    return out
 
 
-def _scope_from_damage(damage_regions: list[dict], room_id: str) -> list[dict]:
-    items = []
-    for d in damage_regions:
-        items.append({
-            "item": f"Repair {d['damage_class']}", "surface_wall_id": d["surface_wall_id"],
-            "quantity": round(d["extent_m2"]["value"], 3), "unit": "m2",
-        })
-    return items
+def run_monocular(input_path: Path, out_dir: Path, tier: str) -> dict:
+    from reconstruction.sfm import monocular_layout
+    from reconstruction.render import render_plan
+    t0 = time.time()
+    layout, stats = monocular_layout(input_path, tier)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    png = render_plan(layout, str(out_dir / "plan.png"), title=f"{input_path.name} - {tier} tier")
+    timings = {"total": round(time.time() - t0, 2), **{f"sfm_{k}": v for k, v in stats.items()}}
+    out = layout_to_json(layout, input_path.name, tier, png, {}, timings, sigma_basis=tier)
+    (out_dir / "plan.json").write_text(json.dumps(out, indent=2))
+    return out
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Cozmo AI capture pipeline")
     sub = parser.add_subparsers(dest="command", required=True)
-
-    cap_p = sub.add_parser("capture", help="Process one capture into a dimensioned plan")
-    cap_p.add_argument("--input", required=True, help="Capture folder")
-    cap_p.add_argument("--tier", required=True, choices=["lidar", "video", "photo"])
-    cap_p.add_argument("--room-id", default="room")
-    cap_p.add_argument("--out", required=True)
-    cap_p.add_argument("--min-confidence", type=int, default=2)
-    cap_p.add_argument("--stride", type=int, default=3, help="Depth-pixel stride (speed/density tradeoff)")
-
+    p = sub.add_parser("capture", help="Process one capture into dimensioned + stitched plans")
+    p.add_argument("--input", required=True)
+    p.add_argument("--tier", required=True, choices=["lidar", "video", "photo"])
+    p.add_argument("--out", required=True)
+    p.add_argument("--max-frames", type=int, default=900)
+    p.add_argument("--no-damage", action="store_true")
     args = parser.parse_args(argv)
 
-    if args.command == "capture":
-        input_dir = Path(args.input)
-        out_dir = Path(args.out)
-        if args.tier == "lidar":
-            result = run_lidar_capture(input_dir, args.room_id, out_dir,
-                                        min_confidence=args.min_confidence, stride=args.stride)
-        else:
-            print(f"Tier '{args.tier}' not yet wired into the CLI in this build.", file=sys.stderr)
-            sys.exit(2)
-        print(json.dumps({"room_id": args.room_id, "output": str(out_dir / "plan.json")}, indent=2))
+    inp, out = Path(args.input), Path(args.out)
+    if args.tier == "lidar":
+        res = run_lidar(inp, out, max_frames=args.max_frames, damage=not args.no_damage)
+    else:
+        res = run_monocular(inp, out, args.tier)
+    summary = {"rooms": len(res["rooms"]), "adjacency": [a["rooms"] for a in res["stitched_plan"]["adjacency"]],
+               "footprint_m2": res["stitched_plan"]["footprint_m2"]["value"], "timing_s": res["timing_s"],
+               "json": str(out / "plan.json"), "png": str(out / "plan.png")}
+    print(json.dumps(summary, indent=2))
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
