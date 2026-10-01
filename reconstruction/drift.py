@@ -121,6 +121,6 @@ def correct_drift(frame_clouds, timestamps, mode: str = "auto"):
         report["applied"] = True
         return corrected, report
     report["applied"] = False
-    report["reason"] = ("correction rejected: it loosened wall registration, so the VIO poses "
-                        "(already loop-closed by ARKit) were kept after audit")
+    report["reason"] = ("correction rejected: it loosened wall registration, so the phone's own "
+                        "visual-inertial poses were kept after audit")
     return frame_clouds, report

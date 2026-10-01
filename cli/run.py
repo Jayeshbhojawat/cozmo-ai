@@ -165,14 +165,30 @@ def run_lidar(input_dir: Path, out_dir: Path, max_frames: int = 900, damage: boo
     return out
 
 
-def run_posed_video(input_path: Path, out_dir: Path, recompute: bool = False, max_frames: int = 250) -> dict:
+def _find_recording(input_path: Path) -> Path:
+    """A Spectacular Rec export may arrive with an extra folder level (zip
+    unpacked into a folder): use the directory that holds data.jsonl."""
+    if (input_path / "data.jsonl").exists() or (input_path / "odometry.csv").exists():
+        return input_path
+    hits = sorted(input_path.rglob("data.jsonl"))
+    return hits[0].parent if hits else input_path
+
+
+def run_posed_video(input_path: Path, out_dir: Path, recompute: bool = False, max_frames: int = 250,
+                    drift: str = "auto", ablation: bool = True) -> dict:
     """Video tier with the phone's motion tracking: Spectacular Rec recording
     (poses from video + motion sensors via the Spectacular AI SDK), or a
-    StrayScanner folder used as video + poses only (LiDAR depth ignored)."""
+    StrayScanner folder used as video + poses only (LiDAR depth ignored).
+    With ablation=True the stitched footprint is also computed with the
+    drift correction forced off and forced on (same depth, same frames), so
+    every video run carries its own drift on/off evidence."""
     from reconstruction.video_posed import posed_clouds
     from reconstruction.layout import analyze
     from reconstruction.render import render_plan
+    from reconstruction.drift import correct_drift, registration_score
+    from stitching.stitch import raster_union_overlap
     t0 = time.time()
+    input_path = _find_recording(input_path)
     if (input_path / "data.jsonl").exists():
         from capture.spectacular import load_spectacular
         cap = load_spectacular(input_path, recompute=recompute)
@@ -182,17 +198,30 @@ def run_posed_video(input_path: Path, out_dir: Path, recompute: bool = False, ma
         cap = load_capture(input_path)
         video, source = input_path / "rgb.mp4", "strayscanner_video_and_poses_only"
     t1 = time.time()
-    clouds, used, st = posed_clouds(cap, video, max_frames=max_frames)
+    raw, used, st = posed_clouds(cap, video, max_frames=max_frames)
+    t2 = time.time()
     traj = np.array([f.position[[0, 2]] for f in cap.frames])
-    from reconstruction.drift import correct_drift
-    clouds, drift_report = correct_drift(clouds, [f.timestamp for f in used], mode="auto")
+    ts = [f.timestamp for f in used]
+    clouds, drift_report = correct_drift(raw, ts, mode=drift)
     layout = analyze(clouds, traj)
+    t3 = time.time()
     out_dir.mkdir(parents=True, exist_ok=True)
     png = render_plan(layout, str(out_dir / "plan.png"), title=f"{input_path.name} - video tier")
-    timings = {"poses": round(t1 - t0, 2), "total": round(time.time() - t0, 2)}
+    timings = {"poses": round(t1 - t0, 2), "depth_and_scale": round(t2 - t1, 2),
+               "drift_and_layout": round(t3 - t2, 2), "total": round(time.time() - t0, 2)}
     out = layout_to_json(layout, input_path.name, "video", png, {}, timings, sigma_basis="video_posed")
     out["reconstruction"] = {"path": "posed_video", "pose_source": source, **st}
     out["drift"] = drift_report
+    if ablation:
+        arms = {}
+        for mode in ("off", "on"):
+            c2, rep = correct_drift(raw, ts, mode=mode)
+            L2 = analyze(c2, traj)
+            union, overlap = raster_union_overlap([r.polygon for r in L2.rooms]) if L2.rooms else (0.0, 0.0)
+            arms[mode] = {"registration_voxels": registration_score(c2), "n_rooms": len(L2.rooms),
+                          "footprint_m2": round(float(sum(r.floor_area_m2 for r in L2.rooms)), 3),
+                          "footprint_union_m2": round(float(union), 3)}
+        out["drift_ablation"] = arms
     (out_dir / "plan.json").write_text(json.dumps(out, indent=2, default=str))
     return out
 
@@ -240,8 +269,8 @@ def main(argv=None):
     inp, out = Path(args.input), Path(args.out)
     if args.tier == "lidar":
         res = run_lidar(inp, out, max_frames=args.max_frames, damage=not args.no_damage, drift=args.drift)
-    elif args.tier == "video" and inp.is_dir() and ((inp / "data.jsonl").exists() or (inp / "odometry.csv").exists()):
-        res = run_posed_video(inp, out, recompute=args.recompute_poses)
+    elif args.tier == "video" and inp.is_dir() and (any(inp.rglob("data.jsonl")) or (inp / "odometry.csv").exists()):
+        res = run_posed_video(inp, out, recompute=args.recompute_poses, drift=args.drift)
     else:
         res = run_monocular(inp, out, args.tier, rotate=args.rotate)
     summary = {"rooms": len(res["rooms"]), "adjacency": [a["rooms"] for a in res["stitched_plan"]["adjacency"]],
