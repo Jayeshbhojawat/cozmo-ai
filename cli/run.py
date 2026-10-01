@@ -175,7 +175,7 @@ def _find_recording(input_path: Path) -> Path:
 
 
 def run_posed_video(input_path: Path, out_dir: Path, recompute: bool = False, max_frames: int = 250,
-                    drift: str = "auto", ablation: bool = True) -> dict:
+                    drift: str = "auto", ablation: bool = True, damage: bool = True) -> dict:
     """Video tier with the phone's motion tracking: Spectacular Rec recording
     (poses from video + motion sensors via the Spectacular AI SDK), or a
     StrayScanner folder used as video + poses only (LiDAR depth ignored).
@@ -198,18 +198,25 @@ def run_posed_video(input_path: Path, out_dir: Path, recompute: bool = False, ma
         cap = load_capture(input_path)
         video, source = input_path / "rgb.mp4", "strayscanner_video_and_poses_only"
     t1 = time.time()
-    raw, used, st = posed_clouds(cap, video, max_frames=max_frames)
+    depth_keep = {} if damage else None
+    raw, used, st = posed_clouds(cap, video, max_frames=max_frames, keep_depth=depth_keep)
     t2 = time.time()
     traj = np.array([f.position[[0, 2]] for f in cap.frames])
     ts = [f.timestamp for f in used]
     clouds, drift_report = correct_drift(raw, ts, mode=drift)
     layout = analyze(clouds, traj)
     t3 = time.time()
+    damage_by_room = {}
+    if damage:
+        from damage.detect import detect_damage_video
+        damage_by_room = detect_damage_video(cap, video, depth_keep, layout)
+    t4 = time.time()
     out_dir.mkdir(parents=True, exist_ok=True)
     png = render_plan(layout, str(out_dir / "plan.png"), title=f"{input_path.name} - video tier")
     timings = {"poses": round(t1 - t0, 2), "depth_and_scale": round(t2 - t1, 2),
-               "drift_and_layout": round(t3 - t2, 2), "total": round(time.time() - t0, 2)}
-    out = layout_to_json(layout, input_path.name, "video", png, {}, timings, sigma_basis="video_posed")
+               "drift_and_layout": round(t3 - t2, 2), "damage": round(t4 - t3, 2),
+               "total": round(time.time() - t0, 2)}
+    out = layout_to_json(layout, input_path.name, "video", png, damage_by_room, timings, sigma_basis="video_posed")
     out["reconstruction"] = {"path": "posed_video", "pose_source": source, **st}
     out["drift"] = drift_report
     if ablation:
@@ -270,7 +277,8 @@ def main(argv=None):
     if args.tier == "lidar":
         res = run_lidar(inp, out, max_frames=args.max_frames, damage=not args.no_damage, drift=args.drift)
     elif args.tier == "video" and inp.is_dir() and (any(inp.rglob("data.jsonl")) or (inp / "odometry.csv").exists()):
-        res = run_posed_video(inp, out, recompute=args.recompute_poses, drift=args.drift)
+        res = run_posed_video(inp, out, recompute=args.recompute_poses, drift=args.drift,
+                              damage=not args.no_damage)
     else:
         res = run_monocular(inp, out, args.tier, rotate=args.rotate)
     summary = {"rooms": len(res["rooms"]), "adjacency": [a["rooms"] for a in res["stitched_plan"]["adjacency"]],

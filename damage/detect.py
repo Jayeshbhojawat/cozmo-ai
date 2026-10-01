@@ -1,6 +1,7 @@
 """Per-surface damage detection with metric extent and concealed-damage rules.
 
-Pipeline (LiDAR tier):
+Pipeline (LiDAR tier; the video tier uses the same steps with learned,
+triangulation-scaled depth in place of LiDAR depth - detect_damage_video):
  1. Sample ~24 RGB frames evenly across the capture (video frame i <-> depth/
     pose frame i; verified: video frame counts equal odometry row counts).
  2. 2D candidate detection with classical, explainable cues (no trained
@@ -129,6 +130,7 @@ def _assign_surface(p_uv, h, layout, walls):
 
 
 def detect_damage(cap, layout, n_frames: int = 40) -> dict:
+    """LiDAR tier: RGB from rgb.mp4, depth + confidence from the phone."""
     video = Path(cap.root) / "rgb.mp4"
     if not video.exists():
         return {}
@@ -136,19 +138,61 @@ def detect_damage(cap, layout, n_frames: int = 40) -> dict:
     if not frames:
         return {}
     picks = [frames[i] for i in np.linspace(0, len(frames) - 1, min(n_frames, len(frames))).astype(int)]
+
+    def samples():
+        vc = cv2.VideoCapture(str(video))
+        for f in picks:
+            vc.set(cv2.CAP_PROP_POS_FRAMES, int(f.index))
+            ok, img = vc.read()
+            if not ok:
+                continue
+            depth, conf = load_depth_confidence(cap, f, min_confidence=1)
+            yield f, img, depth, conf
+        vc.release()
+
+    return _dedupe_and_format(_lift_candidates(samples(), layout, cap.rgb_shape))
+
+
+def detect_damage_video(cap, video_path, depth_by_index: dict, layout, n_frames: int = 40) -> dict:
+    """Video tier: the same detector, with the learned depth (already scaled
+    to metres by triangulation, see reconstruction/video_posed.py) standing
+    in for LiDAR depth. Coarser depth -> looser metric extent; the surface
+    test and the multi-view rule are unchanged."""
+    by_idx = {f.index: f for f in cap.frames}
+    keys = sorted(k for k in depth_by_index if k in by_idx)
+    if not keys:
+        return {}
+    picks = [keys[i] for i in np.linspace(0, len(keys) - 1, min(n_frames, len(keys))).astype(int)]
+
+    def samples():
+        vc = cv2.VideoCapture(str(video_path))
+        want, i = set(picks), 0
+        while want:
+            ok = vc.grab()
+            if not ok:
+                break
+            if i in want:
+                ok, img = vc.retrieve()
+                if ok:
+                    d, m = depth_by_index[i]
+                    yield by_idx[i], img, d, m
+                want.discard(i)
+            i += 1
+        vc.release()
+
+    return _dedupe_and_format(_lift_candidates(samples(), layout, cap.rgb_shape))
+
+
+def _lift_candidates(samples, layout, rgb_shape) -> list:
+    """samples: iterable of (frame, bgr image at full RGB res, metric depth
+    at any resolution aligned with the image, boolean validity mask)."""
     R = _rot(layout.theta_rad)
     walls = _surfaces(layout)
-    vc = cv2.VideoCapture(str(video))
     raw = []
-    for f in picks:
-        vc.set(cv2.CAP_PROP_POS_FRAMES, int(f.index))
-        ok, img = vc.read()
-        if not ok:
-            continue
+    for f, img, depth, conf in samples:
         img = cv2.resize(img, (W_IMG, H_IMG))
-        depth, conf = load_depth_confidence(cap, f, min_confidence=1)
         dh, dw = depth.shape
-        sx, sy = W_IMG / cap.rgb_shape[1], H_IMG / cap.rgb_shape[0]
+        sx, sy = W_IMG / rgb_shape[1], H_IMG / rgb_shape[0]
         fx, fy, cx, cy = f.fx * sx, f.fy * sy, f.cx * sx, f.cy * sy
         T = f.pose_matrix()
         for cand in _water_stains(img) + _cracks(img):
@@ -185,8 +229,7 @@ def detect_damage(cap, layout, n_frames: int = 40) -> dict:
                         "h": c_h, "h_min": float(np.percentile(hh, 2)), "h_max": float(np.percentile(hh, 98)),
                         "area": area, "length": length,
                         "frame": int(f.index)})
-    vc.release()
-    return _dedupe_and_format(raw)
+    return raw
 
 
 def _plausible(d):

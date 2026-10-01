@@ -175,6 +175,11 @@ def video_frame_clouds(cap, video_path, max_frames=300, stride=4, max_depth=5.0,
         T = f.pose_matrix()
         clouds.append((f.position, P @ T[:3, :3].T + T[:3, 3]))
         used.append(f)
+        if keep_depth is not None:
+            dfull = depths[k] * smooth[a]
+            gyf, gxf = np.gradient(np.log(np.maximum(depths[k], 1e-3)))
+            keep_depth[k] = (dfull.astype(np.float32),
+                             (dfull > 0.3) & (dfull < max_depth) & (np.hypot(gxf, gyf) < 0.08))
     stats = {"frames": len(idx), "frames_scaled_directly": int(good.sum()),
              "median_triangulated_points": float(np.median([npts[k] for k in idx])),
              "scale_median": float(np.median(smooth)), "scale_iqr": [float(np.percentile(smooth, 25)),
@@ -291,12 +296,14 @@ def video_frame_clouds_v2(cap, video_path, max_frames=300, stride=4, max_depth=5
     return clouds, used, stats
 
 
-def posed_clouds(cap, video_path, max_frames=300, stride=4, max_depth=5.0, log=None):
+def posed_clouds(cap, video_path, max_frames=300, stride=4, max_depth=5.0, log=None, keep_depth=None):
     """Generic posed-video path (frames looked up by video frame number, so it
     works for any pose source: StrayScanner odometry or Spectacular AI VIO).
     Per-frame scale from triangulation against nearby frames using the known
     poses; frames without enough triangulated points borrow neighbours' scale.
-    Returns (frame_clouds, used_frames, stats)."""
+    Returns (frame_clouds, used_frames, stats). If keep_depth is a dict, it
+    is filled with {frame_index: (metric_depth, valid_mask)} at DEPTH_W x
+    DEPTH_H (used by the damage detector to lift 2D candidates to 3D)."""
     by_idx = {f.index: f for f in cap.frames}
     nums = sorted(by_idx)
     step = max(1, len(nums) // max_frames)
@@ -359,6 +366,11 @@ def posed_clouds(cap, video_path, max_frames=300, stride=4, max_depth=5.0, log=N
         T = f.pose_matrix()
         clouds.append((f.position, P @ T[:3, :3].T + T[:3, 3]))
         used.append(f)
+        if keep_depth is not None:
+            dfull = depths[k] * smooth[a]
+            gyf, gxf = np.gradient(np.log(np.maximum(depths[k], 1e-3)))
+            keep_depth[k] = (dfull.astype(np.float32),
+                             (dfull > 0.3) & (dfull < max_depth) & (np.hypot(gxf, gyf) < 0.08))
     stats = {"frames": len(seq), "frames_scaled_directly": int(good.sum()),
              "median_triangulated_points": float(np.median(npts)),
              "scale_median": float(np.median(smooth)),
