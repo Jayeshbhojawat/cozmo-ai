@@ -83,3 +83,10 @@ the correction only when it tightens registration (applied on 2 of 3).
 Now read from the video header (fallback: 2x principal point). Was a hard-coded
 1920x1440 assumption; a device recording another RGB size would have
 scaled every dimension.
+
+## 9. Head-to-head vs a commercial app not possible on the available phone
+The only capture device available is a non-Pro iPhone 15. Polycam's room
+mode needs LiDAR, and magicplan's scan did not work on this phone when
+tried (2026-10-02). The head-to-head therefore compares our output against
+tape-measure ground truth only; the commercial-app column is reported as
+"could not run on this device" rather than omitted.
