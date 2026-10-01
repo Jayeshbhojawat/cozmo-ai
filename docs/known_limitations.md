@@ -18,14 +18,26 @@ turning the set of fitted wall *lines* into a correct, closed room polygon:
   (implemented, `_snap_to_manhattan_directions`) corrects most of this but
   not all of it — some adjacent walls still end up snapped to directions
   that produce degenerate (near-parallel) corner intersections.
+- **Sharper diagnosis (from the Part 4 fix-loop before/after run across all
+  3 sample rooms, see `docs/fix_loop.md`):** on 2 of 3 rooms, the Manhattan
+  snap over-merged real walls. Root cause traced further by dumping raw
+  RANSAC line angles before snapping on `c00a170fe1`: all 10 candidate lines
+  land in a narrow 25-36° band with no second cluster ~90° away at
+  comparable support. That rules out the original hypothesis (two sharp
+  per-wall rotation clusters) in favor of a **continuous drift smear** —
+  the apparent wall angle drifts gradually across the walk rather than
+  jumping between two fixed offsets, consistent with uncorrected VIO heading
+  drift accumulating smoothly over the ~20-40s capture rather than being
+  constant per wall. The current top-2-histogram-bin snap assumes a bimodal
+  distribution and instead collapsed this smear into 1-2 near-identical
+  angle bins, merging genuinely distinct walls.
 - **Planned fix (formal Part 4 declaration to follow once ground truth is in
   hand):** replace snap-then-intersect with a joint least-squares polygon
-  fit — solve for one global rotation offset per detected room (not per
-  wall) plus per-wall offsets simultaneously, constrained to the dominant
-  Manhattan directions, minimizing total inlier-to-line distance across all
-  walls at once rather than line-by-line. This is standard practice for
-  indoor Manhattan-world reconstruction and should remove the per-wall
-  independent-rotation error rather than patching around it wall-by-wall.
+  fit that solves for one global rotation-vs-arc-length drift model (not a
+  fixed small set of discrete direction clusters) plus per-wall offsets
+  simultaneously, constrained to the room's dominant directions. This both
+  matches the sharper diagnosis above (smooth drift, not discrete clusters)
+  and is standard practice for indoor Manhattan-world reconstruction.
 - **What this means for today's numbers:** wall-length and opening-position
   outputs for a given wall are individually reasonable (large inlier counts,
   plausible lengths within one room), but polygon-derived floor area is not
