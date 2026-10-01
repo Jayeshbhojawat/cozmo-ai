@@ -26,14 +26,17 @@ This one page is what a non-engineer follows, verbatim, for every room.
 3. Walk the full perimeter of the room at a normal, unhurried walking pace —
    about 0.3–0.5 m/s. Keep the phone moving smoothly; do not stop-and-go.
 4. Point the phone at every wall for at least 2 continuous seconds, including
-   corners, doorways, and windows. Slowly tilt up to capture ceiling height and
-   down to capture floor/wall junctions at least once per wall.
-5. If the room connects to another room through a doorway or open archway, walk
+   corners, doorways, and windows.
+5. **Ceiling pass (do not skip):** in the middle of every room, stop, tilt the
+   phone up until the screen shows mostly ceiling, hold 2 seconds, tilt back
+   down. Without this the app cannot see the ceiling and the plan will say
+   "ceiling not observed" for that room.
+6. If the room connects to another room through a doorway or open archway, walk
    through it slowly and keep recording into the next room before stopping — this
    is the "connector" pass the multi-room stitch needs. Do not stop and restart
    between connected rooms.
-6. Aim to cover the full room in 20–45 seconds. Longer is fine; do not rush.
-7. Tap the record button again to stop.
+7. Aim to cover the full room in 20–45 seconds. Longer is fine; do not rush.
+8. Tap the record button again to stop.
 
 ## What to avoid
 
@@ -54,8 +57,9 @@ This one page is what a non-engineer follows, verbatim, for every room.
    `odometry.csv`, `imu.csv`, `camera_matrix.csv`.
 3. AirDrop or cable-transfer that folder to the machine running the pipeline, or
    drop it into the shared capture inbox folder.
-4. Run: `python -m cli.run capture --input living_room/ --tier lidar`
-   (see README for full CLI usage). One command per capture, as required.
+4. Run: `python -m cli.run capture --input living_room/ --tier lidar --out outputs/living_room`
+   (see README). One command per capture. A walk through several rooms in one
+   recording gives the whole stitched plan from that one command.
 
 ## Photo tier (no LiDAR needed)
 

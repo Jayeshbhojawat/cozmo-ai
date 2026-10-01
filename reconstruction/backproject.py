@@ -39,9 +39,10 @@ def load_depth_confidence(capture: Capture, frame: Frame, min_confidence: int = 
     return depth_m, mask
 
 
-def depth_intrinsics_for(frame: Frame, depth_shape: tuple[int, int]) -> tuple[float, float, float, float]:
+def depth_intrinsics_for(frame: Frame, depth_shape: tuple[int, int],
+                         rgb_shape: tuple[int, int] = None) -> tuple[float, float, float, float]:
     dh, dw = depth_shape
-    rh, rw = ASSUMED_RGB_SHAPE
+    rh, rw = rgb_shape or ASSUMED_RGB_SHAPE
     sx = dw / rw
     sy = dh / rh
     return frame.fx * sx, frame.fy * sy, frame.cx * sx, frame.cy * sy
@@ -51,7 +52,7 @@ def backproject_frame(capture: Capture, frame: Frame, min_confidence: int = 2, s
     """Returns (N,3) world-space points and (N,) confidence values for one frame."""
     depth_m, mask = load_depth_confidence(capture, frame, min_confidence)
     h, w = depth_m.shape
-    fx, fy, cx, cy = depth_intrinsics_for(frame, (h, w))
+    fx, fy, cx, cy = depth_intrinsics_for(frame, (h, w), capture.rgb_shape)
 
     ys, xs = np.mgrid[0:h:stride, 0:w:stride]
     m = mask[0:h:stride, 0:w:stride]

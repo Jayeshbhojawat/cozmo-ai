@@ -1,95 +1,80 @@
-# Fix Loop Declaration (Part 4)
+# Fix Loop (Part 4)
 
-**Status of this declaration: preliminary.** It's written against internal
-self-consistency diagnostics (no laser/tape ground truth collected yet — see
-`docs/compliance_matrix.md` #16). Once ground truth exists, this same gate
-should be re-scored with real error numbers and this file updated or
-superseded. What's below is a real before/after from actual commits in this
-repo, not a hypothetical — the mechanism has genuinely run once already.
+## Post-mortem of the first declaration (kept on purpose)
 
-## 1. Worst-performing gate (self-diagnosed)
+The first version of this file (commit `6d4217c`) declared polygon
+self-intersection as the worst gate, blamed it on nearest-endpoint wall
+chaining, and later on "continuous VIO heading drift". **Both root-cause
+hypotheses were wrong.** The shipped fix (angle-sorted polygon + Manhattan
+snap) improved one room and regressed two, and the "drift smear" evidence
+(wall angles spread over 25-36 deg) was a symptom of the real bug below,
+not drift. Measured ARKit heading drift on these captures turned out to be
+~1 deg RMS (see `reconstruction/drift.py` and the drift ablation).
 
-**Gate:** floor-area self-consistency — does the enclosed polygon area a
-room's fitted walls form match what those same wall lengths imply?
+What went wrong in the process: every check was downstream (walls,
+polygons, areas). The first upstream physical check — "is the floor below
+the camera?" — would have caught it in minutes. That check is now part of
+the fix-loop script.
 
-**Failing number (before fix, commit `80c9872`):** on sample room
-`c7d28f72c6`, 8 fitted walls with lengths all between 11.4m and 13.0m
-(individually plausible, large RANSAC inlier support) enclosed a polygon
-area of **12.01 m²**. 8 walls each 11-13m long enclosing barely more floor
-area than a single 3.5m x 3.5m room is a contradiction internal to the
-output itself, visible without any ground truth at all — a textbook sign of
-a self-intersecting ("bowtie") polygon rather than a measurement error.
+## 1. Worst-performing gate, with the failing number
 
-## 2. Root-cause hypothesis and evidence
+**Ceiling height** (gate: <= 1.5 cm per room). Before the fix the pipeline
+reported ceilings of **1.47-1.94 m** (e.g. 1.935 m for `c00a170fe1`), and
+in every capture the detected **floor was 0.15-0.24 m above the camera**,
+which is physically impossible for a phone held at chest height. Every
+ceiling-height result failed, by tens of cm, before ground truth was even
+needed, and the same defect broke walls, rooms and openings (0-1 rooms
+recovered per capture, 0 doors).
 
-**Hypothesis:** `order_walls_into_polygon` chained wall segments by nearest
-endpoint distance. On noisy, RANSAC-fit wall segments whose raw endpoint
-extents don't land exactly where two walls should meet, nearest-endpoint
-chaining can connect segments out of their true spatial order, producing a
-self-intersecting polygon. The shoelace area formula on a self-intersecting
-polygon partially cancels positive and negative contributions, which
-produces exactly the symptom observed: individually-plausible wall lengths,
-implausibly small enclosed area.
+## 2. Root cause and evidence
 
-**Evidence:** rendering the "before" polygon (`reconstruction/render.py` on
-commit `80c9872`'s output) shows crossing wall segments rather than a simple
-loop — visually confirming the self-intersection hypothesis, not just
-inferring it from the area number.
+**Root cause:** wrong camera coordinate convention in back-projection.
+StrayScanner writes `odometry.csv` poses already in the OpenCV camera
+convention (+x right, +y down, +z forward), as its reference viewer
+StrayVisualizer does. `reconstruction/backproject.py` additionally applied
+ARKit's native convention (+y up, -z forward), flipping y and z a second
+time: every depth point was mirrored through the camera before being placed
+in the world.
 
-## 3. Fix shipped and predicted number after
+**Evidence** (`benchmark/fix_loop.py`, all 3 captures, the only difference
+between arms is that sign):
 
-**Fix (commit `1ea93bd`):** replaced nearest-endpoint chaining with (a)
-angle-sorting walls around the point cloud's centroid — a room is star-shaped
-around its own interior, so this ordering is guaranteed non-self-intersecting
-— and (b) setting each wall's endpoints to the exact line-line intersection
-with its two angular neighbors, rather than trusting raw noisy segment
-extents. A degenerate-corner guard was added for near-parallel adjacent
-lines (falls back to the raw segment and flags it untrusted rather than
-emitting a wild corner).
+| capture | floor below camera | wall-band occupied 5cm voxels | rooms | doors measured |
+|---|---|---|---|---|
+| c00a170fe1 | -0.17 m -> **+1.40 m** | 194,844 -> **34,969** (5.6x tighter) | 1 -> 3 | 0 -> 1 |
+| 1a8384c3f6 | -0.24 m -> **+1.40 m** | 204,002 -> **78,733** (2.6x) | 0 -> 5 | 0 -> 3 |
+| c7d28f72c6 | -0.15 m -> **+1.46 m** | 321,716 -> **122,425** (2.6x) | 0 -> 6 | 0 -> 4 |
 
-**Predicted number after fix:** a simple (non-self-intersecting) polygon
-whose area is the same order of magnitude as wall-length-squared — i.e. no
-more near-zero areas alongside 5m+ walls.
+Two independent physical checks agree: the floor lands at the protocol's
+chest height, and the same wall seen from different frames falls in the
+same voxels (2.6-5.6x fewer occupied voxels).
 
-## Before / after (regenerable)
+## 3. Fix shipped and predicted number
+
+**Fix:** one convention change in `reconstruction/backproject.py`
+(`y_cam = (v - cy)/fy * d`, `z_cam = d`). The before-arm is kept behind
+`COZMO_CAMERA_CONVENTION=arkit` purely so the before run stays regenerable.
+Because the corrected cloud showed the sample captures are multi-room
+walkthroughs, the single-room fitter was then replaced by
+`reconstruction/layout.py` (rooms, doors, per-room ceilings) — that is new
+capability built on top of the fix, not part of the fix itself, and the
+before/after above isolates the fix alone (both arms run the new layout code).
+
+**Predicted after the fix:** ceiling height within the 1.5 cm gate on rooms
+where the ceiling was actually observed.
+
+**Measured so far:** ceilings are now observed and measured in 6 of 6 rooms
+of `c7d28f72c6` (2.28-3.08 m, model sigma ~0.6 cm). The other two captures
+never pointed at the ceiling; the pipeline now reports "ceiling not
+observed" with a lower bound instead of a fake value. **The gate itself can
+only be scored once laser ground truth exists** — `benchmark/ground_truth/`
+has pre-filled measuring sheets for every room; scoring is one command
+(`python -m benchmark.ground_truth score ...`). This file gets the measured
+gate numbers when that is done; if the prediction is wrong, it says so here.
+
+## Regenerate
 
 ```bash
-# Before:
-git checkout 80c9872 -- reconstruction/room_fit.py
-for room in c00a170fe1 1a8384c3f6 c7d28f72c6; do
-  python -m cli.run capture --input data/samples_full/$room --tier lidar \
-      --room-id r --out /tmp/before_$room --stride 4
-done
-# After:
-git checkout HEAD -- reconstruction/room_fit.py
-for room in c00a170fe1 1a8384c3f6 c7d28f72c6; do
-  python -m cli.run capture --input data/samples_full/$room --tier lidar \
-      --room-id r --out /tmp/after_$room --stride 4
-done
+python -m benchmark.fix_loop --captures data/samples_full/* --out benchmark/results/fix_loop
+git show cdcbdda..d05d3c1 -- reconstruction/backproject.py   # readable diff of the fix + the before switch
 ```
-
-**Actual result, all three sample rooms (measured, not predicted) — reported
-honestly, including where it fell short:**
-
-| room | before: area / n_walls | after: area / n_walls (untrusted flagged) |
-|---|---|---|
-| c7d28f72c6 | 12.01 m² / 8 walls, all 11.4-13.0m | **20.43 m² / 5 walls**, 2 flagged untrusted |
-| c00a170fe1 | 1.33 m² / 5 walls, 5.6-6.1m | 0.0 m² / 2 walls, none flagged |
-| 1a8384c3f6 | 1.37 m² / 6 walls, 9.6-10.9m | 0.78 m² / 4 walls, none flagged |
-
-**This did not cleanly move the gate from fail to pass — it's mixed, and
-here's why.** On the room that motivated the fix (`c7d28f72c6`), the
-self-intersection is gone and area moved from a value absurdly small for
-8 walls of 11-13m to one more consistent with a subset of those walls —
-real progress, and the degenerate-corner guard correctly caught and flagged
-the two walls it couldn't resolve, rather than emitting a bad number
-silently (the specific failure mode targeted is fixed: no more near-zero
-area hidden behind large, confidently-reported walls). On the other two
-rooms, the Manhattan-direction snap this fix added (to correct per-wall
-independent rotation from uncorrected pose drift) over-merged: it reduced 5
-and 6 walls down to 2 and 4, losing real wall identity rather than fixing
-their ordering. That's a different, newly-introduced failure mode, not the
-one this declaration targeted, and it's the reason overall area didn't
-improve on those rooms. `docs/known_limitations.md`'s planned next fix
-(joint least-squares Manhattan fit, solved once across all walls rather
-than snap-then-merge wall-by-wall) is aimed squarely at this regression.

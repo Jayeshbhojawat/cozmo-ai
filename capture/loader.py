@@ -50,6 +50,7 @@ class Capture:
     frames: list[Frame]
     camera_matrix: np.ndarray  # overall 3x3 intrinsic (fallback / reference)
     has_depth: bool
+    rgb_shape: tuple = (1440, 1920)  # (h, w) of the RGB stream the intrinsics refer to
 
     def depth_path(self, frame_index: int) -> Path:
         return self.root / "depth" / f"{frame_index:06d}.png"
@@ -91,4 +92,22 @@ def load_capture(root: str | Path) -> Capture:
     camera_matrix = _read_camera_matrix(camera_matrix_path) if camera_matrix_path.exists() else None
     has_depth = (root / "depth").is_dir() and any((root / "depth").iterdir())
 
-    return Capture(root=root, frames=frames, camera_matrix=camera_matrix, has_depth=has_depth)
+    return Capture(root=root, frames=frames, camera_matrix=camera_matrix, has_depth=has_depth,
+                   rgb_shape=_rgb_shape(root, frames))
+
+
+def _rgb_shape(root: Path, frames) -> tuple:
+    """(h, w) of the RGB stream the per-frame intrinsics refer to: read from
+    the video header; if there is no video, infer from the principal point
+    (cx, cy sit within a few px of the image centre on iPhone captures)."""
+    video = root / "rgb.mp4"
+    if video.exists():
+        import cv2
+        vc = cv2.VideoCapture(str(video))
+        w, h = int(vc.get(cv2.CAP_PROP_FRAME_WIDTH)), int(vc.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        vc.release()
+        if w > 0 and h > 0:
+            return (h, w)
+    if frames:
+        return (int(round(2 * frames[0].cy)), int(round(2 * frames[0].cx)))
+    return (1440, 1920)

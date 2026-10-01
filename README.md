@@ -1,79 +1,60 @@
-# Cozmo AI — Phone-Capture Floor Plan & Damage Pipeline
+# Cozmo AI — phone capture to dimensioned, stitched floor plan
 
-Status: **work in progress, 24-hour build.** See `docs/compliance_matrix.md`
-for a live, honest per-requirement status and `docs/known_limitations.md`
-for the specific open bugs and their root causes.
+A phone walkthrough in, a whole-property floor plan out: rooms, wall lengths,
+ceiling heights, floor areas, doors and windows with widths, room adjacency,
+per-surface damage with concealed-damage rules and scope items, a 95%
+interval on every number, as JSON (`schema/capture_schema.json`) + PNG.
 
-## What this is
+Live status: `docs/compliance_matrix.md`. Open problems: `docs/known_limitations.md`.
+LiDAR tier works end to end; **photo and video tiers are not built yet.**
 
-Turns a phone capture (LiDAR, video, or photos — see `docs/device_matrix.md`)
-of a room into a dimensioned floor plan, a stitched whole-property plan, and
-per-surface damage regions, all with confidence intervals, via one command
-per capture.
-
-## Install (target: under 15 minutes on a clean machine)
+## Install (clean machine, ~3 min)
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
+python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
+python -m pytest tests -q          # output-contract tests run once outputs/ exists
 ```
 
-No GPU, no external API calls, no network access needed at run time (per the
-brief's constraints — everything here is classical CV / numpy, no pretrained
-model weights to fetch).
+CPU only; no model weights; no network at run time.
 
-## Run it on a capture
+## Run on a capture (one command)
 
-LiDAR tier (StrayScanner export — `rgb.mp4`, `depth/`, `confidence/`,
-`odometry.csv`, `imu.csv`, `camera_matrix.csv` in one folder):
+Capture with the one-page protocol (`docs/capture_protocol.md`, StrayScanner),
+export the folder, then:
 
 ```bash
-python -m cli.run capture --input /path/to/capture_folder --tier lidar \
-    --room-id living_room --out outputs/living_room
+python -m cli.run capture --input path/to/capture_folder --tier lidar --out outputs/my_flat
 ```
 
-Produces `outputs/living_room/plan.json` (validates against
-`schema/capture_schema.json`) and `outputs/living_room/plan.png`.
+-> `outputs/my_flat/plan.json`, `outputs/my_flat/plan.png`. One continuous
+walk through several rooms yields every room plus the stitched plan.
+Takes 20-50 s on a laptop. Options: `--drift auto|on|off`, `--no-damage`.
 
-Photo/video tiers are scaffolded (`reconstruction/sfm.py`) but not yet wired
-into the CLI — see `docs/known_limitations.md` for the specific blocking bug
-(monocular scale-chaining drift).
-
-## Capturing data
-
-Follow `docs/capture_protocol.md` exactly — it's written to be followed
-literally by a non-engineer, per the brief's Route 2 requirement.
-
-## Repo layout
-
-```
-capture/        parses a capture folder into frames + poses
-reconstruction/ depth backprojection, room fitting (walls/floor/ceiling),
-                 SfM for photo/video tiers, confidence intervals, rendering
-stitching/      multi-room placement + drift correction
-damage/         per-surface damage detection
-schema/         published JSON output schema
-cli/            the one-command-per-capture entry point
-benchmark/      gate definitions + (once ground truth exists) results
-docs/           protocol, device matrix, compliance matrix, report,
-                 known limitations, fix-loop declaration
-```
-
-## Running the tests
+## Benchmark / reproduction
 
 ```bash
-python -m pytest tests/ -v
+# Fix loop before/after (Part 4)
+python -m benchmark.fix_loop --captures data/samples_full/* --out benchmark/results/fix_loop
+# Drift ablation (footprint with/without correction)
+python -m benchmark.drift_ablation --input data/samples_full/<capture> --out benchmark/results/drift_<capture>
+# Ground truth: make a measuring sheet, fill it with tape/laser values, score the gates
+python -m benchmark.ground_truth template --plan outputs/<cap>/plan.json --out benchmark/ground_truth/<cap>.json
+python -m benchmark.ground_truth score    --plan outputs/<cap>/plan.json --gt benchmark/ground_truth/<cap>.json
 ```
 
-## What's real vs. not yet
+Raw captures are not in git (size); they are shipped separately and go in
+`data/samples_full/<capture_id>/`.
 
-The LiDAR tier runs end-to-end on real captures: parses the sensor data,
-builds a confidence-filtered point cloud, fits floor/ceiling/walls, detects
-openings, renders a plan, runs heuristic damage detection, and writes
-schema-valid JSON with a confidence interval on every number. Wall-polygon
-accuracy is the known open item (`docs/known_limitations.md`) and the
-current candidate for the formal Part 4 fix-loop entry. Photo/video tiers
-and the full benchmark/gates/head-to-head/report deliverables are in
-progress — `docs/compliance_matrix.md` is the source of truth for exactly
-what's done.
+## Layout
+
+```
+capture/         StrayScanner export -> frames, poses, intrinsics
+reconstruction/  backproject (depth -> points), drift (yaw correction),
+                 layout (rooms, walls, doors, ceilings), confidence, render, sfm (WIP)
+damage/          per-surface damage detection + concealed-damage rules
+stitching/       placing separately captured rooms; repeat-capture alignment
+benchmark/       gates, ground-truth sheets + scorer, fix-loop and drift-ablation runners
+schema/          published output schema
+docs/            protocol, device matrix, compliance matrix, report, fix loop, limitations
+```

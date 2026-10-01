@@ -1,44 +1,43 @@
 # Compliance Matrix
 
-Status key: ✅ done & tested · 🟡 working but not yet accurate/complete · ⬜ not started
+✅ done and tested on real captures · 🟡 implemented, not yet scored against ground truth · ❌ missing
 
-| # | Requirement | File path / artifact | Status |
+| # | Requirement | Where | Status |
 |---|---|---|---|
-| 1 | Route 2 capture protocol (one-pager) | `docs/capture_protocol.md` | ✅ |
+| 1 | Capture route (Route 2 one-page protocol) | `docs/capture_protocol.md` | ✅ |
 | 2 | Device matrix | `docs/device_matrix.md` | ✅ |
-| 3 | Photo tier: 2-8 stills/room → stitched plan | `reconstruction/sfm.py` + `cli/run.py` | 🟡 SfM scaffold has a known scale-drift bug (`docs/known_limitations.md`); not wired into CLI yet |
-| 4 | Video tier: handheld walkthrough → plan | `reconstruction/sfm.py` | 🟡 same scale-drift bug as photo tier |
-| 5 | LiDAR tier: depth/pose/intrinsics → plan | `capture/loader.py`, `reconstruction/backproject.py`, `reconstruction/room_fit.py` | 🟡 runs end-to-end on real data; wall-polygon accuracy is the open fix-loop item |
-| 6 | Dimensioned per-room plan (walls, ceiling height, floor area, openings) | `reconstruction/room_fit.py`, `cli/run.py` output | 🟡 produced for every LiDAR-tier run; floor-area accuracy not yet validated against ground truth |
-| 7 | Stitched multi-room plan, correct adjacency | `stitching/stitch.py` | 🟡 implemented (continuous-capture + adjacency-hint placement), tested only on synthetic rooms — no real multi-room capture received yet |
-| 8 | Per-surface damage regions, class + metric extent | `damage/detect.py` | 🟡 heuristic (water-stain/crack via classical CV, not a trained model); noisy on real furnished scenes, documented |
-| 9 | Concealed-damage flags with rule that fired | `damage/detect.py` (`CONCEALED_RULE`) | ✅ rule implemented and recorded verbatim in output |
-| 10 | Scope line items keyed to surfaces | `cli/run.py` (`_scope_from_damage`) | ✅ derived directly from damage regions |
-| 11 | Confidence interval on every measurement | `reconstruction/confidence.py` | ✅ every length/height/area in the output JSON carries one |
-| 12 | One command per capture | `cli/run.py` (`python -m cli.run capture ...`) | ✅ |
-| 13 | JSON to published schema | `schema/capture_schema.json`, validated in `cli/run.py` output | ✅ schema-validated in testing |
-| 14 | Rendered plan | `reconstruction/render.py` | ✅ per-room PNG; stitched-plan renderer implemented, untested on real multi-room data |
-| 15 | Device matrix with honest accuracy per tier | `docs/device_matrix.md` | ✅ |
-| 16 | Benchmark set (multi-room 3+, furnished+damage, repeat capture, all 3 tiers, ground truth) | `benchmark/` | ⬜ needs real captures beyond the 3 single-room samples provided — see note below |
-| 17 | Opening-width gate | `benchmark/gates.py` | ⬜ depends on #16 ground truth |
-| 18 | Ceiling-height + repeatability gate | `benchmark/gates.py` | ⬜ depends on #16 ground truth |
-| 19 | Drift accountability + on/off ablation | `stitching/stitch.py` (`correct_drift_repeated_rooms`) | 🟡 mechanism implemented; ablation report depends on #16 |
-| 20 | Photo-tier whole-property stitch gate | `benchmark/gates.py` | ⬜ depends on #3 and #16 |
-| 21 | Head-to-head vs. consumer app (2 rooms, LiDAR tier) | `benchmark/head_to_head.md` | ⬜ not started |
-| 22 | Fix loop: declaration + root cause + shipped fix + before/after | `docs/fix_loop.md` | ⬜ candidate identified (wall-polygon accuracy), formal declaration not yet written pending ground truth |
-| 23 | Process evidence (incremental git history) | this repo's `git log` | ✅ ongoing, 9 commits as of this snapshot, each a real working increment |
-| 24 | Technical report, max 6 pages | `docs/technical_report.md` | 🟡 outline in progress |
-| 25 | Reproduction bundle | `README.md` + `requirements.txt` | 🟡 install/run documented; full regeneration from raw inputs not yet scripted end-to-end |
-| 26 | Raw benchmark data | delivered separately (sample data excluded from git; see `.gitignore`) | 🟡 only 3 single-room samples so far, not yet the full required benchmark composition |
+| 3 | LiDAR tier: depth + poses + intrinsics -> plan | `capture/`, `reconstruction/backproject.py`, `reconstruction/layout.py` | ✅ runs on all 3 captures (23-46 s) |
+| 4 | Video tier | `reconstruction/sfm.py` | ❌ CLI exits with a message; plan in `known_limitations.md` #1 |
+| 5 | Photo tier incl. whole-property stitch from per-room folders | `reconstruction/sfm.py`, `stitching/stitch.py` | ❌ stitching primitives done + tested; photo reconstruction missing |
+| 6 | Per-room plan: walls, ceiling height, floor area, openings | `reconstruction/layout.py` | 🟡 all produced; ceiling reported as "not observed" when the capture never saw it |
+| 7 | Stitched multi-room plan with correct adjacency | `layout.py` (rooms, doorway cuts, adjacency) | 🟡 3/5/6 rooms recovered with door-based adjacency; adjacency not yet checked against the real floor plans |
+| 8 | Per-surface damage regions, class + metric extent | `damage/detect.py` | 🟡 lifted through depth onto the actual wall/floor/ceiling; heuristic detector, unvalidated on real damage |
+| 9 | Concealed-damage flags with the rule that fired | `damage/detect.py` (`RULES`) | ✅ rule id + text in output |
+| 10 | Scope line items keyed to surfaces | `cli/run.py` (`_scope`) | ✅ |
+| 11 | Confidence interval on every measurement | `reconstruction/confidence.py`, `layout.py` | 🟡 95% CI everywhere; model-based until calibrated |
+| 12 | One command per capture | `python -m cli.run capture ...` | ✅ |
+| 13 | JSON to published schema | `schema/capture_schema.json`, `tests/test_pipeline_outputs.py` | ✅ every output validated in tests |
+| 14 | Rendered plan | `reconstruction/render.py`; `benchmark/results/plans/*.png` | ✅ |
+| 15 | Benchmark: multi-room capture (3+ rooms + connector) | `1a8384c3f6` (5 rooms), `c7d28f72c6` (6 rooms) | ✅ captured |
+| 16 | Benchmark: furnished room with staged damage, 2 classes | — | ❌ needs a capture |
+| 17 | Benchmark: same rooms at all 3 tiers | rgb.mp4 of each LiDAR walk = video tier input | ❌ needs video/photo tiers + photo folders |
+| 18 | Benchmark: one room captured twice (repeatability) | — | ❌ needs a capture |
+| 19 | Laser/tape ground truth on everything | `benchmark/ground_truth/*.json` (pre-filled sheets), `benchmark/ground_truth.py score` | ❌ sheets ready, measurements not taken |
+| 20 | Opening-width gate (missed/phantom count) | `benchmark/gates.py`, `benchmark/ground_truth.py` | 🟡 scorer done + tested; needs #19 |
+| 21 | Ceiling + repeatability gates | same | 🟡 needs #18, #19 |
+| 22 | Drift accountability + on/off ablation | `reconstruction/drift.py`, `benchmark/drift_ablation.py`, `benchmark/results/drift_*` | ✅ ablation on all 3 captures; footprint error vs truth needs #19 |
+| 23 | Photo-tier whole-property stitch gate | `benchmark/gates.py` | ❌ needs #5 |
+| 24 | Head-to-head vs consumer app (2 rooms, LiDAR) | — | ❌ needs a free-tier Polycam/magicplan export of 2 rooms |
+| 25 | Fix loop: declaration, root cause, shipped fix, before/after | `docs/fix_loop.md`, `benchmark/fix_loop.py`, `benchmark/results/fix_loop/` | 🟡 regenerable before/after on 3 captures; gate number needs #19 |
+| 26 | Process evidence | `git log` | ✅ |
+| 27 | Technical report <= 6 pages | `docs/technical_report.md` | 🟡 |
+| 28 | Reproduction bundle | `README.md`, `requirements.txt`, scripts above | 🟡 raw captures shipped separately (too large for git) |
+| 29 | Mirrors, glass, wet-look, low light covered | `known_limitations.md` #5, layout opening rules | 🟡 handled for openings; not stress-tested |
 
-## What's blocking the most score right now
+## What needs a person with a phone and a laser
 
-The single biggest gap is **#16: the benchmark set doesn't yet meet the
-required composition** (multi-room 3+ rooms, a furnished room with staged
-damage across 2+ damage classes, a repeat capture of one room, all of the
-above at all 3 tiers, plus laser/tape ground truth). Everything from gates
-(#17-20) through the formal fix-loop declaration (#22) depends on having
-that data and those measurements. The three sample folders provided so far
-are three separate, ordinary single rooms — useful for building and testing
-the pipeline (which is what they were used for), but not sufficient to
-satisfy the benchmark requirement on their own.
+Everything ❌ in rows 16-19 and 24 is data collection, not code: one
+furnished room with staged damage (e.g. a tea stain + a pencil "crack" on
+paper taped to the wall), one room captured twice, photo folders for the
+multi-room walk, a free Polycam/magicplan scan of 2 rooms, and filling the
+measuring sheets in `benchmark/ground_truth/`.

@@ -1,85 +1,61 @@
-# Known limitations (live notes, feeds the technical report + fix loop)
+# Known limitations (live)
 
-## Wall polygon geometry — current worst gate, fix-loop candidate
+Ordered by impact on the score. Each says what is wrong, the evidence, and
+what would fix it.
 
-Floor/ceiling height and individual wall-line detection are working
-end-to-end on real captures (see commit history). The remaining weak point is
-turning the set of fitted wall *lines* into a correct, closed room polygon:
+## 1. Photo and video tiers do not exist yet
+`--tier video|photo` exits with a message. `reconstruction/sfm.py` holds a
+classical SfM prototype with a known bug (unit-norm translations chained
+without scale propagation -> scale explodes). Plan: ORB/essential-matrix
+poses with shared-track scale propagation + a small monocular depth model
+(MiDaS small; weights fetchable from GitHub releases by script) aligned per
+frame to the SfM points, metric scale from the floor-plane camera height,
+then the existing `layout.analyze` unchanged. The rgb.mp4 in every LiDAR
+capture is a real iPhone walkthrough video, so the video tier can be scored
+against the LiDAR result of the same walk.
 
-- **Symptom:** enclosed floor area comes out far smaller than wall lengths
-  imply on 2 of 3 sample rooms, and occasionally a near-parallel pair of
-  adjacent walls produces a corner far outside the room (now guarded: such
-  walls fall back to their raw RANSAC extent and are flagged with
-  `n_inliers=0` rather than emitting an impossible dimension).
-- **Root-cause hypothesis:** uncorrected per-frame VIO pose drift over the
-  20-40s walk rotates each wall's apparent angle slightly independently, so
-  walls that are physically parallel/perpendicular in the real room don't
-  fit as exactly parallel/perpendicular. A Manhattan-direction snap
-  (implemented, `_snap_to_manhattan_directions`) corrects most of this but
-  not all of it — some adjacent walls still end up snapped to directions
-  that produce degenerate (near-parallel) corner intersections.
-- **Sharper diagnosis (from the Part 4 fix-loop before/after run across all
-  3 sample rooms, see `docs/fix_loop.md`):** on 2 of 3 rooms, the Manhattan
-  snap over-merged real walls. Root cause traced further by dumping raw
-  RANSAC line angles before snapping on `c00a170fe1`: all 10 candidate lines
-  land in a narrow 25-36° band with no second cluster ~90° away at
-  comparable support. That rules out the original hypothesis (two sharp
-  per-wall rotation clusters) in favor of a **continuous drift smear** —
-  the apparent wall angle drifts gradually across the walk rather than
-  jumping between two fixed offsets, consistent with uncorrected VIO heading
-  drift accumulating smoothly over the ~20-40s capture rather than being
-  constant per wall. The current top-2-histogram-bin snap assumes a bimodal
-  distribution and instead collapsed this smear into 1-2 near-identical
-  angle bins, merging genuinely distinct walls.
-- **Planned fix (formal Part 4 declaration to follow once ground truth is in
-  hand):** replace snap-then-intersect with a joint least-squares polygon
-  fit that solves for one global rotation-vs-arc-length drift model (not a
-  fixed small set of discrete direction clusters) plus per-wall offsets
-  simultaneously, constrained to the room's dominant directions. This both
-  matches the sharper diagnosis above (smooth drift, not discrete clusters)
-  and is standard practice for indoor Manhattan-world reconstruction.
-- **What this means for today's numbers:** wall-length and opening-position
-  outputs for a given wall are individually reasonable (large inlier counts,
-  plausible lengths within one room), but polygon-derived floor area is not
-  yet trustworthy and confidence intervals downstream should treat it as
-  such until the fix above ships.
+## 2. No ground truth yet -> no scored gates, no calibration
+All intervals are model-based (surface-point scatter + 4 mm per-surface
+bias + 0.3% scale). They have not been checked against tape/laser.
+`benchmark/ground_truth/*.json` are pre-filled measuring sheets; scoring
+reports gate pass/fail and 95%-interval coverage. If coverage is well
+below 95%, raise `LIDAR_SIGMA_INFLATION` in `reconstruction/confidence.py`
+and say so in the report.
 
-## Photo/video tier SfM — not yet usable, root cause identified
+## 3. Ceiling never seen in 2 of 3 captures
+Even at low LiDAR confidence there are no points above ~2.0 m in
+`c00a170fe1` / `1a8384c3f6`: the phone never tilted up. The pipeline now
+reports "not observed" + a lower bound (no fabricated value). The capture
+protocol has been made explicit about the tilt-up pass.
 
-`reconstruction/sfm.py` implements classical frame-to-frame structure-from-
-motion (ORB + essential matrix + triangulation) so the photo/video tiers can
-reuse the same `room_fit.py` single-room fitter the LiDAR tier uses. First
-test run (8s trimmed video, 20 frames, 14 pairs matched, 1749 points
-triangulated) produced a point cloud with a y-range of roughly -28m to +79m
-— nonsensical for a single room.
+## 4. Tall furniture can be read as wall
+Wall detection uses points 1.2-1.9 m above the floor. A fridge or wardrobe
+against a wall produces a notch in the room polygon (its front face reads
+as the wall). Distinguishing furniture from wall needs the ceiling
+(walls reach it, furniture doesn't) — available only when the ceiling was
+captured.
 
-**Root cause:** `cv2.recoverPose` returns a *unit-norm* translation for each
-consecutive pair (monocular pose recovery has no absolute scale). Chaining
-several such unit-scale hops end-to-end (`T_cum = T_cum @ inv(T_i1_i)`)
-implicitly treats every pair's motion as the same physical distance, which
-it isn't — inter-frame motion varies with how fast the phone was moving, so
-the chained trajectory's scale drifts arbitrarily and compounds with every
-hop. This is a known, textbook failure mode of naive monocular VO chaining;
-the standard fix is to resolve each new pair's scale against points already
-triangulated and tracked from the previous pair (shared-track depth-ratio
-scale propagation), not to chain unit vectors directly.
+## 5. Door width ambiguity
+Doorways are measured jamb-to-jamb at the room cut, using surfaces 0.3-1.9 m
+high within 12 cm of the cut. An open door leaf at the hinge side can be
+taken as the jamb (width under-read by the leaf thickness, ~3-4 cm). Closed
+doors are not detected (no see-through). Mirrors can appear as openings
+(reflections land "behind" the wall); unconfirmed openings into unvisited
+space are labelled `opening_unconfirmed`, not `door`.
 
-**Status:** not fixed in this build — deliberately deprioritized in favor of
-the benchmark harness, fix-loop, compliance matrix, and report, which cover
-more of the scoring weight (60% combined) than deepening this one component
-further would. Flagged here as the clear next engineering task, and as a
-second, real candidate for the formal Part 4 fix-loop entry if the LiDAR
-polygon-geometry fix lands cleanly and there's time for a second pass.
+## 6. Damage detection is a heuristic
+Classical CV (dark low-saturation blobs, thin meandering dark lines), with
+surface assignment through depth, metric extent, multi-view de-dup and
+straight-line / skirting filters. False-positive funnel on the sample
+captures (no staged damage): 40->6, 33->1, 63->2 regions. Not validated on
+real damage until the furnished staged-damage room is captured.
 
-## Other open items
+## 7. Drift correction
+Yaw only (plane-anchored); does not correct translational odometry drift.
+ARKit poses were already good to ~1 deg on the samples; `auto` mode keeps
+the correction only when it tightens registration (applied on 2 of 3).
 
-- Depth/RGB intrinsic scale factor (`ASSUMED_RGB_SHAPE` in
-  `reconstruction/backproject.py`) is a documented assumption (1920x1440),
-  not read from per-device metadata — fine for the sample captures (all the
-  same resolution), needs validation against the walk-in test device before
-  the defense.
-- Mirror/glass/reflective-surface rejection is a single radius-based 3D
-  outlier filter today; real properties with more aggressive reflections
-  (the brief's stated hazard) may need a view-consistency check across
-  multiple frames instead.
-- No multi-room stitching or drift-accountability ablation yet (next).
+## 8. (fixed) RGB resolution for depth intrinsics
+Now read from the video header (fallback: 2x principal point). Was a hard-coded
+1920x1440 assumption; a device recording another RGB size would have
+scaled every dimension.

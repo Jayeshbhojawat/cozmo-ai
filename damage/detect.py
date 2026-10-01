@@ -38,7 +38,6 @@ STRAIGHT_LINE_RMS_PX = 3.0         # cracks deviate from a straight line by more
 MIN_VIEWS = 2                      # a region must be re-observed from >=2 sampled frames
 MIN_STAIN_M2 = 0.01
 MIN_CRACK_M = 0.15
-SCALE = 0.5                        # intrinsics scale for the working resolution
 
 RULES = {
     "WS-BASE": "water staining reaches within 0.20 m of the floor at the wall base -> possible "
@@ -149,7 +148,8 @@ def detect_damage(cap, layout, n_frames: int = 40) -> dict:
         img = cv2.resize(img, (W_IMG, H_IMG))
         depth, conf = load_depth_confidence(cap, f, min_confidence=1)
         dh, dw = depth.shape
-        fx, fy, cx, cy = f.fx * SCALE, f.fy * SCALE, f.cx * SCALE, f.cy * SCALE
+        sx, sy = W_IMG / cap.rgb_shape[1], H_IMG / cap.rgb_shape[0]
+        fx, fy, cx, cy = f.fx * sx, f.fy * sy, f.cx * sx, f.cy * sy
         T = f.pose_matrix()
         for cand in _water_stains(img) + _cracks(img):
             ys, xs = np.nonzero(cand["mask"])
