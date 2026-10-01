@@ -200,7 +200,7 @@ def photo_tier(folder: Path, log=print):
                                                                                     "rooms_out": len(placed)}
 
 
-def find_pivots(yaws, times, min_turn_deg=270, max_dur_s=30.0):
+def find_pivots(yaws, times, min_turn_deg=270, max_dur_s=20.0):
     """Segments where the heading turns >= min_turn NET in one direction
     within max_dur. Uses the signed net rotation, not the peak-to-peak
     range: orientation noise goes back and forth and cancels, a real turn

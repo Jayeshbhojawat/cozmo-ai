@@ -21,6 +21,13 @@ turn (unseen walls). Room placement uses doorway matching; rooms with no
 detected opening are placed apart and reported unconnected.
 Not yet tested on real protocol captures (none exist yet): the numbers
 above come from natural pivots (~230 deg) inside the LiDAR walks.
+Video pivot detection on that non-protocol walk (threshold lowered to 200
+deg for the test): 3 windows found; one was a real turn and reconstructed
+the bathroom at 2.05 x 2.23 m vs LiDAR 2.01 x 2.17 m (+2-3 %); the other two
+were 28-30 s of slow heading drift accumulating, which produced garbage
+rooms. Pivot windows are now capped at 20 s (protocol: a full circle in
+10-15 s). At the protocol threshold (270 deg) the same walk yields 0
+pivots and a clear protocol error instead of phantom rooms.
 
 ## 2. No ground truth yet -> no scored gates, no calibration
 All intervals are model-based (surface-point scatter + 4 mm per-surface

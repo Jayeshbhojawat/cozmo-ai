@@ -6,7 +6,9 @@ per-surface damage with concealed-damage rules and scope items, a 95%
 interval on every number, as JSON (`schema/capture_schema.json`) + PNG.
 
 Live status: `docs/compliance_matrix.md`. Open problems: `docs/known_limitations.md`.
-LiDAR tier works end to end; **photo and video tiers are not built yet.**
+All three tiers run end to end. LiDAR is the accurate one; photo and video
+(pivot scans + learned depth) currently measure +-11 % per length (RMS vs
+LiDAR), outside the brief's 8 % / 3 % gates; their intervals say so.
 
 ## Install (clean machine, ~3 min)
 
@@ -16,7 +18,12 @@ pip install -r requirements.txt
 python -m pytest tests -q          # output-contract tests run once outputs/ exists
 ```
 
-CPU only; no model weights; no network at run time.
+CPU only; no network at run time. Photo/video tiers need one model file,
+fetched once by script (checksum-verified, not in git):
+
+```bash
+python scripts/fetch_models.py      # Depth Anything V2 ViT-S metric-indoor, ONNX, ~99 MB
+```
 
 ## Run on a capture (one command)
 
@@ -30,6 +37,19 @@ python -m cli.run capture --input path/to/capture_folder --tier lidar --out outp
 -> `outputs/my_flat/plan.json`, `outputs/my_flat/plan.png`. One continuous
 walk through several rooms yields every room plus the stitched plan.
 Takes 20-50 s on a laptop. Options: `--drift auto|on|off`, `--no-damage`.
+
+Photo tier (one sub-folder of 6-8 stills per room, taken turning on the spot):
+
+```bash
+python -m cli.run capture --input path/to/photo_folders --tier photo --out outputs/my_flat_photo
+```
+
+Video tier (one clip; turn a full circle in the middle of every room):
+
+```bash
+python -m cli.run capture --input path/to/walk.mov --tier video --out outputs/my_flat_video
+# --rotate cw|ccw|180 only if the file lacks orientation metadata
+```
 
 ## Benchmark / reproduction
 

@@ -30,10 +30,27 @@ come out of the same command, already in one plan frame.
 
 LiDAR tier: StrayScanner on any iPhone Pro with LiDAR (Route 2; the sample
 data was already in its export format, and a custom iOS app was not worth
-it in 24 h). Video and photo tiers (any iPhone 15+, stock Camera) are **not
-implemented yet**; design in `known_limitations.md` #1: monocular SfM with
-scale propagation + a small monocular depth model aligned to the SfM points,
-fed into the same `layout.analyze`.
+it in 24 h).
+
+Photo and video tiers (any iPhone 15+, stock Camera) use **per-room pivot
+scans** (turn on the spot in each room). Two dead ends first, both measured:
+(1) Depth Anything V2's "metric" output alone is 18-30 % off in scale and
+varies +-25 % per frame (vs LiDAR on our frames); its shape after per-frame
+rescale is good (~9-10 % abs-rel on upright frames - and frames must be
+rotated upright, which my first attempt got backwards). (2) Feature-based
+PnP tracking was accurate when it worked (0.4 deg/step) but plain white
+walls and ceilings give 24-73 keypoints per frame, so a free walk could not
+be tracked through blank-wall moments.
+What works without texture is room geometry: per-frame surface normals
+give gravity and the yaw relative to the room's walls directly, so a pivot
+scan registers itself; scale comes from the chest-height camera over the
+floor. Measured on natural pivots inside the LiDAR walks: room area error
+RMS 22 % (+-11 % per length). That does not meet the 8 %/3 % tier gates;
+intervals are set from the measured error (+-22 %/length at 95 %) so the
+tiers stay calibrated rather than confidently wrong. Video pivots are found
+from the net signed heading change (an ordinary walk yields none, instead
+of 14 phantom pivots with a peak-to-peak rule). Rooms from separate
+pivots are placed by doorway matching with overlap rejection.
 
 ## 3. The bug that mattered, and what it taught
 
@@ -86,8 +103,8 @@ inflation factor in `confidence.py` is raised and reported.
 
 ## 7. Known failure modes
 
-See `docs/known_limitations.md` (ordered by impact): no photo/video tier;
-no ground truth yet; ceiling only measurable if the user tilts up; tall
+See `docs/known_limitations.md` (ordered by impact): photo/video accuracy
+(+-11 %/length) short of their gates; no ground truth yet; ceiling only measurable if the user tilts up; tall
 furniture read as wall; open door leaf can shave a few cm off a door width,
 closed doors missed, mirrors may appear as openings; damage detector is a
 heuristic; yaw-only drift correction.
