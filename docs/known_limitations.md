@@ -32,6 +32,33 @@ turning the set of fitted wall *lines* into a correct, closed room polygon:
   yet trustworthy and confidence intervals downstream should treat it as
   such until the fix above ships.
 
+## Photo/video tier SfM — not yet usable, root cause identified
+
+`reconstruction/sfm.py` implements classical frame-to-frame structure-from-
+motion (ORB + essential matrix + triangulation) so the photo/video tiers can
+reuse the same `room_fit.py` single-room fitter the LiDAR tier uses. First
+test run (8s trimmed video, 20 frames, 14 pairs matched, 1749 points
+triangulated) produced a point cloud with a y-range of roughly -28m to +79m
+— nonsensical for a single room.
+
+**Root cause:** `cv2.recoverPose` returns a *unit-norm* translation for each
+consecutive pair (monocular pose recovery has no absolute scale). Chaining
+several such unit-scale hops end-to-end (`T_cum = T_cum @ inv(T_i1_i)`)
+implicitly treats every pair's motion as the same physical distance, which
+it isn't — inter-frame motion varies with how fast the phone was moving, so
+the chained trajectory's scale drifts arbitrarily and compounds with every
+hop. This is a known, textbook failure mode of naive monocular VO chaining;
+the standard fix is to resolve each new pair's scale against points already
+triangulated and tracked from the previous pair (shared-track depth-ratio
+scale propagation), not to chain unit vectors directly.
+
+**Status:** not fixed in this build — deliberately deprioritized in favor of
+the benchmark harness, fix-loop, compliance matrix, and report, which cover
+more of the scoring weight (60% combined) than deepening this one component
+further would. Flagged here as the clear next engineering task, and as a
+second, real candidate for the formal Part 4 fix-loop entry if the LiDAR
+polygon-geometry fix lands cleanly and there's time for a second pass.
+
 ## Other open items
 
 - Depth/RGB intrinsic scale factor (`ASSUMED_RGB_SHAPE` in
