@@ -10,9 +10,10 @@ design choices with evidence: `docs/design_decisions.md`.
 ceilings on all three sample walkthroughs, but has no tape ground truth
 (no Pro iPhone was available to capture a measured home). The video and
 photo tiers were scored on a tape-measured 2-room home captured with a
-non-Pro iPhone 15: they recover the rooms and the footprint to within
-−5 … +18 % (video) but **miss every per-wall, door and ceiling gate**; their
-95 % intervals were re-calibrated on that home to stay honest.
+non-Pro iPhone 15: rooms and footprint are recovered (−4 … −16 %), the best
+walk reaches a 2.9 % median wall error, but **every per-wall, door and
+ceiling gate still fails**; 95 % intervals were re-calibrated on that home
+(coverage 32/33 on the video walks).
 
 ## 1. Architecture
 
@@ -58,15 +59,15 @@ limits how finely the gates can be scored and is stated in the sheet.
 Regenerate: `python -m benchmark.run_all --capture-dir <dir> --sheet
 benchmark/ground_truth/home/sheet.json --out benchmark/results/home`.
 
-| capture | rooms (truth 2) | wall error median | walls within tier tol | door ≤2 cm | ceiling error | footprint error | 95 % coverage |
+| capture | rooms found | wall error median | walls within tier tol | door ≤2 cm | ceiling error | footprint error | 95 % coverage |
 |---|---|---|---|---|---|---|---|
-| video walk 1 | 2 | 20 % | 1/8 | 0/2 | 11, 33 cm | +18 % | 9/11 |
-| video walk 2 | 2 | 7 % | 2/8 | 0/3 | 10, 17 cm | +8 % | 9/10 |
-| video walk 3 | 2 | 36 % | 1/8 | 0/2 | 14, 20 cm | −5 % | 7/11 |
+| video walk 1 | 3 (2 rooms + passage) | **2.9 %** | 4/8 | 0/3 | 8, 15 cm | −4 % | 10/10 |
+| video walk 2 | 3 | 21 % | 2/8 | 0/3 | 10, 17 cm | −7 % | 11/11 |
+| video walk 3 | 4 | 11 % | 0/8 | 0/2 | 17, 9 cm | −16 % | 11/12 |
 | video fallback (clip) | 1 | 10 % | 2/4 | 0/1 | not seen | — (1 room) | 4/6 |
 | photo | 2 | 28 % | 1/8 | 0/2 | 13 cm / not seen | room 2 +6 %, room 1 partial | 8/10 |
 
-Gates: video walls ±3 % — **fail**; photo walls ±8 % — **fail**; doors 2 cm
+Gates: video walls ±3 % — **fail** (6/24 walls within; median 2.9 % on walk 1); photo walls ±8 % — **fail**; doors 2 cm
 on ≥85 % — **fail** (0 %); ceiling 1.5 cm — **fail** (10-33 cm); photo
 stitch footprint ±8 % — **fail** (room 1 only partly reconstructed from one
 standing point in a 6.25 m room).
@@ -109,6 +110,15 @@ every point. One sign fixed it: floor 1.40-1.46 m below the camera,
 registration 2.6-5.6× tighter, rooms 1→3, 0→5, 0→6. I first blamed polygon
 ordering and heading drift; that post-mortem is kept. Regenerable via
 `COZMO_CAMERA_CONVENTION=arkit`.
+
+**Fix loop 3 — the scored declaration (`docs/fix_declaration.md`).**
+Declared before shipping (worst gate: video walls ±3 %, 4/24 walls within;
+hypothesis: outline fragmentation; predicted 5-8/16 on held-out walks).
+Shipped, measured on held-out walks: 2/16 — **prediction wrong**. Post-mortem:
+the dominant error was room 1 merged with a passage, and the fragmented
+"before" outline had flattered the score by letting the matcher pick lucky
+pieces. The post-mortem's next fix (doorways from the walking path) then
+took the gate to 6/24 walls and walk 1 to a 2.9 % median — still failing.
 
 **Fix loop 2 — video layout on the measured home (has a gate number).**
 Before: 1/2/0 rooms, footprint 9.1/37.1/0 m² (truth 29.3), camera

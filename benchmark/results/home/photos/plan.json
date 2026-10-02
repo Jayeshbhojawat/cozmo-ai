@@ -1,0 +1,831 @@
+{
+  "capture_id": "photos",
+  "tier": "photo",
+  "generated_at": "2026-10-02T15:48:14.667779+00:00",
+  "pipeline_version": "0.2.0",
+  "confidence_note": "photo-tier intervals are priors (no depth sensor; scale from assumed camera height).",
+  "plan_frame": {
+    "theta_deg": 0.0,
+    "origin": [
+      0.0,
+      0.0
+    ],
+    "note": "plan x,y = world (x,z) rotated by -theta so walls are axis-aligned, minus origin"
+  },
+  "rooms": [
+    {
+      "room_id": "01_room1",
+      "visited": true,
+      "partial": false,
+      "wall_coverage": 0.731,
+      "ceiling_observed": true,
+      "ceiling_height_m": {
+        "value": 2.7153,
+        "unit": "m",
+        "ci_low": 1.4934,
+        "ci_high": 3.9372,
+        "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+      },
+      "floor_area_m2": {
+        "value": 8.8153,
+        "unit": "m2",
+        "ci_low": 0.8815,
+        "ci_high": 16.749,
+        "basis": "photo-tier interval +-90% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+      },
+      "polygon": [
+        [
+          3.1766,
+          3.6662
+        ],
+        [
+          3.1766,
+          0.8124
+        ],
+        [
+          5.5542,
+          0.8124
+        ],
+        [
+          5.5542,
+          1.8248
+        ],
+        [
+          6.2312,
+          1.8248
+        ],
+        [
+          6.2312,
+          4.0782
+        ],
+        [
+          4.4601,
+          4.0782
+        ],
+        [
+          4.4601,
+          3.5754
+        ],
+        [
+          4.648,
+          3.5754
+        ],
+        [
+          4.648,
+          2.6138
+        ],
+        [
+          4.4867,
+          2.6138
+        ],
+        [
+          4.4867,
+          2.375
+        ],
+        [
+          4.6466,
+          2.375
+        ],
+        [
+          4.6466,
+          3.6662
+        ]
+      ],
+      "walls": [
+        {
+          "wall_id": "01_room1_w0",
+          "observed": false,
+          "n_support_points": 21,
+          "p0": [
+            3.1766,
+            3.6662
+          ],
+          "p1": [
+            3.1766,
+            0.8124
+          ],
+          "length_m": {
+            "value": 2.8538,
+            "unit": "m",
+            "ci_low": 1.5696,
+            "ci_high": 4.138,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w1",
+          "observed": true,
+          "n_support_points": 415,
+          "p0": [
+            3.1766,
+            0.8124
+          ],
+          "p1": [
+            5.5542,
+            0.8124
+          ],
+          "length_m": {
+            "value": 2.3776,
+            "unit": "m",
+            "ci_low": 1.3077,
+            "ci_high": 3.4475,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w2",
+          "observed": true,
+          "n_support_points": 92,
+          "p0": [
+            5.5542,
+            0.8124
+          ],
+          "p1": [
+            5.5542,
+            1.8248
+          ],
+          "length_m": {
+            "value": 1.0124,
+            "unit": "m",
+            "ci_low": 0.5568,
+            "ci_high": 1.468,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w3",
+          "observed": false,
+          "n_support_points": 21,
+          "p0": [
+            5.5542,
+            1.8248
+          ],
+          "p1": [
+            6.2312,
+            1.8248
+          ],
+          "length_m": {
+            "value": 0.677,
+            "unit": "m",
+            "ci_low": 0.3724,
+            "ci_high": 0.9817,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w4",
+          "observed": true,
+          "n_support_points": 519,
+          "p0": [
+            6.2312,
+            1.8248
+          ],
+          "p1": [
+            6.2312,
+            4.0782
+          ],
+          "length_m": {
+            "value": 2.2534,
+            "unit": "m",
+            "ci_low": 1.2394,
+            "ci_high": 3.2674,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w5",
+          "observed": true,
+          "n_support_points": 148,
+          "p0": [
+            6.2312,
+            4.0782
+          ],
+          "p1": [
+            4.4601,
+            4.0782
+          ],
+          "length_m": {
+            "value": 1.7711,
+            "unit": "m",
+            "ci_low": 0.9741,
+            "ci_high": 2.5681,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w6",
+          "observed": true,
+          "n_support_points": 137,
+          "p0": [
+            4.4601,
+            4.0782
+          ],
+          "p1": [
+            4.4601,
+            3.5754
+          ],
+          "length_m": {
+            "value": 0.5028,
+            "unit": "m",
+            "ci_low": 0.2765,
+            "ci_high": 0.729,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w7",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            4.4601,
+            3.5754
+          ],
+          "p1": [
+            4.648,
+            3.5754
+          ],
+          "length_m": {
+            "value": 0.1879,
+            "unit": "m",
+            "ci_low": 0.1034,
+            "ci_high": 0.2725,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w8",
+          "observed": true,
+          "n_support_points": 464,
+          "p0": [
+            4.648,
+            3.5754
+          ],
+          "p1": [
+            4.648,
+            2.6138
+          ],
+          "length_m": {
+            "value": 0.9616,
+            "unit": "m",
+            "ci_low": 0.5289,
+            "ci_high": 1.3943,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w9",
+          "observed": false,
+          "n_support_points": 17,
+          "p0": [
+            4.648,
+            2.6138
+          ],
+          "p1": [
+            4.4867,
+            2.6138
+          ],
+          "length_m": {
+            "value": 0.1613,
+            "unit": "m",
+            "ci_low": 0.0887,
+            "ci_high": 0.2339,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w10",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            4.4867,
+            2.6138
+          ],
+          "p1": [
+            4.4867,
+            2.375
+          ],
+          "length_m": {
+            "value": 0.2388,
+            "unit": "m",
+            "ci_low": 0.1314,
+            "ci_high": 0.3463,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w11",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            4.4867,
+            2.375
+          ],
+          "p1": [
+            4.6466,
+            2.375
+          ],
+          "length_m": {
+            "value": 0.1599,
+            "unit": "m",
+            "ci_low": 0.0879,
+            "ci_high": 0.2318,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w12",
+          "observed": true,
+          "n_support_points": 406,
+          "p0": [
+            4.6466,
+            2.375
+          ],
+          "p1": [
+            4.6466,
+            3.6662
+          ],
+          "length_m": {
+            "value": 1.2912,
+            "unit": "m",
+            "ci_low": 0.7101,
+            "ci_high": 1.8722,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w13",
+          "observed": true,
+          "n_support_points": 874,
+          "p0": [
+            4.6466,
+            3.6662
+          ],
+          "p1": [
+            3.1766,
+            3.6662
+          ],
+          "length_m": {
+            "value": 1.47,
+            "unit": "m",
+            "ci_low": 0.8085,
+            "ci_high": 2.1315,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        }
+      ],
+      "damage_regions": [],
+      "scope_line_items": []
+    },
+    {
+      "room_id": "02_room2",
+      "visited": true,
+      "partial": false,
+      "wall_coverage": 0.703,
+      "ceiling_observed": false,
+      "ceiling_height_m": {
+        "value": 1.9351,
+        "unit": "m",
+        "ci_low": 1.9351,
+        "ci_high": 4.5,
+        "basis": "ceiling NOT observed in this capture: value is the highest surface seen (lower bound); upper bound is a plausibility limit, not a measurement"
+      },
+      "floor_area_m2": {
+        "value": 10.856,
+        "unit": "m2",
+        "ci_low": 1.0856,
+        "ci_high": 20.6265,
+        "basis": "photo-tier interval +-90% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+      },
+      "polygon": [
+        [
+          7.2312,
+          1.7257
+        ],
+        [
+          11.3438,
+          1.7257
+        ],
+        [
+          11.3438,
+          2.8056
+        ],
+        [
+          11.9376,
+          2.8056
+        ],
+        [
+          11.9376,
+          1.7856
+        ],
+        [
+          12.5451,
+          1.7856
+        ],
+        [
+          12.5451,
+          4.5514
+        ],
+        [
+          10.2135,
+          4.5514
+        ],
+        [
+          10.2135,
+          4.0477
+        ],
+        [
+          11.3132,
+          4.0477
+        ],
+        [
+          11.3132,
+          3.3733
+        ],
+        [
+          11.6349,
+          3.3733
+        ],
+        [
+          11.6349,
+          3.549
+        ],
+        [
+          7.2312,
+          3.549
+        ]
+      ],
+      "walls": [
+        {
+          "wall_id": "02_room2_w0",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            7.2312,
+            1.7257
+          ],
+          "p1": [
+            11.3438,
+            1.7257
+          ],
+          "length_m": {
+            "value": 4.1126,
+            "unit": "m",
+            "ci_low": 2.2619,
+            "ci_high": 5.9633,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w1",
+          "observed": true,
+          "n_support_points": 48,
+          "p0": [
+            11.3438,
+            1.7257
+          ],
+          "p1": [
+            11.3438,
+            2.8056
+          ],
+          "length_m": {
+            "value": 1.0798,
+            "unit": "m",
+            "ci_low": 0.5939,
+            "ci_high": 1.5658,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w2",
+          "observed": true,
+          "n_support_points": 41,
+          "p0": [
+            11.3438,
+            2.8056
+          ],
+          "p1": [
+            11.9376,
+            2.8056
+          ],
+          "length_m": {
+            "value": 0.5938,
+            "unit": "m",
+            "ci_low": 0.3266,
+            "ci_high": 0.861,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w3",
+          "observed": true,
+          "n_support_points": 167,
+          "p0": [
+            11.9376,
+            2.8056
+          ],
+          "p1": [
+            11.9376,
+            1.7856
+          ],
+          "length_m": {
+            "value": 1.0199,
+            "unit": "m",
+            "ci_low": 0.561,
+            "ci_high": 1.4789,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w4",
+          "observed": false,
+          "n_support_points": 9,
+          "p0": [
+            11.9376,
+            1.7856
+          ],
+          "p1": [
+            12.5451,
+            1.7856
+          ],
+          "length_m": {
+            "value": 0.6075,
+            "unit": "m",
+            "ci_low": 0.3341,
+            "ci_high": 0.8809,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w5",
+          "observed": true,
+          "n_support_points": 182,
+          "p0": [
+            12.5451,
+            1.7856
+          ],
+          "p1": [
+            12.5451,
+            4.5514
+          ],
+          "length_m": {
+            "value": 2.7657,
+            "unit": "m",
+            "ci_low": 1.5211,
+            "ci_high": 4.0103,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w6",
+          "observed": true,
+          "n_support_points": 211,
+          "p0": [
+            12.5451,
+            4.5514
+          ],
+          "p1": [
+            10.2135,
+            4.5514
+          ],
+          "length_m": {
+            "value": 2.3315,
+            "unit": "m",
+            "ci_low": 1.2824,
+            "ci_high": 3.3807,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w7",
+          "observed": false,
+          "n_support_points": 22,
+          "p0": [
+            10.2135,
+            4.5514
+          ],
+          "p1": [
+            10.2135,
+            4.0477
+          ],
+          "length_m": {
+            "value": 0.5037,
+            "unit": "m",
+            "ci_low": 0.277,
+            "ci_high": 0.7303,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w8",
+          "observed": true,
+          "n_support_points": 70,
+          "p0": [
+            10.2135,
+            4.0477
+          ],
+          "p1": [
+            11.3132,
+            4.0477
+          ],
+          "length_m": {
+            "value": 1.0997,
+            "unit": "m",
+            "ci_low": 0.6048,
+            "ci_high": 1.5946,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w9",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            11.3132,
+            4.0477
+          ],
+          "p1": [
+            11.3132,
+            3.3733
+          ],
+          "length_m": {
+            "value": 0.6744,
+            "unit": "m",
+            "ci_low": 0.3709,
+            "ci_high": 0.9779,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w10",
+          "observed": false,
+          "n_support_points": 6,
+          "p0": [
+            11.3132,
+            3.3733
+          ],
+          "p1": [
+            11.6349,
+            3.3733
+          ],
+          "length_m": {
+            "value": 0.3217,
+            "unit": "m",
+            "ci_low": 0.1769,
+            "ci_high": 0.4665,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w11",
+          "observed": false,
+          "n_support_points": 16,
+          "p0": [
+            11.6349,
+            3.3733
+          ],
+          "p1": [
+            11.6349,
+            3.549
+          ],
+          "length_m": {
+            "value": 0.1757,
+            "unit": "m",
+            "ci_low": 0.0966,
+            "ci_high": 0.2548,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w12",
+          "observed": true,
+          "n_support_points": 1878,
+          "p0": [
+            11.6349,
+            3.549
+          ],
+          "p1": [
+            7.2312,
+            3.549
+          ],
+          "length_m": {
+            "value": 4.4038,
+            "unit": "m",
+            "ci_low": 2.4221,
+            "ci_high": 6.3855,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w13",
+          "observed": true,
+          "n_support_points": 556,
+          "p0": [
+            7.2312,
+            3.549
+          ],
+          "p1": [
+            7.2312,
+            1.7257
+          ],
+          "length_m": {
+            "value": 1.8232,
+            "unit": "m",
+            "ci_low": 1.0028,
+            "ci_high": 2.6437,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+          },
+          "openings": []
+        }
+      ],
+      "damage_regions": [],
+      "scope_line_items": []
+    }
+  ],
+  "stitched_plan": {
+    "rooms_placed": [
+      "01_room1",
+      "02_room2"
+    ],
+    "adjacency": [],
+    "footprint_m2": {
+      "value": 19.6713,
+      "unit": "m2",
+      "ci_low": 1.9671,
+      "ci_high": 37.3755,
+      "basis": "photo-tier interval +-90% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
+    },
+    "render_path": "benchmark/results/home/photos/plan.png"
+  },
+  "timing_s": {
+    "total": 30.92,
+    "rec_rooms_in": 2,
+    "rec_rooms_out": 2
+  },
+  "reconstruction": {
+    "per_room": {
+      "01_room1": {
+        "frames": 8,
+        "oriented": 8,
+        "scale": 0.72,
+        "scale_source": "model prior (floor not visible)",
+        "gravity_sources": [
+          "horizontal surfaces"
+        ],
+        "n_openings": 0
+      },
+      "02_room2": {
+        "frames": 8,
+        "oriented": 8,
+        "scale": 0.72,
+        "scale_source": "model prior (floor not visible)",
+        "gravity_sources": [
+          "horizontal surfaces",
+          "wall normals"
+        ],
+        "n_openings": 0
+      }
+    },
+    "placement": [
+      {
+        "room": "02_room2",
+        "connected_to": null,
+        "reason": "no openings detected"
+      }
+    ]
+  },
+  "capture_quality": {
+    "frames_checked": 16,
+    "low_light_frac": 0.0,
+    "blurred_frac": 0.062,
+    "luma_median": 123.5,
+    "sharpness_median": 946.9,
+    "warnings": []
+  }
+}

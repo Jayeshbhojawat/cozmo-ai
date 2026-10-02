@@ -95,3 +95,24 @@ enough to see this; the held-out split is what exposed it.
 reward a lenient matcher. **Next fix:** separate narrow passages from rooms
 (the 1.4 m doorway threshold, chosen to split the rooms, also swallows a
 1.2 m passage); the evidence is the 11.17 m / 8.71 m merged walls above.
+
+## 6. Follow-up shipped: the post-mortem's next fix
+
+Doorways cut where the walking path squeezes through free space (width
+across the walking direction has a local minimum < 1.3 m with ≥ 0.5 m more
+on both sides). Not declared in advance like the fix above; reported here
+with its measured effect (`benchmark/results/home`, switch
+`COZMO_VIDEO_PATH_DOORS=0` for the run without it):
+
+| walk | median wall error | walls within ±3 % | footprint error | 95 % coverage |
+|---|---|---|---|---|
+| 1 | 5.1 % → **2.9 %** | 2/8 → **4/8** | +14.6 % → −4.1 % | 9/10 → 10/10 |
+| 2 | 20.7 % → 20.6 % | 2/8 → 2/8 | −4.9 % → −6.9 % | 11/11 → 11/11 |
+| 3 | 18.7 % → **10.6 %** | 0/8 → 0/8 | −3.7 % → −16.1 % | 11/11 → 11/12 |
+
+Across the three walks the ±3 % wall gate moves from 4/24 (first declared
+baseline) to **6/24 walls**; **it still fails.** Walk 2 keeps room 1 and the
+passage merged (its cut is not found). Walk 3's footprint gets worse because
+the passage is now split off and the remaining room 1 is short. Room 2 is
+2.5-2.95 m long on every walk vs 3.35 m on the tape: the tall wardrobe along
+its wall reads as the wall (known limitation 4).

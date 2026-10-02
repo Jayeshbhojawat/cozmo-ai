@@ -7,7 +7,7 @@
 | 1 | Capture route (Route 2 one-page protocol) | `docs/capture_protocol.md` | ✅ |
 | 2 | Device matrix | `docs/device_matrix.md` | ✅ |
 | 3 | LiDAR tier: depth + poses + intrinsics -> plan | `capture/`, `reconstruction/backproject.py`, `reconstruction/layout.py` | ✅ runs on all 3 captures (23-46 s) |
-| 4 | Video tier | primary: Spectacular Rec (`capture/spectacular.py`, `reconstruction/video_posed.py`); fallback: pivot clip (`monotier.py`) | 🟡 scored on the tape-measured home: 2/2 rooms on all 3 walks, footprint −5…+18 %, walls 7-36 % median error — **gate ±3 % not met** |
+| 4 | Video tier | primary: Spectacular Rec (`capture/spectacular.py`, `reconstruction/video_posed.py`, `scripts/run_video_mac.sh`); fallback: pivot clip (`monotier.py`) | 🟡 scored on the tape-measured home: rooms recovered on all 3 walks, footprint −4…−16 %, wall median 2.9 / 21 / 11 %, 6/24 walls within ±3 % — **gate not met** |
 | 5 | Photo tier incl. whole-property stitch from per-room folders | `reconstruction/monotier.py` (HEIC supported) | 🟡 scored on the home: room 2 area +6 %, room 1 only partly reconstructed; walls 28 % median — **gate ±8 % not met** |
 | 6 | Per-room plan: walls, ceiling height, floor area, openings | `reconstruction/layout.py` | 🟡 all produced; ceiling reported as "not observed" when the capture never saw it |
 | 7 | Stitched multi-room plan with correct adjacency | `layout.py` (rooms, doorway cuts, adjacency) | 🟡 3/5/6 rooms recovered with door-based adjacency; adjacency not yet checked against the real floor plans |
@@ -28,7 +28,7 @@
 | 22 | Drift accountability + on/off ablation | `reconstruction/drift.py`; every video run carries both arms | ✅ ablation on 3 LiDAR samples + 3 tape-scored walks (auto avoided a +11 % error on walk 3) |
 | 23 | Photo-tier whole-property stitch gate | `benchmark/results/home/` | 🟡 scored: footprint −33 % (room 1 partial) — fails |
 | 24 | Head-to-head vs consumer app (2 rooms) | `docs/known_limitations.md` #9 | ❌ not possible on the available device: Polycam room mode needs LiDAR, magicplan scan failed on the iPhone 15; compared against tape only |
-| 25 | Fix loop: declaration, root cause, shipped fix, before/after | `docs/fix_loop.md` (loop 2 has tape numbers), `benchmark/results/home_before` | ✅ regenerable before/after on measured ground truth; a tried-and-rejected fix also recorded |
+| 25 | Fix loop: declaration, root cause, shipped fix, before/after | `docs/fix_declaration.md` (declared before shipping, held-out measurement, post-mortem), `benchmark/results/fixloop3_before|after`, `docs/fix_loop.md` | ✅ regenerable before/after; prediction wrong and post-mortem given; follow-up fix shipped |
 | 26 | Process evidence | `git log`, pushed to GitHub as work progresses | ✅ |
 | 27 | Technical report <= 6 pages | `docs/technical_report.md` | ✅ |
 | 28 | Reproduction bundle | `README.md`, `requirements.txt`, scripts above | 🟡 raw captures shipped separately (too large for git) |

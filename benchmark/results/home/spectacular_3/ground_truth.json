@@ -1,0 +1,136 @@
+{
+  "capture_id": "spectacular_3",
+  "measured_with": "tape (readings recorded in feet/inches, converted here; raw sheet: measurements_raw.txt)",
+  "footprint_m2": null,
+  "rooms": [
+    {
+      "room_id": "room_1",
+      "your_name_for_it": "room1",
+      "ceiling_height_m": {
+        "predicted": 3.0149,
+        "pipeline_observed_ceiling": true,
+        "measured": 2.8448
+      },
+      "walls": [
+        {
+          "wall_id": "room_1_w0",
+          "predicted": 2.5251,
+          "observed": true,
+          "measured": 3.048
+        },
+        {
+          "wall_id": "room_1_w1",
+          "predicted": 6.8177,
+          "observed": true,
+          "measured": 6.2484
+        },
+        {
+          "wall_id": "room_1_w2",
+          "predicted": 1.3078,
+          "observed": true,
+          "measured": 3.048
+        },
+        {
+          "wall_id": "room_1_w3",
+          "predicted": 0.86,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_1_w4",
+          "predicted": 1.2173,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_1_w5",
+          "predicted": 5.9577,
+          "observed": true,
+          "measured": 6.2484
+        }
+      ],
+      "openings": [
+        {
+          "opening_id": "room_1_w5_o0",
+          "kind": "opening_unconfirmed",
+          "predicted": 1.1667,
+          "exists": true,
+          "measured": 0.9197
+        }
+      ],
+      "missed_openings": []
+    },
+    {
+      "room_id": "room_2",
+      "your_name_for_it": "room2",
+      "ceiling_height_m": {
+        "predicted": 2.6838,
+        "pipeline_observed_ceiling": true,
+        "measured": 2.5907999999999998
+      },
+      "walls": [
+        {
+          "wall_id": "room_2_w0",
+          "predicted": 2.8441,
+          "observed": true,
+          "measured": 3.048
+        },
+        {
+          "wall_id": "room_2_w1",
+          "predicted": 2.948,
+          "observed": true,
+          "measured": 3.3528000000000002
+        },
+        {
+          "wall_id": "room_2_w2",
+          "predicted": 2.8441,
+          "observed": true,
+          "measured": 3.048
+        },
+        {
+          "wall_id": "room_2_w3",
+          "predicted": 2.948,
+          "observed": true,
+          "measured": 3.3528000000000002
+        }
+      ],
+      "openings": [
+        {
+          "opening_id": "room_2_w3_o0",
+          "kind": "window",
+          "predicted": 0.6848,
+          "exists": true,
+          "measured": 0.9197
+        }
+      ],
+      "missed_openings": []
+    }
+  ],
+  "matching": {
+    "room_matches": [
+      {
+        "sheet_room": "room1",
+        "plan_room": "room_1",
+        "mean_abs_wall_diff_m": 1.3,
+        "walls": {
+          "A": "room_1_w0",
+          "B": "room_1_w1",
+          "C": "room_1_w2",
+          "D": "room_1_w5"
+        }
+      },
+      {
+        "sheet_room": "room2",
+        "plan_room": "room_2",
+        "mean_abs_wall_diff_m": 0.304,
+        "walls": {
+          "A": "room_2_w0",
+          "B": "room_2_w1",
+          "C": "room_2_w2",
+          "D": "room_2_w3"
+        }
+      }
+    ],
+    "sheet_rooms_not_found_in_plan": []
+  }
+}
