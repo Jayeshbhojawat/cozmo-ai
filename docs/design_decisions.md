@@ -141,7 +141,52 @@ Rules: stain at wall base (WS-BASE), on ceiling (WS-CEIL), long crack
 - Head-to-head: no Pro phone and magicplan's scan did not work on the
   iPhone 15 → compared against tape only, stated openly.
 
-## Likely questions, short answers
+---
+
+## 13. What the tape said (measured home, iPhone 15)
+2 rooms (3.05 × 6.25 m, 3.05 × 3.35 m), one 92 cm door. **Video (3 walks):**
+2/2 rooms every time, footprint **−5 … +18 %**, but walls **7-36 %** off
+(gate 3 %), doors **0 %** within 2 cm, ceilings **10-33 cm** off, **0/8**
+walls repeatable. **Photo:** room 2 area **+6 %**, room 1 only partly
+built. Say it plainly: the learned-depth tiers find the rooms but do not
+measure them to spec.
+
+## 14. Fix loop 2: the layout broke on learned depth
+Before: 1/2/0 rooms, camera "0.5 m above the floor" (impossible). I looked
+at the raw points from above (`benchmark/debug_topdown.py`): both rooms were
+clearly there, so the data was fine and the layout was wrong. Three LiDAR
+assumptions broke:
+1. floor = biggest flat surface → it was the bed. Fix: search only
+   0.9-1.9 m below the camera path.
+2. a cell with 2 points = wall → learned depth sprinkles points everywhere.
+   Fix: a cell is wall only if it stops rays (hits ≥ 5 % of rays through it).
+3. smeared door jambs → door looked too wide to split rooms. Fix: 1.4 m
+   doorway threshold for video.
+After: 2/2/2 rooms, footprint 34.5/31.7/27.7 m² vs 29.3.
+**Honest caveat:** I chose 0.05 and 1.4 m on the same home I scored.
+
+## 15. A fix I rejected because the tape said no
+Per-frame scale refinement made walls 10 % *sharper* but wall error
+*worse* and split one walk into 3 rooms. Sharper is not more accurate; I
+let the measurement decide and did not ship it.
+
+## 16. Intervals: widened when the tape proved them wrong
+At ±22 % only 18 of 32 video tape values were inside the "95 %" interval.
+I reset the width to the measured 95th-percentile error (±58 % video,
+±45 % photo) and found door widths were wrongly using the LiDAR ±1 cm.
+Coverage now 25/32. The rest are walls broken into fragments — a shape
+failure, not something a wider interval should hide.
+
+## More likely questions
+- *Why didn't you hit 3 %?* Each frame's depth scale is uncertain by about
+  ±18 %; on blank walls nothing pins it down. Walls smear over ~30 cm.
+- *What would you do next?* Tell the user to stay 1-2 m from walls; fit wall
+  planes across frames and solve each frame's scale against them; use a
+  multi-view depth model; with a Pro phone, LiDAR.
+- *Why trust anything here?* Every number regenerates with one command, the
+  before arm of each fix is switchable, and the failures are in the report.
+
+## Likely questions, short answers (original)
 - *Why is LiDAR the most accurate?* It measures distance directly; the
   others estimate it from images.
 - *What would you do with one more week?* A small custom ARKit capture app
