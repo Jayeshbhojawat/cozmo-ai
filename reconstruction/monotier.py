@@ -35,8 +35,29 @@ IMG_EXT = {".jpg", ".jpeg", ".png", ".heic", ".JPG", ".JPEG", ".PNG"}
 WALL_THICKNESS_M = 0.15     # typical interior partition; doors sit in a wall this thick
 
 
+def _read_image(path):
+    """BGR image upright. OpenCV reads JPEG/PNG (and applies EXIF rotation);
+    iPhone HEIC needs pillow-heif (iPhones save HEIC by default)."""
+    img = cv2.imread(str(path))
+    if img is not None:
+        return img
+    try:
+        import pillow_heif
+        from PIL import Image, ImageOps
+        pillow_heif.register_heif_opener()
+        im = ImageOps.exif_transpose(Image.open(path)).convert("RGB")
+        return cv2.cvtColor(np.asarray(im), cv2.COLOR_RGB2BGR)
+    except Exception:
+        return None
+
+
 def _exif_focal_px(path, width_px):
     try:
+        try:
+            import pillow_heif
+            pillow_heif.register_heif_opener()
+        except ImportError:
+            pass
         from PIL import Image
         ex = Image.open(path).getexif()
         f35 = ex.get_ifd(0x8769).get(41989) or ex.get(41989)   # FocalLengthIn35mmFilm
@@ -177,7 +198,7 @@ def photo_tier(folder: Path, log=print):
         files = sorted([p for p in d.iterdir() if p.suffix in IMG_EXT])
         imgs, K = [], None
         for p in files:
-            img = cv2.imread(str(p))                       # applies EXIF orientation
+            img = _read_image(p)                           # upright (EXIF orientation applied)
             if img is None:
                 continue
             if K is None:

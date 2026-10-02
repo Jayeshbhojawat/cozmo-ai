@@ -1,0 +1,70 @@
+COZMO MEASURING SHEET 
+Measure each thing TWICE; if the two differ by more than 0.5 cm, measure a third time.
+Write both readings:  Wall A: 312.5 / 312.7
+
+HOW TO LABEL WALLS
+Stand in the doorway between the rooms, facing INTO the room.
+The wall with that door is wall A. Go clockwise: B, C, D, ...
+Every straight piece of wall gets its own letter, even short ones
+(e.g. the 40 cm side of a cupboard bump or chimney).
+Draw a quick sketch on paper with the letters and photograph it.
+
+=====================================================================
+ROOM 1  name: ____________
+=====================================================================
+Wall lengths (corner to corner, tape along the floor at skirting level):
+  A: ___10 feet___ / ______
+  B: ___20.5 feet___ / ______
+  C: ___10 feet___ / ______
+  D: ___20.5 feet___ / ______
+  E: ______ / ______   (delete or add lines as needed)
+  F: ______ / ______
+
+Ceiling height (floor to ceiling, middle of room; hold tape straight up):
+  middle: __112 inch____ / ______
+  near a corner: ______ / ______
+
+Doors (inside the frame, jamb to jamb, at about waist height):
+  door 1  on wall __  leads to: ___96 inch_____   width ___36 inch___ / ______
+  door 2  on wall __  leads to: ________   width ______ / ______
+  Distance from the left corner of that wall to the door frame: ______
+
+Windows (inside the frame, side to side):
+  window 1  on wall __   width ______ / ______
+  Distance from the left corner of that wall: ______
+
+Diagonal (corner where A meets B  ->  opposite corner), checks squareness:
+  ______ / ______
+
+=====================================================================
+ROOM 2  name: ____________
+=====================================================================
+Wall lengths:
+  A: __10 feet____ / ______
+  B: ___11 feet___ / ______
+  C: _10 feet_____ / ______
+  D: ___11 feet___ / ______
+  E: ______ / ______
+  F: ______ / ______
+
+Ceiling height:
+  middle: __102 inch____ / ______
+  near a corner: ______ / ______
+
+Doors:
+  door 1  on wall __  leads to: ____91 inch____   width _92.5 cm_____ / ______
+  Distance from the left corner of that wall: ______
+
+Windows:
+  window 1  on wall __   width ______ / ______
+  Distance from the left corner of that wall: ______
+
+Diagonal: ______ / ______
+
+=====================================================================
+NOTES
+=====================================================================
+Tape or laser used: ____________
+Your height (for the camera-height check): ___5'9 feet___ 
+Anything awkward (furniture blocking a wall, mirrors, glass, low light):
+____________________________________________________________
