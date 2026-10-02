@@ -30,8 +30,8 @@ Known failure cases: tiny rooms with mirrors (phantom depth), pivots done
 in a doorway (free space leaks into the next room), pivots short of a full
 turn (unseen walls). Room placement uses doorway matching; rooms with no
 detected opening are placed apart and reported unconnected.
-Not yet tested on real protocol captures (none exist yet): the numbers
-above come from natural pivots (~230 deg) inside the LiDAR walks.
+The numbers above come from natural pivots (~230 deg) inside the LiDAR
+walks; the tape-scored results on the measured home are in item 0.
 Video pivot detection on that non-protocol walk (threshold lowered to 200
 deg for the test): 3 windows found; one was a real turn and reconstructed
 the bathroom at 2.05 x 2.23 m vs LiDAR 2.01 x 2.17 m (+2-3 %); the other two
