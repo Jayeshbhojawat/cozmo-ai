@@ -3,6 +3,17 @@
 Ordered by impact on the score. Each says what is wrong, the evidence, and
 what would fix it.
 
+## 0. Learned-depth tiers fail their gates on the measured home
+Scored against tape (benchmark/results/home): video walls 7-36 % median
+error (gate 3 %), photo 28 % (gate 8 %), doors 0 % within 2 cm, ceilings
+10-33 cm (gate 1.5 cm), 0/8 walls repeatable across 3 walks. Rooms and
+footprint are recovered (2/2 rooms, −5…+18 %). Cause: per-frame depth scale
+noise smears each wall over ~0.3 m; long walls then break into fragments.
+The capture also hugged blank walls (frames full of plain wall). Intervals
+were widened to the measured error (±58 % video, ±45 % photo). Fixes, in
+order: protocol (stay 1-2 m from walls), plane-based multi-frame fusion,
+a multi-view depth model.
+
 ## 1. Photo and video tiers: working, but not accurate enough for their gates
 Built on per-room pivot scans (`reconstruction/pivot.py`): learned depth
 (Depth Anything V2 ViT-S, metric-indoor ONNX, fetched by script) for shape,
