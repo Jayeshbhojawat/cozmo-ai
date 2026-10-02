@@ -1,0 +1,1636 @@
+{
+  "capture_id": "spectacular_1",
+  "tier": "video",
+  "generated_at": "2026-10-02T12:24:51.232026+00:00",
+  "pipeline_version": "0.2.0",
+  "confidence_note": "video-tier intervals are priors (no depth sensor; scale from assumed camera height).",
+  "plan_frame": {
+    "theta_deg": 89.3,
+    "origin": [
+      -8.5883,
+      -2.7401
+    ],
+    "note": "plan x,y = world (x,z) rotated by -theta so walls are axis-aligned, minus origin"
+  },
+  "rooms": [
+    {
+      "room_id": "room_1",
+      "visited": true,
+      "partial": false,
+      "wall_coverage": 0.908,
+      "ceiling_observed": true,
+      "ceiling_height_m": {
+        "value": 2.9158,
+        "unit": "m",
+        "ci_low": 2.2743,
+        "ci_high": 3.5573,
+        "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+      },
+      "floor_area_m2": {
+        "value": 19.0392,
+        "unit": "m2",
+        "ci_low": 10.6619,
+        "ci_high": 27.4164,
+        "basis": "video_posed-tier interval +-44% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+      },
+      "polygon": [
+        [
+          0.9009,
+          4.9028
+        ],
+        [
+          0.9009,
+          2.85
+        ],
+        [
+          1.1076,
+          2.85
+        ],
+        [
+          1.1076,
+          2.3221
+        ],
+        [
+          3.2935,
+          2.3221
+        ],
+        [
+          3.2935,
+          2.5889
+        ],
+        [
+          3.1243,
+          2.5889
+        ],
+        [
+          3.1243,
+          1.829
+        ],
+        [
+          3.975,
+          1.829
+        ],
+        [
+          3.975,
+          2.0815
+        ],
+        [
+          7.7178,
+          2.0815
+        ],
+        [
+          7.7178,
+          3.2027
+        ],
+        [
+          7.1899,
+          3.2027
+        ],
+        [
+          7.1899,
+          5.253
+        ],
+        [
+          4.1707,
+          5.253
+        ],
+        [
+          4.1707,
+          4.7902
+        ],
+        [
+          3.7128,
+          4.7902
+        ],
+        [
+          3.7128,
+          4.6059
+        ],
+        [
+          3.9905,
+          4.6059
+        ],
+        [
+          3.9905,
+          4.9028
+        ]
+      ],
+      "walls": [
+        {
+          "wall_id": "room_1_w0",
+          "observed": true,
+          "n_support_points": 4679,
+          "p0": [
+            0.9009,
+            4.9028
+          ],
+          "p1": [
+            0.9009,
+            2.85
+          ],
+          "length_m": {
+            "value": 2.0528,
+            "unit": "m",
+            "ci_low": 1.6012,
+            "ci_high": 2.5044,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w1",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            0.9009,
+            2.85
+          ],
+          "p1": [
+            1.1076,
+            2.85
+          ],
+          "length_m": {
+            "value": 0.2067,
+            "unit": "m",
+            "ci_low": 0.1612,
+            "ci_high": 0.2522,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w2",
+          "observed": true,
+          "n_support_points": 1034,
+          "p0": [
+            1.1076,
+            2.85
+          ],
+          "p1": [
+            1.1076,
+            2.3221
+          ],
+          "length_m": {
+            "value": 0.5279,
+            "unit": "m",
+            "ci_low": 0.4118,
+            "ci_high": 0.6441,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w3",
+          "observed": true,
+          "n_support_points": 1969,
+          "p0": [
+            1.1076,
+            2.3221
+          ],
+          "p1": [
+            3.2935,
+            2.3221
+          ],
+          "length_m": {
+            "value": 2.1859,
+            "unit": "m",
+            "ci_low": 1.705,
+            "ci_high": 2.6668,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w4",
+          "observed": true,
+          "n_support_points": 93,
+          "p0": [
+            3.2935,
+            2.3221
+          ],
+          "p1": [
+            3.2935,
+            2.5889
+          ],
+          "length_m": {
+            "value": 0.2669,
+            "unit": "m",
+            "ci_low": 0.2081,
+            "ci_high": 0.3256,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w5",
+          "observed": true,
+          "n_support_points": 183,
+          "p0": [
+            3.2935,
+            2.5889
+          ],
+          "p1": [
+            3.1243,
+            2.5889
+          ],
+          "length_m": {
+            "value": 0.1693,
+            "unit": "m",
+            "ci_low": 0.132,
+            "ci_high": 0.2065,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w6",
+          "observed": true,
+          "n_support_points": 360,
+          "p0": [
+            3.1243,
+            2.5889
+          ],
+          "p1": [
+            3.1243,
+            1.829
+          ],
+          "length_m": {
+            "value": 0.7599,
+            "unit": "m",
+            "ci_low": 0.5927,
+            "ci_high": 0.9271,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w7",
+          "observed": false,
+          "n_support_points": 39,
+          "p0": [
+            3.1243,
+            1.829
+          ],
+          "p1": [
+            3.975,
+            1.829
+          ],
+          "length_m": {
+            "value": 0.8507,
+            "unit": "m",
+            "ci_low": 0.6636,
+            "ci_high": 1.0379,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w8",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            3.975,
+            1.829
+          ],
+          "p1": [
+            3.975,
+            2.0815
+          ],
+          "length_m": {
+            "value": 0.2525,
+            "unit": "m",
+            "ci_low": 0.197,
+            "ci_high": 0.3081,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w9",
+          "observed": true,
+          "n_support_points": 7111,
+          "p0": [
+            3.975,
+            2.0815
+          ],
+          "p1": [
+            7.7178,
+            2.0815
+          ],
+          "length_m": {
+            "value": 3.7428,
+            "unit": "m",
+            "ci_low": 2.9194,
+            "ci_high": 4.5662,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w10",
+          "observed": true,
+          "n_support_points": 1100,
+          "p0": [
+            7.7178,
+            2.0815
+          ],
+          "p1": [
+            7.7178,
+            3.2027
+          ],
+          "length_m": {
+            "value": 1.1212,
+            "unit": "m",
+            "ci_low": 0.8745,
+            "ci_high": 1.3678,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w11",
+          "observed": true,
+          "n_support_points": 542,
+          "p0": [
+            7.7178,
+            3.2027
+          ],
+          "p1": [
+            7.1899,
+            3.2027
+          ],
+          "length_m": {
+            "value": 0.5279,
+            "unit": "m",
+            "ci_low": 0.4118,
+            "ci_high": 0.6441,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w12",
+          "observed": true,
+          "n_support_points": 3707,
+          "p0": [
+            7.1899,
+            3.2027
+          ],
+          "p1": [
+            7.1899,
+            5.253
+          ],
+          "length_m": {
+            "value": 2.0504,
+            "unit": "m",
+            "ci_low": 1.5993,
+            "ci_high": 2.5014,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w13",
+          "observed": true,
+          "n_support_points": 3630,
+          "p0": [
+            7.1899,
+            5.253
+          ],
+          "p1": [
+            4.1707,
+            5.253
+          ],
+          "length_m": {
+            "value": 3.0191,
+            "unit": "m",
+            "ci_low": 2.3549,
+            "ci_high": 3.6833,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": [
+            {
+              "opening_id": "room_1_w13_o0",
+              "kind": "window",
+              "leads_to": null,
+              "start_m": 0.3154,
+              "end_m": 0.816,
+              "width_m": {
+                "value": 0.5006,
+                "unit": "m",
+                "ci_low": 0.4891,
+                "ci_high": 0.5121,
+                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+              }
+            }
+          ]
+        },
+        {
+          "wall_id": "room_1_w14",
+          "observed": true,
+          "n_support_points": 74,
+          "p0": [
+            4.1707,
+            5.253
+          ],
+          "p1": [
+            4.1707,
+            4.7902
+          ],
+          "length_m": {
+            "value": 0.4628,
+            "unit": "m",
+            "ci_low": 0.361,
+            "ci_high": 0.5646,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w15",
+          "observed": true,
+          "n_support_points": 54,
+          "p0": [
+            4.1707,
+            4.7902
+          ],
+          "p1": [
+            3.7128,
+            4.7902
+          ],
+          "length_m": {
+            "value": 0.458,
+            "unit": "m",
+            "ci_low": 0.3572,
+            "ci_high": 0.5587,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w16",
+          "observed": false,
+          "n_support_points": 13,
+          "p0": [
+            3.7128,
+            4.7902
+          ],
+          "p1": [
+            3.7128,
+            4.6059
+          ],
+          "length_m": {
+            "value": 0.1843,
+            "unit": "m",
+            "ci_low": 0.1437,
+            "ci_high": 0.2248,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w17",
+          "observed": false,
+          "n_support_points": 33,
+          "p0": [
+            3.7128,
+            4.6059
+          ],
+          "p1": [
+            3.9905,
+            4.6059
+          ],
+          "length_m": {
+            "value": 0.2777,
+            "unit": "m",
+            "ci_low": 0.2166,
+            "ci_high": 0.3388,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w18",
+          "observed": false,
+          "n_support_points": 19,
+          "p0": [
+            3.9905,
+            4.6059
+          ],
+          "p1": [
+            3.9905,
+            4.9028
+          ],
+          "length_m": {
+            "value": 0.2969,
+            "unit": "m",
+            "ci_low": 0.2316,
+            "ci_high": 0.3622,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w19",
+          "observed": true,
+          "n_support_points": 3586,
+          "p0": [
+            3.9905,
+            4.9028
+          ],
+          "p1": [
+            0.9009,
+            4.9028
+          ],
+          "length_m": {
+            "value": 3.0895,
+            "unit": "m",
+            "ci_low": 2.4098,
+            "ci_high": 3.7692,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        }
+      ],
+      "damage_regions": [
+        {
+          "region_id": "room_1_dmg0",
+          "surface_id": "room_1_w0",
+          "surface_type": "wall",
+          "damage_class": "water_stain",
+          "centroid_plan_m": [
+            0.843,
+            3.451
+          ],
+          "height_above_floor_m": 1.462,
+          "extent_m2": {
+            "value": 0.2284,
+            "unit": "m2",
+            "ci_low": 0.1165,
+            "ci_high": 0.3403,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 2,
+          "source_frames": [
+            1023,
+            1095
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": false,
+            "rules": [],
+            "rule": "none fired"
+          }
+        },
+        {
+          "region_id": "room_1_dmg1",
+          "surface_id": "room_1_w9",
+          "surface_type": "wall",
+          "damage_class": "water_stain",
+          "centroid_plan_m": [
+            5.38,
+            2.121
+          ],
+          "height_above_floor_m": 1.796,
+          "extent_m2": {
+            "value": 0.1259,
+            "unit": "m2",
+            "ci_low": 0.0642,
+            "ci_high": 0.1875,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 2,
+          "source_frames": [
+            711,
+            783
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": false,
+            "rules": [],
+            "rule": "none fired"
+          }
+        },
+        {
+          "region_id": "room_1_dmg2",
+          "surface_id": "room_1_ceiling",
+          "surface_type": "ceiling",
+          "damage_class": "water_stain",
+          "centroid_plan_m": [
+            6.389,
+            2.181
+          ],
+          "height_above_floor_m": 2.868,
+          "extent_m2": {
+            "value": 0.0794,
+            "unit": "m2",
+            "ci_low": 0.0405,
+            "ci_high": 0.1184,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 2,
+          "source_frames": [
+            543,
+            627
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": true,
+            "rules": [
+              {
+                "id": "WS-CEIL",
+                "rule": "stain on the ceiling plane -> possible leak from the floor or roof above; inspect void"
+              }
+            ],
+            "rule": "WS-CEIL: stain on the ceiling plane -> possible leak from the floor or roof above; inspect void"
+          }
+        },
+        {
+          "region_id": "room_1_dmg3",
+          "surface_id": "room_1_w0",
+          "surface_type": "wall",
+          "damage_class": "crack",
+          "centroid_plan_m": [
+            0.959,
+            3.899
+          ],
+          "height_above_floor_m": 2.465,
+          "extent_m2": {
+            "value": 0.0294,
+            "unit": "m2",
+            "ci_low": 0.015,
+            "ci_high": 0.0438,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 3,
+          "source_frames": [
+            1575,
+            1179,
+            1575
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": true,
+            "rules": [
+              {
+                "id": "CR-LONG",
+                "rule": "crack longer than 0.5 m -> check for structural movement behind the finish"
+              }
+            ],
+            "rule": "CR-LONG: crack longer than 0.5 m -> check for structural movement behind the finish"
+          },
+          "length_m": {
+            "value": 1.8528,
+            "unit": "m",
+            "ci_low": 1.1265,
+            "ci_high": 2.5791,
+            "basis": "pixel length x depth/fx, obliquity-corrected; sigma 20%"
+          }
+        },
+        {
+          "region_id": "room_1_dmg4",
+          "surface_id": "room_1_w19",
+          "surface_type": "wall",
+          "damage_class": "water_stain",
+          "centroid_plan_m": [
+            2.54,
+            4.923
+          ],
+          "height_above_floor_m": 1.004,
+          "extent_m2": {
+            "value": 0.0142,
+            "unit": "m2",
+            "ci_low": 0.0072,
+            "ci_high": 0.0211,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 3,
+          "source_frames": [
+            1335,
+            1335,
+            1335
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": false,
+            "rules": [],
+            "rule": "none fired"
+          }
+        },
+        {
+          "region_id": "room_1_dmg5",
+          "surface_id": "room_1_w0",
+          "surface_type": "wall",
+          "damage_class": "crack",
+          "centroid_plan_m": [
+            0.91,
+            3.339
+          ],
+          "height_above_floor_m": 2.222,
+          "extent_m2": {
+            "value": 0.013,
+            "unit": "m2",
+            "ci_low": 0.0066,
+            "ci_high": 0.0194,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 6,
+          "source_frames": [
+            1095,
+            1575,
+            1647,
+            1647,
+            1647
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": true,
+            "rules": [
+              {
+                "id": "CR-LONG",
+                "rule": "crack longer than 0.5 m -> check for structural movement behind the finish"
+              }
+            ],
+            "rule": "CR-LONG: crack longer than 0.5 m -> check for structural movement behind the finish"
+          },
+          "length_m": {
+            "value": 0.5298,
+            "unit": "m",
+            "ci_low": 0.3221,
+            "ci_high": 0.7375,
+            "basis": "pixel length x depth/fx, obliquity-corrected; sigma 20%"
+          }
+        },
+        {
+          "region_id": "room_1_dmg6",
+          "surface_id": "room_1_w0",
+          "surface_type": "wall",
+          "damage_class": "crack",
+          "centroid_plan_m": [
+            0.884,
+            4.082
+          ],
+          "height_above_floor_m": 2.056,
+          "extent_m2": {
+            "value": 0.0056,
+            "unit": "m2",
+            "ci_low": 0.0029,
+            "ci_high": 0.0083,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 3,
+          "source_frames": [
+            1575,
+            1179,
+            1179
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": false,
+            "rules": [],
+            "rule": "none fired"
+          },
+          "length_m": {
+            "value": 0.3702,
+            "unit": "m",
+            "ci_low": 0.2251,
+            "ci_high": 0.5154,
+            "basis": "pixel length x depth/fx, obliquity-corrected; sigma 20%"
+          }
+        },
+        {
+          "region_id": "room_1_dmg7",
+          "surface_id": "room_1_w0",
+          "surface_type": "wall",
+          "damage_class": "crack",
+          "centroid_plan_m": [
+            0.944,
+            4.392
+          ],
+          "height_above_floor_m": 2.131,
+          "extent_m2": {
+            "value": 0.0054,
+            "unit": "m2",
+            "ci_low": 0.0028,
+            "ci_high": 0.0081,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 2,
+          "source_frames": [
+            1095,
+            1263
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": false,
+            "rules": [],
+            "rule": "none fired"
+          },
+          "length_m": {
+            "value": 0.3988,
+            "unit": "m",
+            "ci_low": 0.2425,
+            "ci_high": 0.5551,
+            "basis": "pixel length x depth/fx, obliquity-corrected; sigma 20%"
+          }
+        },
+        {
+          "region_id": "room_1_dmg8",
+          "surface_id": "room_1_w9",
+          "surface_type": "wall",
+          "damage_class": "crack",
+          "centroid_plan_m": [
+            5.385,
+            2.088
+          ],
+          "height_above_floor_m": 0.963,
+          "extent_m2": {
+            "value": 0.0033,
+            "unit": "m2",
+            "ci_low": 0.0017,
+            "ci_high": 0.0049,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 2,
+          "source_frames": [
+            783,
+            711
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": true,
+            "rules": [
+              {
+                "id": "CR-LONG",
+                "rule": "crack longer than 0.5 m -> check for structural movement behind the finish"
+              }
+            ],
+            "rule": "CR-LONG: crack longer than 0.5 m -> check for structural movement behind the finish"
+          },
+          "length_m": {
+            "value": 0.7218,
+            "unit": "m",
+            "ci_low": 0.4388,
+            "ci_high": 1.0047,
+            "basis": "pixel length x depth/fx, obliquity-corrected; sigma 20%"
+          }
+        }
+      ],
+      "scope_line_items": [
+        {
+          "item": "Stain-block prime and repaint",
+          "surface_id": "room_1_w0",
+          "quantity": 0.228,
+          "unit": "m2",
+          "damage_region_id": "room_1_dmg0"
+        },
+        {
+          "item": "Stain-block prime and repaint",
+          "surface_id": "room_1_w9",
+          "quantity": 0.126,
+          "unit": "m2",
+          "damage_region_id": "room_1_dmg1"
+        },
+        {
+          "item": "Stain-block prime and repaint",
+          "surface_id": "room_1_ceiling",
+          "quantity": 0.1,
+          "unit": "m2",
+          "damage_region_id": "room_1_dmg2"
+        },
+        {
+          "item": "Investigate concealed damage: WS-CEIL: stain on the ceiling plane -> possible leak from the floor or roof above; inspect void",
+          "surface_id": "room_1_ceiling",
+          "quantity": 1,
+          "unit": "ea",
+          "damage_region_id": "room_1_dmg2"
+        },
+        {
+          "item": "Rake out, fill and repaint crack",
+          "surface_id": "room_1_w0",
+          "quantity": 0.1,
+          "unit": "m2",
+          "damage_region_id": "room_1_dmg3"
+        },
+        {
+          "item": "Investigate concealed damage: CR-LONG: crack longer than 0.5 m -> check for structural movement behind the finish",
+          "surface_id": "room_1_w0",
+          "quantity": 1,
+          "unit": "ea",
+          "damage_region_id": "room_1_dmg3"
+        },
+        {
+          "item": "Stain-block prime and repaint",
+          "surface_id": "room_1_w19",
+          "quantity": 0.1,
+          "unit": "m2",
+          "damage_region_id": "room_1_dmg4"
+        },
+        {
+          "item": "Rake out, fill and repaint crack",
+          "surface_id": "room_1_w0",
+          "quantity": 0.1,
+          "unit": "m2",
+          "damage_region_id": "room_1_dmg5"
+        },
+        {
+          "item": "Investigate concealed damage: CR-LONG: crack longer than 0.5 m -> check for structural movement behind the finish",
+          "surface_id": "room_1_w0",
+          "quantity": 1,
+          "unit": "ea",
+          "damage_region_id": "room_1_dmg5"
+        },
+        {
+          "item": "Rake out, fill and repaint crack",
+          "surface_id": "room_1_w0",
+          "quantity": 0.1,
+          "unit": "m2",
+          "damage_region_id": "room_1_dmg6"
+        },
+        {
+          "item": "Rake out, fill and repaint crack",
+          "surface_id": "room_1_w0",
+          "quantity": 0.1,
+          "unit": "m2",
+          "damage_region_id": "room_1_dmg7"
+        },
+        {
+          "item": "Rake out, fill and repaint crack",
+          "surface_id": "room_1_w9",
+          "quantity": 0.1,
+          "unit": "m2",
+          "damage_region_id": "room_1_dmg8"
+        },
+        {
+          "item": "Investigate concealed damage: CR-LONG: crack longer than 0.5 m -> check for structural movement behind the finish",
+          "surface_id": "room_1_w9",
+          "quantity": 1,
+          "unit": "ea",
+          "damage_region_id": "room_1_dmg8"
+        }
+      ]
+    },
+    {
+      "room_id": "room_2",
+      "visited": true,
+      "partial": false,
+      "wall_coverage": 0.916,
+      "ceiling_observed": true,
+      "ceiling_height_m": {
+        "value": 2.7346,
+        "unit": "m",
+        "ci_low": 2.133,
+        "ci_high": 3.3362,
+        "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+      },
+      "floor_area_m2": {
+        "value": 15.4467,
+        "unit": "m2",
+        "ci_low": 8.6502,
+        "ci_high": 22.2433,
+        "basis": "video_posed-tier interval +-44% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+      },
+      "polygon": [
+        [
+          7.6998,
+          2.0997
+        ],
+        [
+          12.125,
+          2.0997
+        ],
+        [
+          12.125,
+          1.7
+        ],
+        [
+          12.8318,
+          1.7
+        ],
+        [
+          12.8318,
+          2.0853
+        ],
+        [
+          12.95,
+          2.0853
+        ],
+        [
+          12.95,
+          1.9462
+        ],
+        [
+          15.2117,
+          1.9462
+        ],
+        [
+          15.2117,
+          4.3212
+        ],
+        [
+          14.5356,
+          4.3212
+        ],
+        [
+          14.5356,
+          5.1689
+        ],
+        [
+          11.9452,
+          5.1689
+        ],
+        [
+          11.9452,
+          4.4337
+        ],
+        [
+          12.3154,
+          4.4337
+        ],
+        [
+          12.3154,
+          3.2413
+        ],
+        [
+          11.9439,
+          3.2413
+        ],
+        [
+          11.9439,
+          3.3488
+        ],
+        [
+          9.844,
+          3.3488
+        ],
+        [
+          9.844,
+          3.5828
+        ],
+        [
+          7.6998,
+          3.5828
+        ]
+      ],
+      "walls": [
+        {
+          "wall_id": "room_2_w0",
+          "observed": true,
+          "n_support_points": 3087,
+          "p0": [
+            7.6998,
+            2.0997
+          ],
+          "p1": [
+            12.125,
+            2.0997
+          ],
+          "length_m": {
+            "value": 4.4252,
+            "unit": "m",
+            "ci_low": 3.4516,
+            "ci_high": 5.3987,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w1",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            12.125,
+            2.0997
+          ],
+          "p1": [
+            12.125,
+            1.7
+          ],
+          "length_m": {
+            "value": 0.3997,
+            "unit": "m",
+            "ci_low": 0.3118,
+            "ci_high": 0.4876,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w2",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            12.125,
+            1.7
+          ],
+          "p1": [
+            12.8318,
+            1.7
+          ],
+          "length_m": {
+            "value": 0.7068,
+            "unit": "m",
+            "ci_low": 0.5513,
+            "ci_high": 0.8623,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w3",
+          "observed": true,
+          "n_support_points": 124,
+          "p0": [
+            12.8318,
+            1.7
+          ],
+          "p1": [
+            12.8318,
+            2.0853
+          ],
+          "length_m": {
+            "value": 0.3853,
+            "unit": "m",
+            "ci_low": 0.3005,
+            "ci_high": 0.4701,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w4",
+          "observed": true,
+          "n_support_points": 245,
+          "p0": [
+            12.8318,
+            2.0853
+          ],
+          "p1": [
+            12.95,
+            2.0853
+          ],
+          "length_m": {
+            "value": 0.1182,
+            "unit": "m",
+            "ci_low": 0.0922,
+            "ci_high": 0.1442,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w5",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            12.95,
+            2.0853
+          ],
+          "p1": [
+            12.95,
+            1.9462
+          ],
+          "length_m": {
+            "value": 0.1391,
+            "unit": "m",
+            "ci_low": 0.1085,
+            "ci_high": 0.1697,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w6",
+          "observed": true,
+          "n_support_points": 394,
+          "p0": [
+            12.95,
+            1.9462
+          ],
+          "p1": [
+            15.2117,
+            1.9462
+          ],
+          "length_m": {
+            "value": 2.2617,
+            "unit": "m",
+            "ci_low": 1.7641,
+            "ci_high": 2.7593,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w7",
+          "observed": true,
+          "n_support_points": 4098,
+          "p0": [
+            15.2117,
+            1.9462
+          ],
+          "p1": [
+            15.2117,
+            4.3212
+          ],
+          "length_m": {
+            "value": 2.375,
+            "unit": "m",
+            "ci_low": 1.8525,
+            "ci_high": 2.8975,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w8",
+          "observed": true,
+          "n_support_points": 575,
+          "p0": [
+            15.2117,
+            4.3212
+          ],
+          "p1": [
+            14.5356,
+            4.3212
+          ],
+          "length_m": {
+            "value": 0.6761,
+            "unit": "m",
+            "ci_low": 0.5273,
+            "ci_high": 0.8248,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w9",
+          "observed": true,
+          "n_support_points": 392,
+          "p0": [
+            14.5356,
+            4.3212
+          ],
+          "p1": [
+            14.5356,
+            5.1689
+          ],
+          "length_m": {
+            "value": 0.8476,
+            "unit": "m",
+            "ci_low": 0.6611,
+            "ci_high": 1.0341,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w10",
+          "observed": true,
+          "n_support_points": 4033,
+          "p0": [
+            14.5356,
+            5.1689
+          ],
+          "p1": [
+            11.9452,
+            5.1689
+          ],
+          "length_m": {
+            "value": 2.5905,
+            "unit": "m",
+            "ci_low": 2.0206,
+            "ci_high": 3.1604,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w11",
+          "observed": false,
+          "n_support_points": 11,
+          "p0": [
+            11.9452,
+            5.1689
+          ],
+          "p1": [
+            11.9452,
+            4.4337
+          ],
+          "length_m": {
+            "value": 0.7351,
+            "unit": "m",
+            "ci_low": 0.5734,
+            "ci_high": 0.8969,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w12",
+          "observed": true,
+          "n_support_points": 139,
+          "p0": [
+            11.9452,
+            4.4337
+          ],
+          "p1": [
+            12.3154,
+            4.4337
+          ],
+          "length_m": {
+            "value": 0.3703,
+            "unit": "m",
+            "ci_low": 0.2888,
+            "ci_high": 0.4517,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w13",
+          "observed": true,
+          "n_support_points": 2883,
+          "p0": [
+            12.3154,
+            4.4337
+          ],
+          "p1": [
+            12.3154,
+            3.2413
+          ],
+          "length_m": {
+            "value": 1.1924,
+            "unit": "m",
+            "ci_low": 0.9301,
+            "ci_high": 1.4548,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w14",
+          "observed": true,
+          "n_support_points": 585,
+          "p0": [
+            12.3154,
+            3.2413
+          ],
+          "p1": [
+            11.9439,
+            3.2413
+          ],
+          "length_m": {
+            "value": 0.3715,
+            "unit": "m",
+            "ci_low": 0.2898,
+            "ci_high": 0.4532,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w15",
+          "observed": true,
+          "n_support_points": 261,
+          "p0": [
+            11.9439,
+            3.2413
+          ],
+          "p1": [
+            11.9439,
+            3.3488
+          ],
+          "length_m": {
+            "value": 0.1075,
+            "unit": "m",
+            "ci_low": 0.0839,
+            "ci_high": 0.1312,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w16",
+          "observed": true,
+          "n_support_points": 1530,
+          "p0": [
+            11.9439,
+            3.3488
+          ],
+          "p1": [
+            9.844,
+            3.3488
+          ],
+          "length_m": {
+            "value": 2.0999,
+            "unit": "m",
+            "ci_low": 1.6379,
+            "ci_high": 2.5619,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w17",
+          "observed": true,
+          "n_support_points": 116,
+          "p0": [
+            9.844,
+            3.3488
+          ],
+          "p1": [
+            9.844,
+            3.5828
+          ],
+          "length_m": {
+            "value": 0.234,
+            "unit": "m",
+            "ci_low": 0.1825,
+            "ci_high": 0.2855,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w18",
+          "observed": true,
+          "n_support_points": 111,
+          "p0": [
+            9.844,
+            3.5828
+          ],
+          "p1": [
+            7.6998,
+            3.5828
+          ],
+          "length_m": {
+            "value": 2.1442,
+            "unit": "m",
+            "ci_low": 1.6725,
+            "ci_high": 2.6159,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w19",
+          "observed": true,
+          "n_support_points": 2119,
+          "p0": [
+            7.6998,
+            3.5828
+          ],
+          "p1": [
+            7.6998,
+            2.0997
+          ],
+          "length_m": {
+            "value": 1.4831,
+            "unit": "m",
+            "ci_low": 1.1568,
+            "ci_high": 1.8094,
+            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        }
+      ],
+      "damage_regions": [],
+      "scope_line_items": []
+    }
+  ],
+  "stitched_plan": {
+    "rooms_placed": [
+      "room_1",
+      "room_2"
+    ],
+    "adjacency": [
+      {
+        "rooms": [
+          "room_1",
+          "room_2"
+        ],
+        "via_opening": null
+      }
+    ],
+    "footprint_m2": {
+      "value": 34.4859,
+      "unit": "m2",
+      "ci_low": 19.3121,
+      "ci_high": 49.6597,
+      "basis": "video_posed-tier interval +-44% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+    },
+    "render_path": "benchmark/results/home/spectacular_1/plan.png"
+  },
+  "timing_s": {
+    "poses": 0.49,
+    "depth_and_scale": 38.69,
+    "drift_and_layout": 7.48,
+    "damage": 45.62,
+    "total": 92.43
+  },
+  "reconstruction": {
+    "path": "posed_video",
+    "pose_source": "spectacular_rec",
+    "frames": 257,
+    "frames_scaled_directly": 228,
+    "median_triangulated_points": 139.0,
+    "scale_median": 0.5790774479779992,
+    "scale_p10_p90": [
+      0.5131242014479559,
+      0.7449564896267512
+    ],
+    "depth_cache_used": true,
+    "floor_method": "lower_edge",
+    "camera_height_m": 1.724
+  },
+  "drift": {
+    "mode": "auto",
+    "theta_deg": 0.7500000000000007,
+    "chunks": [
+      {
+        "t_mid": 15812.128633,
+        "delta_deg": 3.1500000000000012,
+        "n_wall_pts": 34970
+      },
+      {
+        "t_mid": 15820.128633,
+        "delta_deg": -1.6499999999999992,
+        "n_wall_pts": 36762
+      },
+      {
+        "t_mid": 15828.128633,
+        "delta_deg": -1.8499999999999868,
+        "n_wall_pts": 32064
+      },
+      {
+        "t_mid": 15836.128633,
+        "delta_deg": -2.250000000000013,
+        "n_wall_pts": 42465
+      },
+      {
+        "t_mid": 15844.128633,
+        "delta_deg": -3.800000000000018,
+        "n_wall_pts": 30163
+      },
+      {
+        "t_mid": 15852.128633,
+        "delta_deg": -5.1999999999999815,
+        "n_wall_pts": 40401
+      },
+      {
+        "t_mid": 15860.128633,
+        "delta_deg": -1.900000000000009,
+        "n_wall_pts": 41793
+      },
+      {
+        "t_mid": 15868.128633,
+        "delta_deg": -1.300000000000021,
+        "n_wall_pts": 36892
+      },
+      {
+        "t_mid": 15876.128633,
+        "delta_deg": 1.7499999999999993,
+        "n_wall_pts": 29611
+      },
+      {
+        "t_mid": 15884.128633,
+        "delta_deg": 1.7000000000000024,
+        "n_wall_pts": 35422
+      },
+      {
+        "t_mid": 15892.128633,
+        "delta_deg": -1.3500000000000179,
+        "n_wall_pts": 39683
+      },
+      {
+        "t_mid": 15900.128633,
+        "delta_deg": -1.2499999999999987,
+        "n_wall_pts": 43803
+      },
+      {
+        "t_mid": 15908.128633,
+        "delta_deg": -0.5000000000000007,
+        "n_wall_pts": 32120
+      }
+    ],
+    "max_abs_correction_deg": 3.800000000000018,
+    "registration_voxels_raw": 162545,
+    "registration_voxels_corrected": 162100,
+    "registration_change_pct": -0.27,
+    "applied": true
+  },
+  "drift_ablation": {
+    "off": {
+      "registration_voxels": 162545,
+      "n_rooms": 2,
+      "footprint_m2": 34.637,
+      "footprint_union_m2": 33.546
+    },
+    "on": {
+      "registration_voxels": 162100,
+      "n_rooms": 2,
+      "footprint_m2": 34.486,
+      "footprint_union_m2": 34.285
+    }
+  }
+}

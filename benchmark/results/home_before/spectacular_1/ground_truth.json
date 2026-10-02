@@ -1,0 +1,106 @@
+{
+  "capture_id": "spectacular_1",
+  "measured_with": "tape (readings recorded in feet/inches, converted here; raw sheet: measurements_raw.txt)",
+  "footprint_m2": null,
+  "rooms": [
+    {
+      "room_id": "room_1",
+      "your_name_for_it": "room2",
+      "ceiling_height_m": {
+        "predicted": 2.0337,
+        "pipeline_observed_ceiling": true,
+        "measured": 2.5907999999999998
+      },
+      "walls": [
+        {
+          "wall_id": "room_1_w0",
+          "predicted": 3.0684,
+          "observed": true,
+          "measured": 3.3528000000000002
+        },
+        {
+          "wall_id": "room_1_w1",
+          "predicted": 0.6043,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_1_w2",
+          "predicted": 1.0095,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_1_w3",
+          "predicted": 2.6314,
+          "observed": true,
+          "measured": 3.048
+        },
+        {
+          "wall_id": "room_1_w4",
+          "predicted": 1.723,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_1_w5",
+          "predicted": 1.9739,
+          "observed": true,
+          "measured": 3.3528000000000002
+        },
+        {
+          "wall_id": "room_1_w6",
+          "predicted": 0.7001,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_1_w7",
+          "predicted": 0.7299,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_1_w8",
+          "predicted": 1.6547,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_1_w9",
+          "predicted": 1.9917,
+          "observed": true,
+          "measured": 3.048
+        }
+      ],
+      "openings": [
+        {
+          "opening_id": "room_1_w0_o0",
+          "kind": "opening_unconfirmed",
+          "predicted": 0.8017,
+          "exists": true,
+          "measured": 0.9197
+        }
+      ],
+      "missed_openings": []
+    }
+  ],
+  "matching": {
+    "room_matches": [
+      {
+        "sheet_room": "room2",
+        "plan_room": "room_1",
+        "mean_abs_wall_diff_m": 2.389,
+        "walls": {
+          "A": "room_1_w3",
+          "B": "room_1_w0",
+          "C": "room_1_w9",
+          "D": "room_1_w5"
+        }
+      }
+    ],
+    "sheet_rooms_not_found_in_plan": [
+      "room1"
+    ]
+  }
+}

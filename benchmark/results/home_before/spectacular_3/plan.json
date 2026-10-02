@@ -1,0 +1,171 @@
+{
+  "capture_id": "spectacular_3",
+  "tier": "video",
+  "generated_at": "2026-10-02T12:25:22.763014+00:00",
+  "pipeline_version": "0.2.0",
+  "confidence_note": "video-tier intervals are priors (no depth sensor; scale from assumed camera height).",
+  "plan_frame": {
+    "theta_deg": 79.2,
+    "origin": [
+      -11.381,
+      -3.4532
+    ],
+    "note": "plan x,y = world (x,z) rotated by -theta so walls are axis-aligned, minus origin"
+  },
+  "rooms": [],
+  "stitched_plan": {
+    "rooms_placed": [],
+    "adjacency": [],
+    "footprint_m2": {
+      "value": 0,
+      "unit": "m2",
+      "ci_low": 0.0,
+      "ci_high": 0.0,
+      "basis": "video_posed-tier interval +-44% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+    },
+    "render_path": null
+  },
+  "timing_s": {
+    "poses": 0.58,
+    "depth_and_scale": 38.41,
+    "drift_and_layout": 9.06,
+    "damage": 67.89,
+    "total": 115.94
+  },
+  "reconstruction": {
+    "path": "posed_video",
+    "pose_source": "spectacular_rec",
+    "frames": 255,
+    "frames_scaled_directly": 222,
+    "median_triangulated_points": 156.0,
+    "scale_median": 0.549300310165042,
+    "scale_p10_p90": [
+      0.48851587678810926,
+      0.656120111399632
+    ],
+    "depth_cache_used": true,
+    "floor_method": "histogram",
+    "camera_height_m": 0.591
+  },
+  "drift": {
+    "mode": "auto",
+    "theta_deg": 79.2,
+    "chunks": [
+      {
+        "t_mid": 16101.555223291,
+        "delta_deg": 8.249999999999996,
+        "n_wall_pts": 23223
+      },
+      {
+        "t_mid": 16109.555223291,
+        "delta_deg": 4.75000000000001,
+        "n_wall_pts": 27537
+      },
+      {
+        "t_mid": 16117.555223291,
+        "delta_deg": 3.500000000000011,
+        "n_wall_pts": 28712
+      },
+      {
+        "t_mid": 16125.555223291,
+        "delta_deg": 2.750000000000007,
+        "n_wall_pts": 27378
+      },
+      {
+        "t_mid": 16133.555223291,
+        "delta_deg": 1.6499999999999992,
+        "n_wall_pts": 30384
+      },
+      {
+        "t_mid": 16141.555223291,
+        "delta_deg": 3.800000000000005,
+        "n_wall_pts": 26507
+      },
+      {
+        "t_mid": 16149.555223291,
+        "delta_deg": 3.1000000000000107,
+        "n_wall_pts": 24438
+      },
+      {
+        "t_mid": 16157.555223291,
+        "delta_deg": 1.6000000000000023,
+        "n_wall_pts": 27608
+      },
+      {
+        "t_mid": 16165.555223291,
+        "delta_deg": 4.600000000000007,
+        "n_wall_pts": 32425
+      },
+      {
+        "t_mid": 16173.555223291,
+        "delta_deg": 7.649999999999995,
+        "n_wall_pts": 25569
+      },
+      {
+        "t_mid": 16181.555223291,
+        "delta_deg": -19.0,
+        "n_wall_pts": 20941
+      },
+      {
+        "t_mid": 16189.555223291,
+        "delta_deg": -6.95,
+        "n_wall_pts": 14081
+      },
+      {
+        "t_mid": 16197.555223291,
+        "delta_deg": -2.9499999999999944,
+        "n_wall_pts": 18247
+      },
+      {
+        "t_mid": 16205.555223291,
+        "delta_deg": 0.9500000000000045,
+        "n_wall_pts": 19365
+      },
+      {
+        "t_mid": 16213.555223291,
+        "delta_deg": 12.899999999999999,
+        "n_wall_pts": 23813
+      },
+      {
+        "t_mid": 16221.555223291,
+        "delta_deg": -2.649999999999988,
+        "n_wall_pts": 25033
+      },
+      {
+        "t_mid": 16229.555223291,
+        "delta_deg": -4.44999999999999,
+        "n_wall_pts": 24847
+      },
+      {
+        "t_mid": 16237.555223291,
+        "delta_deg": -4.149999999999996,
+        "n_wall_pts": 26725
+      },
+      {
+        "t_mid": 16245.555223291,
+        "delta_deg": -12.949999999999996,
+        "n_wall_pts": 21074
+      }
+    ],
+    "max_abs_correction_deg": 8.549999999999995,
+    "registration_voxels_raw": 167449,
+    "registration_voxels_corrected": 168355,
+    "registration_change_pct": 0.54,
+    "applied": false,
+    "reason": "correction rejected: it loosened wall registration, so the phone's own visual-inertial poses were kept after audit"
+  },
+  "drift_ablation": {
+    "off": {
+      "registration_voxels": 167449,
+      "n_rooms": 0,
+      "footprint_m2": 0.0,
+      "footprint_union_m2": 0.0
+    },
+    "on": {
+      "registration_voxels": 168355,
+      "n_rooms": 0,
+      "footprint_m2": 0.0,
+      "footprint_union_m2": 0.0
+    }
+  }
+}

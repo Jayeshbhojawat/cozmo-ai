@@ -1,0 +1,344 @@
+{
+  "capture_id": "spectacular_2",
+  "measured_with": "tape (readings recorded in feet/inches, converted here; raw sheet: measurements_raw.txt)",
+  "footprint_m2": null,
+  "rooms": [
+    {
+      "room_id": "room_1",
+      "your_name_for_it": "room1",
+      "ceiling_height_m": {
+        "predicted": 1.0843,
+        "pipeline_observed_ceiling": false,
+        "measured": 2.8448
+      },
+      "walls": [
+        {
+          "wall_id": "room_1_w0",
+          "predicted": 7.4418,
+          "observed": true,
+          "measured": 6.2484
+        },
+        {
+          "wall_id": "room_1_w1",
+          "predicted": 0.3752,
+          "observed": false,
+          "measured": null
+        },
+        {
+          "wall_id": "room_1_w2",
+          "predicted": 0.6972,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_1_w3",
+          "predicted": 2.2408,
+          "observed": true,
+          "measured": 3.048
+        },
+        {
+          "wall_id": "room_1_w4",
+          "predicted": 1.1115,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_1_w5",
+          "predicted": 0.5314,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_1_w6",
+          "predicted": 2.5881,
+          "observed": true,
+          "measured": 6.2484
+        },
+        {
+          "wall_id": "room_1_w7",
+          "predicted": 0.7359,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_1_w8",
+          "predicted": 0.1943,
+          "observed": false,
+          "measured": null
+        },
+        {
+          "wall_id": "room_1_w9",
+          "predicted": 1.056,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_1_w10",
+          "predicted": 2.1778,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_1_w11",
+          "predicted": 0.2209,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_1_w12",
+          "predicted": 2.4559,
+          "observed": true,
+          "measured": 3.048
+        },
+        {
+          "wall_id": "room_1_w13",
+          "predicted": 1.5764,
+          "observed": true,
+          "measured": null
+        }
+      ],
+      "openings": [
+        {
+          "opening_id": "room_1_w0_o0",
+          "kind": "window",
+          "predicted": 0.5858,
+          "exists": false,
+          "measured": null
+        }
+      ],
+      "missed_openings": [
+        {
+          "near_wall_id": "room_1_w3",
+          "kind": "door",
+          "measured": 0.9197
+        }
+      ]
+    },
+    {
+      "room_id": "room_2",
+      "your_name_for_it": "room2",
+      "ceiling_height_m": {
+        "predicted": 2.6649,
+        "pipeline_observed_ceiling": true,
+        "measured": 2.5907999999999998
+      },
+      "walls": [
+        {
+          "wall_id": "room_2_w0",
+          "predicted": 0.7994,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w1",
+          "predicted": 0.2601,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w2",
+          "predicted": 0.7521,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w3",
+          "predicted": 0.7619,
+          "observed": false,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w4",
+          "predicted": 1.1872,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w5",
+          "predicted": 0.7953,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w6",
+          "predicted": 0.6865,
+          "observed": false,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w7",
+          "predicted": 0.8304,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w8",
+          "predicted": 0.6713,
+          "observed": false,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w9",
+          "predicted": 0.4765,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w10",
+          "predicted": 0.4881,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w11",
+          "predicted": 0.5409,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w12",
+          "predicted": 1.2879,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w13",
+          "predicted": 0.4586,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w14",
+          "predicted": 1.6276,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w15",
+          "predicted": 2.0707,
+          "observed": true,
+          "measured": 3.3528000000000002
+        },
+        {
+          "wall_id": "room_2_w16",
+          "predicted": 1.2603,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w17",
+          "predicted": 0.1969,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w18",
+          "predicted": 1.3073,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w19",
+          "predicted": 0.2046,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w20",
+          "predicted": 1.1107,
+          "observed": false,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w21",
+          "predicted": 1.6375,
+          "observed": true,
+          "measured": 3.048
+        },
+        {
+          "wall_id": "room_2_w22",
+          "predicted": 0.4047,
+          "observed": false,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w23",
+          "predicted": 0.7342,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w24",
+          "predicted": 0.4268,
+          "observed": false,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w25",
+          "predicted": 0.325,
+          "observed": true,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w26",
+          "predicted": 0.9988,
+          "observed": false,
+          "measured": null
+        },
+        {
+          "wall_id": "room_2_w27",
+          "predicted": 4.17,
+          "observed": true,
+          "measured": 3.3528000000000002
+        },
+        {
+          "wall_id": "room_2_w28",
+          "predicted": 2.7016,
+          "observed": false,
+          "measured": 3.048
+        },
+        {
+          "wall_id": "room_2_w29",
+          "predicted": 1.4538,
+          "observed": true,
+          "measured": null
+        }
+      ],
+      "openings": [],
+      "missed_openings": [
+        {
+          "near_wall_id": "room_2_w28",
+          "kind": "door",
+          "measured": 0.9197
+        }
+      ]
+    }
+  ],
+  "matching": {
+    "room_matches": [
+      {
+        "sheet_room": "room1",
+        "plan_room": "room_1",
+        "mean_abs_wall_diff_m": 3.732,
+        "walls": {
+          "A": "room_1_w3",
+          "B": "room_1_w0",
+          "C": "room_1_w12",
+          "D": "room_1_w6"
+        }
+      },
+      {
+        "sheet_room": "room2",
+        "plan_room": "room_2",
+        "mean_abs_wall_diff_m": 5.976,
+        "walls": {
+          "A": "room_2_w28",
+          "B": "room_2_w15",
+          "C": "room_2_w21",
+          "D": "room_2_w27"
+        }
+      }
+    ],
+    "sheet_rooms_not_found_in_plan": []
+  }
+}

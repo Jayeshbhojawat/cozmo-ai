@@ -1,0 +1,13 @@
+{
+  "capture_id": "spectacular_3",
+  "measured_with": "tape (readings recorded in feet/inches, converted here; raw sheet: measurements_raw.txt)",
+  "footprint_m2": null,
+  "rooms": [],
+  "matching": {
+    "room_matches": [],
+    "sheet_rooms_not_found_in_plan": [
+      "room1",
+      "room2"
+    ]
+  }
+}

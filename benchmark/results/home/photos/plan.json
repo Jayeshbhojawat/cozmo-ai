@@ -1,0 +1,823 @@
+{
+  "capture_id": "photos",
+  "tier": "photo",
+  "generated_at": "2026-10-02T12:28:16.972741+00:00",
+  "pipeline_version": "0.2.0",
+  "confidence_note": "photo-tier intervals are priors (no depth sensor; scale from assumed camera height).",
+  "plan_frame": {
+    "theta_deg": 0.0,
+    "origin": [
+      0.0,
+      0.0
+    ],
+    "note": "plan x,y = world (x,z) rotated by -theta so walls are axis-aligned, minus origin"
+  },
+  "rooms": [
+    {
+      "room_id": "01_room1",
+      "visited": true,
+      "partial": false,
+      "wall_coverage": 0.731,
+      "ceiling_observed": true,
+      "ceiling_height_m": {
+        "value": 2.7153,
+        "unit": "m",
+        "ci_low": 2.1179,
+        "ci_high": 3.3127,
+        "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+      },
+      "floor_area_m2": {
+        "value": 8.8153,
+        "unit": "m2",
+        "ci_low": 4.9365,
+        "ci_high": 12.694,
+        "basis": "photo-tier interval +-44% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+      },
+      "polygon": [
+        [
+          3.1766,
+          3.6662
+        ],
+        [
+          3.1766,
+          0.8124
+        ],
+        [
+          5.5542,
+          0.8124
+        ],
+        [
+          5.5542,
+          1.8248
+        ],
+        [
+          6.2312,
+          1.8248
+        ],
+        [
+          6.2312,
+          4.0782
+        ],
+        [
+          4.4601,
+          4.0782
+        ],
+        [
+          4.4601,
+          3.5754
+        ],
+        [
+          4.648,
+          3.5754
+        ],
+        [
+          4.648,
+          2.6138
+        ],
+        [
+          4.4867,
+          2.6138
+        ],
+        [
+          4.4867,
+          2.375
+        ],
+        [
+          4.6466,
+          2.375
+        ],
+        [
+          4.6466,
+          3.6662
+        ]
+      ],
+      "walls": [
+        {
+          "wall_id": "01_room1_w0",
+          "observed": false,
+          "n_support_points": 21,
+          "p0": [
+            3.1766,
+            3.6662
+          ],
+          "p1": [
+            3.1766,
+            0.8124
+          ],
+          "length_m": {
+            "value": 2.8538,
+            "unit": "m",
+            "ci_low": 2.226,
+            "ci_high": 3.4816,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w1",
+          "observed": true,
+          "n_support_points": 415,
+          "p0": [
+            3.1766,
+            0.8124
+          ],
+          "p1": [
+            5.5542,
+            0.8124
+          ],
+          "length_m": {
+            "value": 2.3776,
+            "unit": "m",
+            "ci_low": 1.8545,
+            "ci_high": 2.9006,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w2",
+          "observed": true,
+          "n_support_points": 92,
+          "p0": [
+            5.5542,
+            0.8124
+          ],
+          "p1": [
+            5.5542,
+            1.8248
+          ],
+          "length_m": {
+            "value": 1.0124,
+            "unit": "m",
+            "ci_low": 0.7897,
+            "ci_high": 1.2352,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w3",
+          "observed": false,
+          "n_support_points": 21,
+          "p0": [
+            5.5542,
+            1.8248
+          ],
+          "p1": [
+            6.2312,
+            1.8248
+          ],
+          "length_m": {
+            "value": 0.677,
+            "unit": "m",
+            "ci_low": 0.5281,
+            "ci_high": 0.8259,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w4",
+          "observed": true,
+          "n_support_points": 519,
+          "p0": [
+            6.2312,
+            1.8248
+          ],
+          "p1": [
+            6.2312,
+            4.0782
+          ],
+          "length_m": {
+            "value": 2.2534,
+            "unit": "m",
+            "ci_low": 1.7577,
+            "ci_high": 2.7492,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w5",
+          "observed": true,
+          "n_support_points": 148,
+          "p0": [
+            6.2312,
+            4.0782
+          ],
+          "p1": [
+            4.4601,
+            4.0782
+          ],
+          "length_m": {
+            "value": 1.7711,
+            "unit": "m",
+            "ci_low": 1.3815,
+            "ci_high": 2.1607,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w6",
+          "observed": true,
+          "n_support_points": 137,
+          "p0": [
+            4.4601,
+            4.0782
+          ],
+          "p1": [
+            4.4601,
+            3.5754
+          ],
+          "length_m": {
+            "value": 0.5028,
+            "unit": "m",
+            "ci_low": 0.3922,
+            "ci_high": 0.6134,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w7",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            4.4601,
+            3.5754
+          ],
+          "p1": [
+            4.648,
+            3.5754
+          ],
+          "length_m": {
+            "value": 0.1879,
+            "unit": "m",
+            "ci_low": 0.1466,
+            "ci_high": 0.2293,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w8",
+          "observed": true,
+          "n_support_points": 464,
+          "p0": [
+            4.648,
+            3.5754
+          ],
+          "p1": [
+            4.648,
+            2.6138
+          ],
+          "length_m": {
+            "value": 0.9616,
+            "unit": "m",
+            "ci_low": 0.75,
+            "ci_high": 1.1732,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w9",
+          "observed": false,
+          "n_support_points": 17,
+          "p0": [
+            4.648,
+            2.6138
+          ],
+          "p1": [
+            4.4867,
+            2.6138
+          ],
+          "length_m": {
+            "value": 0.1613,
+            "unit": "m",
+            "ci_low": 0.1258,
+            "ci_high": 0.1968,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w10",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            4.4867,
+            2.6138
+          ],
+          "p1": [
+            4.4867,
+            2.375
+          ],
+          "length_m": {
+            "value": 0.2388,
+            "unit": "m",
+            "ci_low": 0.1863,
+            "ci_high": 0.2914,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w11",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            4.4867,
+            2.375
+          ],
+          "p1": [
+            4.6466,
+            2.375
+          ],
+          "length_m": {
+            "value": 0.1599,
+            "unit": "m",
+            "ci_low": 0.1247,
+            "ci_high": 0.195,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w12",
+          "observed": true,
+          "n_support_points": 406,
+          "p0": [
+            4.6466,
+            2.375
+          ],
+          "p1": [
+            4.6466,
+            3.6662
+          ],
+          "length_m": {
+            "value": 1.2912,
+            "unit": "m",
+            "ci_low": 1.0071,
+            "ci_high": 1.5752,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "01_room1_w13",
+          "observed": true,
+          "n_support_points": 874,
+          "p0": [
+            4.6466,
+            3.6662
+          ],
+          "p1": [
+            3.1766,
+            3.6662
+          ],
+          "length_m": {
+            "value": 1.47,
+            "unit": "m",
+            "ci_low": 1.1466,
+            "ci_high": 1.7934,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        }
+      ],
+      "damage_regions": [],
+      "scope_line_items": []
+    },
+    {
+      "room_id": "02_room2",
+      "visited": true,
+      "partial": false,
+      "wall_coverage": 0.703,
+      "ceiling_observed": false,
+      "ceiling_height_m": {
+        "value": 1.9351,
+        "unit": "m",
+        "ci_low": 1.9351,
+        "ci_high": 4.5,
+        "basis": "ceiling NOT observed in this capture: value is the highest surface seen (lower bound); upper bound is a plausibility limit, not a measurement"
+      },
+      "floor_area_m2": {
+        "value": 10.856,
+        "unit": "m2",
+        "ci_low": 6.0794,
+        "ci_high": 15.6327,
+        "basis": "photo-tier interval +-44% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+      },
+      "polygon": [
+        [
+          7.2312,
+          1.7257
+        ],
+        [
+          11.3438,
+          1.7257
+        ],
+        [
+          11.3438,
+          2.8056
+        ],
+        [
+          11.9376,
+          2.8056
+        ],
+        [
+          11.9376,
+          1.7856
+        ],
+        [
+          12.5451,
+          1.7856
+        ],
+        [
+          12.5451,
+          4.5514
+        ],
+        [
+          10.2135,
+          4.5514
+        ],
+        [
+          10.2135,
+          4.0477
+        ],
+        [
+          11.3132,
+          4.0477
+        ],
+        [
+          11.3132,
+          3.3733
+        ],
+        [
+          11.6349,
+          3.3733
+        ],
+        [
+          11.6349,
+          3.549
+        ],
+        [
+          7.2312,
+          3.549
+        ]
+      ],
+      "walls": [
+        {
+          "wall_id": "02_room2_w0",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            7.2312,
+            1.7257
+          ],
+          "p1": [
+            11.3438,
+            1.7257
+          ],
+          "length_m": {
+            "value": 4.1126,
+            "unit": "m",
+            "ci_low": 3.2079,
+            "ci_high": 5.0174,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w1",
+          "observed": true,
+          "n_support_points": 48,
+          "p0": [
+            11.3438,
+            1.7257
+          ],
+          "p1": [
+            11.3438,
+            2.8056
+          ],
+          "length_m": {
+            "value": 1.0798,
+            "unit": "m",
+            "ci_low": 0.8423,
+            "ci_high": 1.3174,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w2",
+          "observed": true,
+          "n_support_points": 41,
+          "p0": [
+            11.3438,
+            2.8056
+          ],
+          "p1": [
+            11.9376,
+            2.8056
+          ],
+          "length_m": {
+            "value": 0.5938,
+            "unit": "m",
+            "ci_low": 0.4632,
+            "ci_high": 0.7244,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w3",
+          "observed": true,
+          "n_support_points": 167,
+          "p0": [
+            11.9376,
+            2.8056
+          ],
+          "p1": [
+            11.9376,
+            1.7856
+          ],
+          "length_m": {
+            "value": 1.0199,
+            "unit": "m",
+            "ci_low": 0.7956,
+            "ci_high": 1.2443,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w4",
+          "observed": false,
+          "n_support_points": 9,
+          "p0": [
+            11.9376,
+            1.7856
+          ],
+          "p1": [
+            12.5451,
+            1.7856
+          ],
+          "length_m": {
+            "value": 0.6075,
+            "unit": "m",
+            "ci_low": 0.4738,
+            "ci_high": 0.7411,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w5",
+          "observed": true,
+          "n_support_points": 182,
+          "p0": [
+            12.5451,
+            1.7856
+          ],
+          "p1": [
+            12.5451,
+            4.5514
+          ],
+          "length_m": {
+            "value": 2.7657,
+            "unit": "m",
+            "ci_low": 2.1573,
+            "ci_high": 3.3742,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w6",
+          "observed": true,
+          "n_support_points": 211,
+          "p0": [
+            12.5451,
+            4.5514
+          ],
+          "p1": [
+            10.2135,
+            4.5514
+          ],
+          "length_m": {
+            "value": 2.3315,
+            "unit": "m",
+            "ci_low": 1.8186,
+            "ci_high": 2.8445,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w7",
+          "observed": false,
+          "n_support_points": 22,
+          "p0": [
+            10.2135,
+            4.5514
+          ],
+          "p1": [
+            10.2135,
+            4.0477
+          ],
+          "length_m": {
+            "value": 0.5037,
+            "unit": "m",
+            "ci_low": 0.3929,
+            "ci_high": 0.6145,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w8",
+          "observed": true,
+          "n_support_points": 70,
+          "p0": [
+            10.2135,
+            4.0477
+          ],
+          "p1": [
+            11.3132,
+            4.0477
+          ],
+          "length_m": {
+            "value": 1.0997,
+            "unit": "m",
+            "ci_low": 0.8578,
+            "ci_high": 1.3416,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w9",
+          "observed": false,
+          "n_support_points": 0,
+          "p0": [
+            11.3132,
+            4.0477
+          ],
+          "p1": [
+            11.3132,
+            3.3733
+          ],
+          "length_m": {
+            "value": 0.6744,
+            "unit": "m",
+            "ci_low": 0.526,
+            "ci_high": 0.8228,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w10",
+          "observed": false,
+          "n_support_points": 6,
+          "p0": [
+            11.3132,
+            3.3733
+          ],
+          "p1": [
+            11.6349,
+            3.3733
+          ],
+          "length_m": {
+            "value": 0.3217,
+            "unit": "m",
+            "ci_low": 0.2509,
+            "ci_high": 0.3925,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w11",
+          "observed": false,
+          "n_support_points": 16,
+          "p0": [
+            11.6349,
+            3.3733
+          ],
+          "p1": [
+            11.6349,
+            3.549
+          ],
+          "length_m": {
+            "value": 0.1757,
+            "unit": "m",
+            "ci_low": 0.137,
+            "ci_high": 0.2144,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w12",
+          "observed": true,
+          "n_support_points": 1878,
+          "p0": [
+            11.6349,
+            3.549
+          ],
+          "p1": [
+            7.2312,
+            3.549
+          ],
+          "length_m": {
+            "value": 4.4038,
+            "unit": "m",
+            "ci_low": 3.4349,
+            "ci_high": 5.3726,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "02_room2_w13",
+          "observed": true,
+          "n_support_points": 556,
+          "p0": [
+            7.2312,
+            3.549
+          ],
+          "p1": [
+            7.2312,
+            1.7257
+          ],
+          "length_m": {
+            "value": 1.8232,
+            "unit": "m",
+            "ci_low": 1.4221,
+            "ci_high": 2.2243,
+            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+          },
+          "openings": []
+        }
+      ],
+      "damage_regions": [],
+      "scope_line_items": []
+    }
+  ],
+  "stitched_plan": {
+    "rooms_placed": [
+      "01_room1",
+      "02_room2"
+    ],
+    "adjacency": [],
+    "footprint_m2": {
+      "value": 19.6713,
+      "unit": "m2",
+      "ci_low": 11.0159,
+      "ci_high": 28.3267,
+      "basis": "photo-tier interval +-44% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+    },
+    "render_path": "benchmark/results/home/photos/plan.png"
+  },
+  "timing_s": {
+    "total": 20.92,
+    "rec_rooms_in": 2,
+    "rec_rooms_out": 2
+  },
+  "reconstruction": {
+    "per_room": {
+      "01_room1": {
+        "frames": 8,
+        "oriented": 8,
+        "scale": 0.72,
+        "scale_source": "model prior (floor not visible)",
+        "gravity_sources": [
+          "horizontal surfaces"
+        ],
+        "n_openings": 0
+      },
+      "02_room2": {
+        "frames": 8,
+        "oriented": 8,
+        "scale": 0.72,
+        "scale_source": "model prior (floor not visible)",
+        "gravity_sources": [
+          "horizontal surfaces",
+          "wall normals"
+        ],
+        "n_openings": 0
+      }
+    },
+    "placement": [
+      {
+        "room": "02_room2",
+        "connected_to": null,
+        "reason": "no openings detected"
+      }
+    ]
+  }
+}
