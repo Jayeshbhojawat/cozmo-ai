@@ -36,6 +36,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import string
 from pathlib import Path
 
@@ -117,6 +118,18 @@ def to_ground_truth(plan: dict, sheet: dict) -> tuple[dict, dict]:
             cost, mp = match_room(sl, pr["walls"])
             C[a, b] = cost / max(1, len(sl))
             maps[(a, b)] = mp
+    # Rooms the capturer already labelled (photo folders "01_room1" ->
+    # sheet room "room1"): that correspondence is ground truth, not a guess.
+    def _norm(x):
+        return "".join(ch for ch in x.lower() if ch.isalnum())
+    for a, sr in enumerate(srooms):
+        nm = _norm(sr.get("name", ""))
+        for b, pr in enumerate(rooms):
+            if re.fullmatch(r"room_\d+", pr["room_id"]):
+                continue                      # pipeline's own numbering, not a capturer label
+            pid = _norm(pr["room_id"])
+            if nm and len(nm) >= 3 and pid.endswith(nm) and not pid.endswith("room" + nm):
+                C[a, :] = np.where(np.arange(len(rooms)) == b, C[a, b] - 1e3, 1e6)
     ra, rb = linear_sum_assignment(C)
     report = {"room_matches": []}
     gt_rooms = []

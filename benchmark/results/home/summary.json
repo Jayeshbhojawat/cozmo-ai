@@ -17,8 +17,8 @@
       "wall_abs_err_median_m": 0.5683000000000002,
       "openings": {
         "pass_rate": 0.0,
-        "passed": "False",
-        "within_2cm": "0",
+        "passed": false,
+        "within_2cm": 0,
         "scored": 1,
         "missed": 0,
         "phantom": 0
@@ -510,14 +510,14 @@
       "runtime_s": 21.39,
       "rooms_found": 2,
       "rooms_matched": [
-        "02_room2=room1",
-        "01_room1=room2"
+        "01_room1=room1",
+        "02_room2=room2"
       ],
       "walls_measured": 8,
-      "wall_rel_err_median": 0.29303647188225634,
-      "wall_rel_err_max": 0.4717549510856598,
+      "wall_rel_err_median": 0.2826533047005488,
+      "wall_rel_err_max": 0.716551437167915,
       "walls_within_tier_tol": 0.125,
-      "wall_abs_err_median_m": 1.2248,
+      "wall_abs_err_median_m": 1.0213,
       "openings": {
         "pass_rate": 0.0,
         "passed": false,
@@ -529,24 +529,24 @@
       "ceiling": {
         "rooms": [
           {
-            "room_id": "02_room2",
-            "observed": false,
-            "error_m": null,
+            "room_id": "01_room1",
+            "observed": true,
+            "error_m": 0.12950000000000017,
             "pass_1_5cm": false
           },
           {
-            "room_id": "01_room1",
-            "observed": true,
-            "error_m": 0.12450000000000028,
+            "room_id": "02_room2",
+            "observed": false,
+            "error_m": null,
             "pass_1_5cm": false
           }
         ],
         "passed": false
       },
       "ci95_coverage": {
-        "inside": 7,
+        "inside": 8,
         "total": 10,
-        "rate": 0.7
+        "rate": 0.8
       },
       "footprint_pred_m2": 19.671300000000002,
       "footprint_meas_m2": 29.2644576,

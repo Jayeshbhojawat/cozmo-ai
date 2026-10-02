@@ -65,3 +65,25 @@ def test_missing_door_counts_as_miss():
     gt, _ = to_ground_truth(plan, sheet)
     res = score(plan, gt)
     assert res["gates"]["opening_widths"]["missed"] == 1
+
+
+def test_capturer_labels_override_shape_matching():
+    """Photo folders named 01_room1/02_room2 must map to sheet rooms room1/room2
+    even when shape similarity alone would swap them; the pipeline's own
+    room_N names must NOT be treated as labels."""
+    plan = json.loads(PLAN.read_text())
+    rng = np.random.default_rng(7)
+    sheet, _ = _fake_sheet(plan, ["room_2", "room_5"], rng)
+    names = {r["name"]: r for r in sheet["rooms"]}
+    labelled = copy.deepcopy(plan)
+    for r in labelled["rooms"]:
+        if r["room_id"] == "room_2":
+            r["room_id"] = "01_kitchen"
+        if r["room_id"] == "room_5":
+            r["room_id"] = "02_bath"
+    # sheet room for plan room_5 is called "kitchen": label must win over shape
+    names["sheet_room_5"]["name"] = "kitchen"
+    names["sheet_room_2"]["name"] = "bath"
+    gt, rep = to_ground_truth(labelled, sheet)
+    got = {m["sheet_room"]: m["plan_room"] for m in rep["room_matches"]}
+    assert got == {"kitchen": "01_kitchen", "bath": "02_bath"}
