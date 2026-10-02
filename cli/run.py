@@ -178,13 +178,18 @@ def run_lidar(input_dir: Path, out_dir: Path, max_frames: int = 900, damage: boo
 # COZMO_VIDEO_LAYOUT=lidar reproduces the pre-fix behaviour (fix loop "before").
 VIDEO_OCCUPANCY_RATIO = 0.05
 VIDEO_DOOR_HALF_WIDTH = 0.70
+# Outline features smaller than this are learned-depth noise (fix declared in
+# docs/fix_declaration.md; chosen on walk 1 only). COZMO_VIDEO_MIN_FEATURE=0
+# reproduces the run before this fix.
+VIDEO_MIN_FEATURE_M = 0.8
 
 
 def video_layout_kwargs(cam_y: float) -> dict:
     if os.environ.get("COZMO_VIDEO_LAYOUT") == "lidar":
         return {"camera_y": None}
+    mf = float(os.environ.get("COZMO_VIDEO_MIN_FEATURE", VIDEO_MIN_FEATURE_M))
     return {"camera_y": cam_y, "occupancy_ratio": VIDEO_OCCUPANCY_RATIO,
-            "door_half_width": VIDEO_DOOR_HALF_WIDTH}
+            "door_half_width": VIDEO_DOOR_HALF_WIDTH, "min_feature_m": mf or None}
 
 
 def _find_recording(input_path: Path) -> Path:

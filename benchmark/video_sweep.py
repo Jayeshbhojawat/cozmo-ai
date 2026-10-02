@@ -51,6 +51,7 @@ def main():
     ap.add_argument("--out", required=True)
     ap.add_argument("--ratios", nargs="+", type=float, default=[None, 0.05, 0.1, 0.2, 0.4])
     ap.add_argument("--door-half-widths", nargs="+", type=float, default=[0.42])
+    ap.add_argument("--min-features", nargs="+", type=float, default=[0.0])
     a = ap.parse_args()
     sheet = json.loads(Path(a.sheet).read_text())
     out = Path(a.out)
@@ -63,11 +64,13 @@ def main():
                                         cache_path=cdir / "depth_cache_250.npz")
         traj = np.array([f.position[[0, 2]] for f in cap.frames])
         cam_y = float(np.median([f.position[1] for f in cap.frames]))
-        for ratio, dhw in itertools.product(a.ratios, a.door_half_widths):
-            L = analyze(clouds, traj, camera_y=cam_y, occupancy_ratio=ratio, door_half_width=dhw)
+        for ratio, dhw, mf in itertools.product(a.ratios, a.door_half_widths, a.min_features):
+            L = analyze(clouds, traj, camera_y=cam_y, occupancy_ratio=ratio, door_half_width=dhw,
+                        min_feature_m=mf or None)
             plan = layout_to_json(L, cdir.name, "video", "", {}, {}, sigma_basis="video_posed")
             ev = evaluate(plan, sheet) if plan["rooms"] else {"rooms": 0}
-            row = {"capture": cdir.name, "occupancy_ratio": ratio, "door_half_width": dhw, **ev}
+            row = {"capture": cdir.name, "occupancy_ratio": ratio, "door_half_width": dhw,
+                   "min_feature_m": mf, **ev}
             rows.append(row)
             print(json.dumps(row, default=str))
     (out / "sweep.json").write_text(json.dumps(rows, indent=2, default=str))

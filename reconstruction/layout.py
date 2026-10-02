@@ -167,14 +167,18 @@ def find_floor_y_handheld(points: np.ndarray, camera_y: float, below=(0.9, 1.9))
 
 def analyze(frame_clouds: list[tuple[np.ndarray, np.ndarray]], trajectory_xz: np.ndarray,
             camera_y: float | None = None, occupancy_ratio: float | None = None,
-            door_half_width: float | None = None) -> Layout:
+            door_half_width: float | None = None, min_feature_m: float | None = None) -> Layout:
     """frame_clouds: list of (camera_position_xyz, world_points) per frame.
     camera_y: median camera height for hand-held captures without direct
     depth; switches the floor search to find_floor_y_handheld.
     occupancy_ratio: for noisy (learned) depth. A cell is an obstacle only
     if its wall-band hits are at least this fraction of the camera rays that
     PASS THROUGH it (a real wall stops rays; a stray point in open space is
-    passed through many times). None = LiDAR behaviour (>= 2 hits)."""
+    passed through many times). None = LiDAR behaviour (>= 2 hits).
+    min_feature_m: for noisy depth. Outline notches and wall pieces smaller
+    than this are treated as noise: the room mask is closed/opened at this
+    size before tracing, and wall pieces shorter than it are merged away.
+    None = LiDAR behaviour (10 cm stubs only)."""
     all_pts = np.concatenate([p for _, p in frame_clouds])
     keys = np.floor(all_pts / 0.02).astype(np.int64)
     _, keep = np.unique(keys, axis=0, return_index=True)
@@ -277,7 +281,7 @@ def analyze(frame_clouds: list[tuple[np.ndarray, np.ndarray]], trajectory_xz: np
         rid = label_to_id[l]
         mask = ndi.binary_fill_holes(labels == l)
         room = _analyze_room(rid, mask, uv, rel_h, floor_y, pt_label, l, labels, label_to_id,
-                             visited=l in visited_labels)
+                             visited=l in visited_labels, min_feature_m=min_feature_m)
         if room is not None:
             rooms.append(room)
 
@@ -463,7 +467,14 @@ def _signed_area(P):
 
 # ------------------------------------------------------------ room level
 
-def _analyze_room(rid, mask, uv, rel_h, floor_y, pt_label, label, labels, label_to_id, visited):
+def _analyze_room(rid, mask, uv, rel_h, floor_y, pt_label, label, labels, label_to_id, visited,
+                  min_feature_m=None):
+    if min_feature_m:
+        k = max(1, int(round(min_feature_m / RES)))
+        st = np.ones((k, k), bool)
+        sm = ndi.binary_opening(ndi.binary_closing(mask, structure=st), structure=st)
+        if sm.sum() > 0.7 * mask.sum():          # never let smoothing eat the room
+            mask = sm
     edges = _rectilinear_edges(mask)
     if edges is None:
         return None
@@ -505,7 +516,7 @@ def _analyze_room(rid, mask, uv, rel_h, floor_y, pt_label, label, labels, label_
 
     # Refinement can leave stub edges (a few cm) where two refined lines
     # almost meet; drop them and merge the now-adjacent parallel neighbours.
-    edges = _drop_stub_edges(edges, min_len=0.10)
+    edges = _drop_stub_edges(edges, min_len=max(0.10, min_feature_m or 0.0))
     if edges is None:
         return None
     P = _corners(edges)
