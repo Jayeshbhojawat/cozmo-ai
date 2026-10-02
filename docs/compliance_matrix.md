@@ -33,7 +33,7 @@
 | 27 | Technical report <= 6 pages | `docs/technical_report.md` | ✅ |
 | 28 | Reproduction bundle | `README.md`, `requirements.txt`, scripts above | 🟡 raw captures shipped separately (too large for git) |
 | 30 | Live defense preparation | `docs/design_decisions.md` | ✅ |
-| 29 | Mirrors, glass, wet-look, low light covered | `known_limitations.md` #5, layout opening rules | 🟡 handled for openings; not stress-tested |
+| 29 | Mirrors, glass, wet-look, low light covered | `docs/hard_surfaces.md`, `capture/quality.py` (`capture_quality` + warnings in every plan.json) | 🟡 handled per tier and reported; glossy floor + mirror seen in real captures; no deliberately dark/glass stress capture |
 
 ## Still open
 

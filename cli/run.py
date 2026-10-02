@@ -169,6 +169,8 @@ def run_lidar(input_dir: Path, out_dir: Path, max_frames: int = 900, damage: boo
                "damage": round(t3 - t2, 2), "total": round(time.time() - t0, 2)}
     out = layout_to_json(layout, input_dir.name, "lidar", png, damage_by_room, timings)
     out["drift"] = drift_report
+    from capture.quality import assess_lidar
+    out["capture_quality"] = assess_lidar(cap)
     (out_dir / "plan.json").write_text(json.dumps(out, indent=2))
     return out
 
@@ -255,6 +257,8 @@ def run_posed_video(input_path: Path, out_dir: Path, recompute: bool = False, ma
                              "floor_method": layout.diagnostics.get("floor_method"),
                              "camera_height_m": round(cam_y - layout.floor_y, 3)}
     out["drift"] = drift_report
+    from capture.quality import assess_video
+    out["capture_quality"] = assess_video(video)
     if ablation:
         arms = {}
         for mode in ("off", "on"):
@@ -288,6 +292,8 @@ def run_monocular(input_path: Path, out_dir: Path, tier: str, rotate: str = "non
     timings = {"total": round(time.time() - t0, 2), **{f"rec_{k}": v for k, v in stats.items()}}
     out = layout_to_json(layout, input_path.name, tier, png, {}, timings, sigma_basis=tier)
     out["reconstruction"] = {k: v for k, v in layout.diagnostics.items()}
+    from capture.quality import assess_photo_folders, assess_video
+    out["capture_quality"] = assess_photo_folders(input_path) if tier == "photo" else assess_video(video)
     (out_dir / "plan.json").write_text(json.dumps(out, indent=2, default=str))
     return out
 
