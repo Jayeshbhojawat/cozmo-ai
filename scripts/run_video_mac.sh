@@ -7,6 +7,17 @@
 set -euo pipefail
 REC="$(cd "$1" && pwd)"; OUT="$2"
 IMAGE="${COZMO_IMAGE:-cozmo}"
+if ! command -v docker >/dev/null 2>&1; then
+  echo "Docker is not installed. The video tier's pose step needs it on a Mac (the Spectacular AI"
+  echo "SDK has no macOS build). Install Docker Desktop for Apple chip (docker.com, or"
+  echo "'brew install --cask docker'), open it once, then re-run this script."
+  echo "LiDAR and photo tiers run without Docker: python -m cli.run capture --tier lidar|photo ..."
+  exit 2
+fi
+if ! docker info >/dev/null 2>&1; then
+  echo "Docker is installed but not running: open Docker Desktop, wait for the whale icon, re-run."
+  exit 2
+fi
 if ! docker image inspect "$IMAGE" >/dev/null 2>&1; then
   docker build --platform linux/amd64 -t "$IMAGE" "$(dirname "$0")/.."
 fi

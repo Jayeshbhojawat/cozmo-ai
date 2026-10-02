@@ -71,3 +71,6 @@ and the model was installed from a checksum-verified copy. **Bring the model
 pre-installed to the walk-in** so the live run never depends on the venue's
 network. Photo tier on the measured home: **8.9 s**, rooms 8.82 / 10.86 m²,
 identical to the cloud run (cross-machine reproduction of the photo tier).
+Video tier on the same Mac: blocked at first run — Docker Desktop not
+installed (`scripts/run_video_mac.sh` now says so and how to fix it). LiDAR
+and photo tiers need no Docker.
