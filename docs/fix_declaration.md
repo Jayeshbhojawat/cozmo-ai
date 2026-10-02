@@ -57,3 +57,41 @@ walk 1 it turns room 1 into 6.46 × 2.91 m vs tape 6.25 × 3.05 m).
 
 If the measured result is outside these ranges in either direction, the
 post-mortem goes in `docs/fix_loop.md` under this declaration.
+
+---
+
+## 5. Measured result (after shipping) and post-mortem
+
+Before / after, same depth cache, regenerable:
+`COZMO_VIDEO_MIN_FEATURE=0 python -m benchmark.run_all ... --out benchmark/results/fixloop3_before`
+and the same without the variable → `benchmark/results/fixloop3_after`.
+
+| walk | median wall error | walls within ±3 % | footprint error | 95 % coverage |
+|---|---|---|---|---|
+| 1 (dev) | 20.4 % → **5.1 %** | 1/8 → 2/8 | +17.8 % → +14.6 % | 9/11 → 9/10 |
+| 2 (held out) | 7.0 % → **20.7 %** | 2/8 → 2/8 | +8.3 % → −4.9 % | 9/10 → 11/11 |
+| 3 (held out) | 35.5 % → **18.7 %** | 1/8 → 0/8 | −5.2 % → −3.7 % | 7/11 → 11/11 |
+
+**Prediction: wrong.** Predicted 5-8 of 16 held-out walls within ±3 % and
+median ≤ 10 % on both held-out walks; measured **2 of 16**, medians 20.7 %
+and 18.7 %. The gate still fails (as predicted), but the size of the
+improvement was over-predicted and walk 2 got worse.
+
+**Why.** The hypothesis was half right. Fragmentation was real (room 2 on
+walk 2 went from 6 pieces to a clean 2.98 × 2.53 m rectangle; room 1 on walk
+1 from 8 pieces to 6.46 × 2.91 m). But on walks 2 and 3 the dominant error
+is a **segmentation** error the development walk did not show: room 1 is
+merged with the 1.2 m passage between the rooms, giving 11.17 m and 8.71 m
+"walls" for a 6.25 m room. Before the fix that merged room was traced as 14
+small pieces, and the sheet matcher could pick the pieces that happened to
+lie near the tape lengths (3.00, 6.83, 3.02, 5.95 m on walk 2). **The
+"before" numbers were flattered by that freedom**; after de-fragmenting,
+the matcher has to use the real merged walls. One development walk was not
+enough to see this; the held-out split is what exposed it.
+
+**Kept shipped** because the footprint improved on all three walks
+(|error| 17.8/8.3/5.2 % → 14.6/4.9/3.7 %), interval coverage went from
+25/32 to 31/32, and outlines no longer carry noise-sized notches that
+reward a lenient matcher. **Next fix:** separate narrow passages from rooms
+(the 1.4 m doorway threshold, chosen to split the rooms, also swallows a
+1.2 m passage); the evidence is the 11.17 m / 8.71 m merged walls above.

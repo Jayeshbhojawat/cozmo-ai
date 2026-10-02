@@ -1,0 +1,714 @@
+{
+  "capture_id": "spectacular_3",
+  "tier": "video",
+  "generated_at": "2026-10-02T15:26:17.086362+00:00",
+  "pipeline_version": "0.2.0",
+  "confidence_note": "video-tier intervals are priors (no depth sensor; scale from assumed camera height).",
+  "plan_frame": {
+    "theta_deg": 77.25,
+    "origin": [
+      -11.3558,
+      -3.3326
+    ],
+    "note": "plan x,y = world (x,z) rotated by -theta so walls are axis-aligned, minus origin"
+  },
+  "rooms": [
+    {
+      "room_id": "room_1",
+      "visited": true,
+      "partial": false,
+      "wall_coverage": 1.0,
+      "ceiling_observed": true,
+      "ceiling_height_m": {
+        "value": 2.9847,
+        "unit": "m",
+        "ci_low": 1.2536,
+        "ci_high": 4.7159,
+        "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+      },
+      "floor_area_m2": {
+        "value": 17.3792,
+        "unit": "m2",
+        "ci_low": 0.0,
+        "ci_high": 37.5391,
+        "basis": "video_posed-tier interval +-116% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+      },
+      "polygon": [
+        [
+          3.8131,
+          4.7332
+        ],
+        [
+          3.8131,
+          2.3643
+        ],
+        [
+          12.5195,
+          2.3643
+        ],
+        [
+          12.5195,
+          3.6349
+        ],
+        [
+          9.5644,
+          3.6349
+        ],
+        [
+          9.5644,
+          4.7332
+        ]
+      ],
+      "walls": [
+        {
+          "wall_id": "room_1_w0",
+          "observed": true,
+          "n_support_points": 3188,
+          "p0": [
+            3.8131,
+            4.7332
+          ],
+          "p1": [
+            3.8131,
+            2.3643
+          ],
+          "length_m": {
+            "value": 2.3689,
+            "unit": "m",
+            "ci_low": 0.995,
+            "ci_high": 3.7429,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w1",
+          "observed": true,
+          "n_support_points": 5698,
+          "p0": [
+            3.8131,
+            2.3643
+          ],
+          "p1": [
+            12.5195,
+            2.3643
+          ],
+          "length_m": {
+            "value": 8.7064,
+            "unit": "m",
+            "ci_low": 3.6567,
+            "ci_high": 13.7562,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": [
+            {
+              "opening_id": "room_1_w1_o0",
+              "kind": "window",
+              "leads_to": null,
+              "start_m": 4.1673,
+              "end_m": 4.5702,
+              "width_m": {
+                "value": 0.4029,
+                "unit": "m",
+                "ci_low": 0.1692,
+                "ci_high": 0.6366,
+                "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+              }
+            }
+          ]
+        },
+        {
+          "wall_id": "room_1_w2",
+          "observed": true,
+          "n_support_points": 322,
+          "p0": [
+            12.5195,
+            2.3643
+          ],
+          "p1": [
+            12.5195,
+            3.6349
+          ],
+          "length_m": {
+            "value": 1.2706,
+            "unit": "m",
+            "ci_low": 0.5336,
+            "ci_high": 2.0075,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w3",
+          "observed": true,
+          "n_support_points": 766,
+          "p0": [
+            12.5195,
+            3.6349
+          ],
+          "p1": [
+            9.5644,
+            3.6349
+          ],
+          "length_m": {
+            "value": 2.9551,
+            "unit": "m",
+            "ci_low": 1.2412,
+            "ci_high": 4.6691,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w4",
+          "observed": true,
+          "n_support_points": 1786,
+          "p0": [
+            9.5644,
+            3.6349
+          ],
+          "p1": [
+            9.5644,
+            4.7332
+          ],
+          "length_m": {
+            "value": 1.0984,
+            "unit": "m",
+            "ci_low": 0.4613,
+            "ci_high": 1.7354,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_1_w5",
+          "observed": true,
+          "n_support_points": 4645,
+          "p0": [
+            9.5644,
+            4.7332
+          ],
+          "p1": [
+            3.8131,
+            4.7332
+          ],
+          "length_m": {
+            "value": 5.7513,
+            "unit": "m",
+            "ci_low": 2.4155,
+            "ci_high": 9.087,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": [
+            {
+              "opening_id": "room_1_w5_o0",
+              "kind": "opening_unconfirmed",
+              "leads_to": null,
+              "start_m": 0.3055,
+              "end_m": 1.4623,
+              "width_m": {
+                "value": 1.1568,
+                "unit": "m",
+                "ci_low": 0.4859,
+                "ci_high": 1.8278,
+                "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+              }
+            }
+          ]
+        }
+      ],
+      "damage_regions": [
+        {
+          "region_id": "room_1_dmg0",
+          "surface_id": "room_1_w4",
+          "surface_type": "wall",
+          "damage_class": "water_stain",
+          "centroid_plan_m": [
+            9.512,
+            3.959
+          ],
+          "height_above_floor_m": 1.726,
+          "extent_m2": {
+            "value": 0.0323,
+            "unit": "m2",
+            "ci_low": 0.0165,
+            "ci_high": 0.0481,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 3,
+          "source_frames": [
+            1991,
+            546,
+            444
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": false,
+            "rules": [],
+            "rule": "none fired"
+          }
+        },
+        {
+          "region_id": "room_1_dmg1",
+          "surface_id": "room_1_w1",
+          "surface_type": "wall",
+          "damage_class": "water_stain",
+          "centroid_plan_m": [
+            5.025,
+            2.298
+          ],
+          "height_above_floor_m": 1.061,
+          "extent_m2": {
+            "value": 0.0275,
+            "unit": "m2",
+            "ci_low": 0.014,
+            "ci_high": 0.041,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 2,
+          "source_frames": [
+            1430,
+            767
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": false,
+            "rules": [],
+            "rule": "none fired"
+          }
+        },
+        {
+          "region_id": "room_1_dmg2",
+          "surface_id": "room_1_w5",
+          "surface_type": "wall",
+          "damage_class": "water_stain",
+          "centroid_plan_m": [
+            4.932,
+            4.701
+          ],
+          "height_above_floor_m": 0.966,
+          "extent_m2": {
+            "value": 0.0207,
+            "unit": "m2",
+            "ci_low": 0.0106,
+            "ci_high": 0.0309,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 2,
+          "source_frames": [
+            1107,
+            1872
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": false,
+            "rules": [],
+            "rule": "none fired"
+          }
+        },
+        {
+          "region_id": "room_1_dmg3",
+          "surface_id": "room_1_w5",
+          "surface_type": "wall",
+          "damage_class": "water_stain",
+          "centroid_plan_m": [
+            5.642,
+            4.768
+          ],
+          "height_above_floor_m": 1.485,
+          "extent_m2": {
+            "value": 0.0154,
+            "unit": "m2",
+            "ci_low": 0.0079,
+            "ci_high": 0.023,
+            "basis": "pixel area x depth^2/(fx*fy), obliquity-corrected; sigma 25% for 2D segmentation boundary uncertainty"
+          },
+          "n_views": 2,
+          "source_frames": [
+            1872,
+            1107
+          ],
+          "detector": "classical-cv heuristic (no trained model)",
+          "concealed_flag": {
+            "flagged": false,
+            "rules": [],
+            "rule": "none fired"
+          }
+        }
+      ],
+      "scope_line_items": [
+        {
+          "item": "Stain-block prime and repaint",
+          "surface_id": "room_1_w4",
+          "quantity": 0.1,
+          "unit": "m2",
+          "damage_region_id": "room_1_dmg0"
+        },
+        {
+          "item": "Stain-block prime and repaint",
+          "surface_id": "room_1_w1",
+          "quantity": 0.1,
+          "unit": "m2",
+          "damage_region_id": "room_1_dmg1"
+        },
+        {
+          "item": "Stain-block prime and repaint",
+          "surface_id": "room_1_w5",
+          "quantity": 0.1,
+          "unit": "m2",
+          "damage_region_id": "room_1_dmg2"
+        },
+        {
+          "item": "Stain-block prime and repaint",
+          "surface_id": "room_1_w5",
+          "quantity": 0.1,
+          "unit": "m2",
+          "damage_region_id": "room_1_dmg3"
+        }
+      ]
+    },
+    {
+      "room_id": "room_2",
+      "visited": true,
+      "partial": false,
+      "wall_coverage": 1.0,
+      "ceiling_observed": true,
+      "ceiling_height_m": {
+        "value": 2.3959,
+        "unit": "m",
+        "ci_low": 1.0063,
+        "ci_high": 3.7856,
+        "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+      },
+      "floor_area_m2": {
+        "value": 10.7951,
+        "unit": "m2",
+        "ci_low": 0.0,
+        "ci_high": 23.3174,
+        "basis": "video_posed-tier interval +-116% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+      },
+      "polygon": [
+        [
+          12.2838,
+          2.3015
+        ],
+        [
+          17.4801,
+          2.3015
+        ],
+        [
+          17.4801,
+          5.1861
+        ],
+        [
+          14.8707,
+          5.1861
+        ],
+        [
+          14.8707,
+          3.5648
+        ],
+        [
+          12.2838,
+          3.5648
+        ]
+      ],
+      "walls": [
+        {
+          "wall_id": "room_2_w0",
+          "observed": true,
+          "n_support_points": 8182,
+          "p0": [
+            12.2838,
+            2.3015
+          ],
+          "p1": [
+            17.4801,
+            2.3015
+          ],
+          "length_m": {
+            "value": 5.1963,
+            "unit": "m",
+            "ci_low": 2.1824,
+            "ci_high": 8.2101,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w1",
+          "observed": true,
+          "n_support_points": 3633,
+          "p0": [
+            17.4801,
+            2.3015
+          ],
+          "p1": [
+            17.4801,
+            5.1861
+          ],
+          "length_m": {
+            "value": 2.8846,
+            "unit": "m",
+            "ci_low": 1.2115,
+            "ci_high": 4.5577,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w2",
+          "observed": true,
+          "n_support_points": 2661,
+          "p0": [
+            17.4801,
+            5.1861
+          ],
+          "p1": [
+            14.8707,
+            5.1861
+          ],
+          "length_m": {
+            "value": 2.6094,
+            "unit": "m",
+            "ci_low": 1.0959,
+            "ci_high": 4.1228,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w3",
+          "observed": true,
+          "n_support_points": 1458,
+          "p0": [
+            14.8707,
+            5.1861
+          ],
+          "p1": [
+            14.8707,
+            3.5648
+          ],
+          "length_m": {
+            "value": 1.6213,
+            "unit": "m",
+            "ci_low": 0.6809,
+            "ci_high": 2.5616,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w4",
+          "observed": true,
+          "n_support_points": 2206,
+          "p0": [
+            14.8707,
+            3.5648
+          ],
+          "p1": [
+            12.2838,
+            3.5648
+          ],
+          "length_m": {
+            "value": 2.5869,
+            "unit": "m",
+            "ci_low": 1.0865,
+            "ci_high": 4.0874,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        },
+        {
+          "wall_id": "room_2_w5",
+          "observed": true,
+          "n_support_points": 151,
+          "p0": [
+            12.2838,
+            3.5648
+          ],
+          "p1": [
+            12.2838,
+            2.3015
+          ],
+          "length_m": {
+            "value": 1.2633,
+            "unit": "m",
+            "ci_low": 0.5306,
+            "ci_high": 1.9961,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+          },
+          "openings": []
+        }
+      ],
+      "damage_regions": [],
+      "scope_line_items": []
+    }
+  ],
+  "stitched_plan": {
+    "rooms_placed": [
+      "room_1",
+      "room_2"
+    ],
+    "adjacency": [
+      {
+        "rooms": [
+          "room_1",
+          "room_2"
+        ],
+        "via_opening": null
+      }
+    ],
+    "footprint_m2": {
+      "value": 28.1743,
+      "unit": "m2",
+      "ci_low": 0.0,
+      "ci_high": 60.8565,
+      "basis": "video_posed-tier interval +-116% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+    },
+    "render_path": "benchmark/results/fixloop3_after/spectacular_3/plan.png"
+  },
+  "timing_s": {
+    "poses": 1.12,
+    "depth_and_scale": 45.21,
+    "drift_and_layout": 10.58,
+    "damage": 98.45,
+    "total": 155.6
+  },
+  "reconstruction": {
+    "path": "posed_video",
+    "pose_source": "spectacular_rec",
+    "frames": 255,
+    "frames_scaled_directly": 222,
+    "median_triangulated_points": 156.0,
+    "scale_median": 0.549300310165042,
+    "scale_p10_p90": [
+      0.48851587678810926,
+      0.656120111399632
+    ],
+    "depth_cache_used": true,
+    "floor_method": "lower_edge",
+    "camera_height_m": 1.812
+  },
+  "drift": {
+    "mode": "auto",
+    "theta_deg": 79.2,
+    "chunks": [
+      {
+        "t_mid": 16101.555223291,
+        "delta_deg": 8.249999999999996,
+        "n_wall_pts": 23223
+      },
+      {
+        "t_mid": 16109.555223291,
+        "delta_deg": 4.75000000000001,
+        "n_wall_pts": 27537
+      },
+      {
+        "t_mid": 16117.555223291,
+        "delta_deg": 3.500000000000011,
+        "n_wall_pts": 28712
+      },
+      {
+        "t_mid": 16125.555223291,
+        "delta_deg": 2.750000000000007,
+        "n_wall_pts": 27378
+      },
+      {
+        "t_mid": 16133.555223291,
+        "delta_deg": 1.6499999999999992,
+        "n_wall_pts": 30384
+      },
+      {
+        "t_mid": 16141.555223291,
+        "delta_deg": 3.800000000000005,
+        "n_wall_pts": 26507
+      },
+      {
+        "t_mid": 16149.555223291,
+        "delta_deg": 3.1000000000000107,
+        "n_wall_pts": 24438
+      },
+      {
+        "t_mid": 16157.555223291,
+        "delta_deg": 1.6000000000000023,
+        "n_wall_pts": 27608
+      },
+      {
+        "t_mid": 16165.555223291,
+        "delta_deg": 4.600000000000007,
+        "n_wall_pts": 32425
+      },
+      {
+        "t_mid": 16173.555223291,
+        "delta_deg": 7.649999999999995,
+        "n_wall_pts": 25569
+      },
+      {
+        "t_mid": 16181.555223291,
+        "delta_deg": -19.0,
+        "n_wall_pts": 20941
+      },
+      {
+        "t_mid": 16189.555223291,
+        "delta_deg": -6.95,
+        "n_wall_pts": 14081
+      },
+      {
+        "t_mid": 16197.555223291,
+        "delta_deg": -2.9499999999999944,
+        "n_wall_pts": 18247
+      },
+      {
+        "t_mid": 16205.555223291,
+        "delta_deg": 0.9500000000000045,
+        "n_wall_pts": 19365
+      },
+      {
+        "t_mid": 16213.555223291,
+        "delta_deg": 12.899999999999999,
+        "n_wall_pts": 23813
+      },
+      {
+        "t_mid": 16221.555223291,
+        "delta_deg": -2.649999999999988,
+        "n_wall_pts": 25033
+      },
+      {
+        "t_mid": 16229.555223291,
+        "delta_deg": -4.44999999999999,
+        "n_wall_pts": 24847
+      },
+      {
+        "t_mid": 16237.555223291,
+        "delta_deg": -4.149999999999996,
+        "n_wall_pts": 26725
+      },
+      {
+        "t_mid": 16245.555223291,
+        "delta_deg": -12.949999999999996,
+        "n_wall_pts": 21074
+      }
+    ],
+    "max_abs_correction_deg": 8.549999999999995,
+    "registration_voxels_raw": 167449,
+    "registration_voxels_corrected": 168355,
+    "registration_change_pct": 0.54,
+    "applied": false,
+    "reason": "correction rejected: it loosened wall registration, so the phone's own visual-inertial poses were kept after audit"
+  },
+  "drift_ablation": {
+    "off": {
+      "registration_voxels": 167449,
+      "n_rooms": 2,
+      "footprint_m2": 28.174,
+      "footprint_union_m2": 27.947
+    },
+    "on": {
+      "registration_voxels": 168355,
+      "n_rooms": 2,
+      "footprint_m2": 30.075,
+      "footprint_union_m2": 29.94
+    }
+  }
+}

@@ -1,0 +1,598 @@
+{
+  "sheet": "home_2rooms",
+  "captures": [
+    {
+      "name": "spectacular_1",
+      "tier": "video",
+      "kind": "posed",
+      "runtime_s": 119.35,
+      "rooms_found": 2,
+      "rooms_matched": [
+        "room_1=room1",
+        "room_2=room2"
+      ],
+      "walls_measured": 8,
+      "wall_rel_err_median": 0.05142716535433076,
+      "wall_rel_err_max": 1.4426837270341206,
+      "walls_within_tier_tol": 0.25,
+      "wall_abs_err_median_m": 0.21810000000000018,
+      "openings": {
+        "pass_rate": 0.0,
+        "passed": false,
+        "within_2cm": 0,
+        "scored": 2,
+        "missed": 2,
+        "phantom": 0
+      },
+      "ceiling": {
+        "rooms": [
+          {
+            "room_id": "room_1",
+            "observed": true,
+            "error_m": 0.07999999999999963,
+            "pass_1_5cm": false
+          },
+          {
+            "room_id": "room_2",
+            "observed": true,
+            "error_m": 0.14380000000000015,
+            "pass_1_5cm": false
+          }
+        ],
+        "passed": false
+      },
+      "ci95_coverage": {
+        "inside": 9,
+        "total": 10,
+        "rate": 0.9
+      },
+      "footprint_pred_m2": 33.5364,
+      "footprint_meas_m2": 29.2644576,
+      "footprint_err_pct": 14.59771596791871,
+      "max_closure_gap_m": 0.0,
+      "drift_ablation": {
+        "off": {
+          "registration_voxels": 162545,
+          "n_rooms": 2,
+          "footprint_m2": 33.274,
+          "footprint_union_m2": 33.284
+        },
+        "on": {
+          "registration_voxels": 162100,
+          "n_rooms": 2,
+          "footprint_m2": 33.536,
+          "footprint_union_m2": 33.438
+        }
+      },
+      "drift_decision": {
+        "mode": "auto",
+        "theta_deg": 0.7500000000000007,
+        "chunks": [
+          {
+            "t_mid": 15812.128633,
+            "delta_deg": 3.1500000000000012,
+            "n_wall_pts": 34970
+          },
+          {
+            "t_mid": 15820.128633,
+            "delta_deg": -1.6499999999999992,
+            "n_wall_pts": 36762
+          },
+          {
+            "t_mid": 15828.128633,
+            "delta_deg": -1.8499999999999868,
+            "n_wall_pts": 32064
+          },
+          {
+            "t_mid": 15836.128633,
+            "delta_deg": -2.250000000000013,
+            "n_wall_pts": 42465
+          },
+          {
+            "t_mid": 15844.128633,
+            "delta_deg": -3.800000000000018,
+            "n_wall_pts": 30163
+          },
+          {
+            "t_mid": 15852.128633,
+            "delta_deg": -5.1999999999999815,
+            "n_wall_pts": 40401
+          },
+          {
+            "t_mid": 15860.128633,
+            "delta_deg": -1.900000000000009,
+            "n_wall_pts": 41793
+          },
+          {
+            "t_mid": 15868.128633,
+            "delta_deg": -1.300000000000021,
+            "n_wall_pts": 36892
+          },
+          {
+            "t_mid": 15876.128633,
+            "delta_deg": 1.7499999999999993,
+            "n_wall_pts": 29611
+          },
+          {
+            "t_mid": 15884.128633,
+            "delta_deg": 1.7000000000000024,
+            "n_wall_pts": 35422
+          },
+          {
+            "t_mid": 15892.128633,
+            "delta_deg": -1.3500000000000179,
+            "n_wall_pts": 39683
+          },
+          {
+            "t_mid": 15900.128633,
+            "delta_deg": -1.2499999999999987,
+            "n_wall_pts": 43803
+          },
+          {
+            "t_mid": 15908.128633,
+            "delta_deg": -0.5000000000000007,
+            "n_wall_pts": 32120
+          }
+        ],
+        "max_abs_correction_deg": 3.800000000000018,
+        "registration_voxels_raw": 162545,
+        "registration_voxels_corrected": 162100,
+        "registration_change_pct": -0.27,
+        "applied": true
+      }
+    },
+    {
+      "name": "spectacular_2",
+      "tier": "video",
+      "kind": "posed",
+      "runtime_s": 124.87,
+      "rooms_found": 2,
+      "rooms_matched": [
+        "room_1=room1",
+        "room_2=room2"
+      ],
+      "walls_measured": 8,
+      "wall_rel_err_median": 0.20656167979002624,
+      "wall_rel_err_max": 0.7882017796555919,
+      "walls_within_tier_tol": 0.25,
+      "wall_abs_err_median_m": 0.8250000000000002,
+      "openings": {
+        "pass_rate": 0.0,
+        "passed": false,
+        "within_2cm": 0,
+        "scored": 3,
+        "missed": 1,
+        "phantom": 1
+      },
+      "ceiling": {
+        "rooms": [
+          {
+            "room_id": "room_1",
+            "observed": true,
+            "error_m": 0.09979999999999967,
+            "pass_1_5cm": false
+          },
+          {
+            "room_id": "room_2",
+            "observed": true,
+            "error_m": 0.17420000000000035,
+            "pass_1_5cm": false
+          }
+        ],
+        "passed": false
+      },
+      "ci95_coverage": {
+        "inside": 11,
+        "total": 11,
+        "rate": 1.0
+      },
+      "footprint_pred_m2": 27.8353,
+      "footprint_meas_m2": 29.2644576,
+      "footprint_err_pct": -4.883595040558687,
+      "max_closure_gap_m": 0.0,
+      "drift_ablation": {
+        "off": {
+          "registration_voxels": 109961,
+          "n_rooms": 2,
+          "footprint_m2": 27.835,
+          "footprint_union_m2": 27.797
+        },
+        "on": {
+          "registration_voxels": 110142,
+          "n_rooms": 3,
+          "footprint_m2": 28.338,
+          "footprint_union_m2": 28.362
+        }
+      },
+      "drift_decision": {
+        "mode": "auto",
+        "theta_deg": 71.8,
+        "chunks": [
+          {
+            "t_mid": 15972.163605666,
+            "delta_deg": 7.550000000000001,
+            "n_wall_pts": 15637
+          },
+          {
+            "t_mid": 15980.163605666,
+            "delta_deg": 6.999999999999997,
+            "n_wall_pts": 24836
+          },
+          {
+            "t_mid": 15988.163605666,
+            "delta_deg": 1.8000000000000025,
+            "n_wall_pts": 21235
+          },
+          {
+            "t_mid": 15996.163605666,
+            "delta_deg": 2.4000000000000035,
+            "n_wall_pts": 24243
+          },
+          {
+            "t_mid": 16004.163605666,
+            "delta_deg": 1.7500000000000056,
+            "n_wall_pts": 23419
+          },
+          {
+            "t_mid": 16012.163605666,
+            "delta_deg": -16.599999999999998,
+            "n_wall_pts": 45622
+          },
+          {
+            "t_mid": 16020.163605666,
+            "delta_deg": 1.5000000000000084,
+            "n_wall_pts": 38573
+          },
+          {
+            "t_mid": 16028.163605666,
+            "delta_deg": 1.5500000000000054,
+            "n_wall_pts": 17887
+          },
+          {
+            "t_mid": 16036.163605666,
+            "delta_deg": 1.3000000000000083,
+            "n_wall_pts": 13423
+          },
+          {
+            "t_mid": 16044.163605666,
+            "delta_deg": 1.6000000000000023,
+            "n_wall_pts": 18823
+          },
+          {
+            "t_mid": 16052.163605666,
+            "delta_deg": 0.8000000000000012,
+            "n_wall_pts": 20827
+          },
+          {
+            "t_mid": 16060.163605666,
+            "delta_deg": -2.3500000000000063,
+            "n_wall_pts": 22957
+          },
+          {
+            "t_mid": 16068.163605666,
+            "delta_deg": -0.29999999999999405,
+            "n_wall_pts": 36160
+          },
+          {
+            "t_mid": 16076.163605666,
+            "delta_deg": -4.099999999999986,
+            "n_wall_pts": 6723
+          }
+        ],
+        "max_abs_correction_deg": 7.2749999999999995,
+        "registration_voxels_raw": 109961,
+        "registration_voxels_corrected": 110142,
+        "registration_change_pct": 0.16,
+        "applied": false,
+        "reason": "correction rejected: it loosened wall registration, so the phone's own visual-inertial poses were kept after audit"
+      }
+    },
+    {
+      "name": "spectacular_3",
+      "tier": "video",
+      "kind": "posed",
+      "runtime_s": 155.6,
+      "rooms_found": 2,
+      "rooms_matched": [
+        "room_1=room1",
+        "room_2=room2"
+      ],
+      "walls_measured": 8,
+      "wall_rel_err_median": 0.18650232641374379,
+      "wall_rel_err_max": 0.5498389405869719,
+      "walls_within_tier_tol": 0.0,
+      "wall_abs_err_median_m": 0.6791,
+      "openings": {
+        "pass_rate": 0.0,
+        "passed": false,
+        "within_2cm": 0,
+        "scored": 3,
+        "missed": 1,
+        "phantom": 1
+      },
+      "ceiling": {
+        "rooms": [
+          {
+            "room_id": "room_1",
+            "observed": true,
+            "error_m": 0.1398999999999999,
+            "pass_1_5cm": false
+          },
+          {
+            "room_id": "room_2",
+            "observed": true,
+            "error_m": 0.19489999999999963,
+            "pass_1_5cm": false
+          }
+        ],
+        "passed": false
+      },
+      "ci95_coverage": {
+        "inside": 11,
+        "total": 11,
+        "rate": 1.0
+      },
+      "footprint_pred_m2": 28.174300000000002,
+      "footprint_meas_m2": 29.2644576,
+      "footprint_err_pct": -3.7251932528556337,
+      "max_closure_gap_m": 0.0,
+      "drift_ablation": {
+        "off": {
+          "registration_voxels": 167449,
+          "n_rooms": 2,
+          "footprint_m2": 28.174,
+          "footprint_union_m2": 27.947
+        },
+        "on": {
+          "registration_voxels": 168355,
+          "n_rooms": 2,
+          "footprint_m2": 30.075,
+          "footprint_union_m2": 29.94
+        }
+      },
+      "drift_decision": {
+        "mode": "auto",
+        "theta_deg": 79.2,
+        "chunks": [
+          {
+            "t_mid": 16101.555223291,
+            "delta_deg": 8.249999999999996,
+            "n_wall_pts": 23223
+          },
+          {
+            "t_mid": 16109.555223291,
+            "delta_deg": 4.75000000000001,
+            "n_wall_pts": 27537
+          },
+          {
+            "t_mid": 16117.555223291,
+            "delta_deg": 3.500000000000011,
+            "n_wall_pts": 28712
+          },
+          {
+            "t_mid": 16125.555223291,
+            "delta_deg": 2.750000000000007,
+            "n_wall_pts": 27378
+          },
+          {
+            "t_mid": 16133.555223291,
+            "delta_deg": 1.6499999999999992,
+            "n_wall_pts": 30384
+          },
+          {
+            "t_mid": 16141.555223291,
+            "delta_deg": 3.800000000000005,
+            "n_wall_pts": 26507
+          },
+          {
+            "t_mid": 16149.555223291,
+            "delta_deg": 3.1000000000000107,
+            "n_wall_pts": 24438
+          },
+          {
+            "t_mid": 16157.555223291,
+            "delta_deg": 1.6000000000000023,
+            "n_wall_pts": 27608
+          },
+          {
+            "t_mid": 16165.555223291,
+            "delta_deg": 4.600000000000007,
+            "n_wall_pts": 32425
+          },
+          {
+            "t_mid": 16173.555223291,
+            "delta_deg": 7.649999999999995,
+            "n_wall_pts": 25569
+          },
+          {
+            "t_mid": 16181.555223291,
+            "delta_deg": -19.0,
+            "n_wall_pts": 20941
+          },
+          {
+            "t_mid": 16189.555223291,
+            "delta_deg": -6.95,
+            "n_wall_pts": 14081
+          },
+          {
+            "t_mid": 16197.555223291,
+            "delta_deg": -2.9499999999999944,
+            "n_wall_pts": 18247
+          },
+          {
+            "t_mid": 16205.555223291,
+            "delta_deg": 0.9500000000000045,
+            "n_wall_pts": 19365
+          },
+          {
+            "t_mid": 16213.555223291,
+            "delta_deg": 12.899999999999999,
+            "n_wall_pts": 23813
+          },
+          {
+            "t_mid": 16221.555223291,
+            "delta_deg": -2.649999999999988,
+            "n_wall_pts": 25033
+          },
+          {
+            "t_mid": 16229.555223291,
+            "delta_deg": -4.44999999999999,
+            "n_wall_pts": 24847
+          },
+          {
+            "t_mid": 16237.555223291,
+            "delta_deg": -4.149999999999996,
+            "n_wall_pts": 26725
+          },
+          {
+            "t_mid": 16245.555223291,
+            "delta_deg": -12.949999999999996,
+            "n_wall_pts": 21074
+          }
+        ],
+        "max_abs_correction_deg": 8.549999999999995,
+        "registration_voxels_raw": 167449,
+        "registration_voxels_corrected": 168355,
+        "registration_change_pct": 0.54,
+        "applied": false,
+        "reason": "correction rejected: it loosened wall registration, so the phone's own visual-inertial poses were kept after audit"
+      }
+    }
+  ],
+  "repeatability": {
+    "video": {
+      "runs": 3,
+      "walls": [
+        {
+          "room": "room1",
+          "wall": "A",
+          "lengths_m": [
+            2.9526,
+            2.5388,
+            2.3689
+          ],
+          "spread_m": 0.5837,
+          "tol_m": 0.0131,
+          "found_in_all_runs": true,
+          "pass": false
+        },
+        {
+          "room": "room1",
+          "wall": "B",
+          "lengths_m": [
+            6.4115,
+            11.1734,
+            8.7064
+          ],
+          "spread_m": 4.7619,
+          "tol_m": 0.0438,
+          "found_in_all_runs": true,
+          "pass": false
+        },
+        {
+          "room": "room1",
+          "wall": "C",
+          "lengths_m": [
+            2.9526,
+            5.2277,
+            2.9551
+          ],
+          "spread_m": 2.2751,
+          "tol_m": 0.0186,
+          "found_in_all_runs": true,
+          "pass": false
+        },
+        {
+          "room": "room1",
+          "wall": "D",
+          "lengths_m": [
+            6.4115,
+            5.9457,
+            5.7513
+          ],
+          "spread_m": 0.6602,
+          "tol_m": 0.0302,
+          "found_in_all_runs": true,
+          "pass": false
+        },
+        {
+          "room": "room2",
+          "wall": "A",
+          "lengths_m": [
+            7.4453,
+            2.9804,
+            2.8846
+          ],
+          "spread_m": 4.5607,
+          "tol_m": 0.0222,
+          "found_in_all_runs": true,
+          "pass": false
+        },
+        {
+          "room": "room2",
+          "wall": "B",
+          "lengths_m": [
+            3.0907,
+            2.5278,
+            2.6094
+          ],
+          "spread_m": 0.5629,
+          "tol_m": 0.0137,
+          "found_in_all_runs": true,
+          "pass": false
+        },
+        {
+          "room": "room2",
+          "wall": "C",
+          "lengths_m": [
+            2.8299,
+            2.9804,
+            2.5869
+          ],
+          "spread_m": 0.3935,
+          "tol_m": 0.014,
+          "found_in_all_runs": true,
+          "pass": false
+        },
+        {
+          "room": "room2",
+          "wall": "D",
+          "lengths_m": [
+            4.6154,
+            2.5278,
+            5.1963
+          ],
+          "spread_m": 2.6685,
+          "tol_m": 0.0206,
+          "found_in_all_runs": true,
+          "pass": false
+        }
+      ],
+      "walls_pass": 0,
+      "walls_compared": 8,
+      "wall_pass_rate": 0.0,
+      "ceilings": [
+        {
+          "room": "room1",
+          "heights_m": [
+            2.9248,
+            2.9446,
+            2.9847
+          ],
+          "spread_m": 0.0599,
+          "pass_1cm": false
+        },
+        {
+          "room": "room2",
+          "heights_m": [
+            2.7346,
+            2.765,
+            2.3959
+          ],
+          "spread_m": 0.3691,
+          "pass_1cm": false
+        }
+      ]
+    }
+  }
+}
