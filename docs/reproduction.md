@@ -60,3 +60,14 @@ Only the cached replay has been checked for determinism (identical output
 on repeated runs). The cold path (pose solve, ORB matching, depth network)
 has not been checked across machines; its numbers may differ slightly from
 the cached ones.
+
+## Walk-in rehearsal on the presenter's Mac (2026-10-02)
+
+MacBook Pro (Apple Silicon), python.org Python 3.14, clean venv:
+`pip install -r requirements.txt` OK. Model download failed twice on that
+network (missing CA certificates, then GitHub's file server resetting the
+connection); fixed in `scripts/fetch_models.py` (certifi → system → curl),
+and the model was installed from a checksum-verified copy. **Bring the model
+pre-installed to the walk-in** so the live run never depends on the venue's
+network. Photo tier on the measured home: **8.9 s**, rooms 8.82 / 10.86 m²,
+identical to the cloud run (cross-machine reproduction of the photo tier).

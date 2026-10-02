@@ -26,6 +26,8 @@ fetched once by script (checksum-verified, not in git):
 
 ```bash
 python scripts/fetch_models.py      # Depth Anything V2 ViT-S metric-indoor, ONNX, ~99 MB
+# On a flaky network: download the URL printed by the script with any browser/curl into
+# models/da2_vits_indoor.onnx and re-run the script; it verifies the sha256.
 ```
 
 ## Run on a capture (one command)
