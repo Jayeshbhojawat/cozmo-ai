@@ -12,6 +12,9 @@ scale comes from the floor plane / camera height, not from the model
 +-25% frame to frame, while per-frame-rescaled shape error is ~11%).
 """
 import hashlib
+import shutil
+import ssl
+import subprocess
 import sys
 import urllib.request
 from pathlib import Path
@@ -34,6 +37,33 @@ def sha256(p):
     return h.hexdigest()
 
 
+def download(url, out):
+    """python.org Python on macOS ships without CA certificates
+    (CERTIFICATE_VERIFY_FAILED). Try certifi's bundle, then the system
+    default, then curl (which uses the macOS keychain). TLS verification is
+    never disabled; the sha256 check below also guards the file."""
+    contexts = []
+    try:
+        import certifi
+        contexts.append(ssl.create_default_context(cafile=certifi.where()))
+    except ImportError:
+        pass
+    contexts.append(ssl.create_default_context())
+    last = None
+    for ctx in contexts:
+        try:
+            with urllib.request.urlopen(url, context=ctx) as r, open(out, "wb") as f:
+                shutil.copyfileobj(r, f)
+            return
+        except Exception as e:  # noqa: BLE001 - try the next trust store
+            last = e
+    if shutil.which("curl"):
+        subprocess.run(["curl", "-fL", "--retry", "3", "-o", str(out), url], check=True)
+        return
+    raise SystemExit(f"download failed ({last}). On macOS run "
+                     "'/Applications/Python 3.x/Install Certificates.command' or 'pip install certifi'.")
+
+
 def main():
     DEST.mkdir(exist_ok=True)
     for name, (url, digest) in MODELS.items():
@@ -42,7 +72,7 @@ def main():
             print(f"ok      {name}")
             continue
         print(f"fetch   {name} <- {url}")
-        urllib.request.urlretrieve(url, out)
+        download(url, out)
         got = sha256(out)
         if got != digest:
             out.unlink()
