@@ -6,9 +6,12 @@ per-surface damage with concealed-damage rules and scope items, a 95%
 interval on every number, as JSON (`schema/capture_schema.json`) + PNG.
 
 Live status: `docs/compliance_matrix.md`. Open problems: `docs/known_limitations.md`.
-All three tiers run end to end. LiDAR is the accurate one; photo and video
-(pivot scans + learned depth) currently measure +-11 % per length (RMS vs
-LiDAR), outside the brief's 8 % / 3 % gates; their intervals say so.
+All three tiers run end to end. LiDAR recovers multi-room plans on the
+sample walks (no tape ground truth: no Pro phone was available). Video and
+photo were scored on a tape-measured 2-room home (iPhone 15): rooms and
+footprint recovered (−5…+18 %), but per-wall error is 7-36 % — outside the
+brief's 3 % / 8 % gates; their intervals are calibrated to that error.
+Results: `benchmark/results/home/report.md`.
 
 ## Install (clean machine, ~3 min)
 
@@ -69,6 +72,11 @@ python -m cli.run capture --input path/to/walk.mov --tier video --out outputs/my
 ## Benchmark / reproduction
 
 ```bash
+# Whole benchmark on a measured home, one command (all tiers, gates, repeatability,
+# drift on/off, calibration). The tape sheet labels walls A, B, C... clockwise from
+# the door; benchmark/sheet.py maps them onto each plan automatically.
+python -m benchmark.run_all --capture-dir data/raw/home \
+    --sheet benchmark/ground_truth/home/sheet.json --out benchmark/results/home
 # Fix loop before/after (Part 4)
 python -m benchmark.fix_loop --captures data/samples_full/* --out benchmark/results/fix_loop
 # Drift ablation (footprint with/without correction)
@@ -79,7 +87,8 @@ python -m benchmark.ground_truth score    --plan outputs/<cap>/plan.json --gt be
 ```
 
 Raw captures are not in git (size); they are shipped separately and go in
-`data/samples_full/<capture_id>/`.
+`data/samples_full/<capture_id>/` (LiDAR samples) and `data/raw/home/`
+(`spectacular_1..3/`, `camera_video.MOV`, `photos/01_room1`, `photos/02_room2`).
 
 ## Layout
 
