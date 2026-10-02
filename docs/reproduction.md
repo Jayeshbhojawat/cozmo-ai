@@ -71,6 +71,12 @@ and the model was installed from a checksum-verified copy. **Bring the model
 pre-installed to the walk-in** so the live run never depends on the venue's
 network. Photo tier on the measured home: **8.9 s**, rooms 8.82 / 10.86 m²,
 identical to the cloud run (cross-machine reproduction of the photo tier).
-Video tier on the same Mac: blocked at first run — Docker Desktop not
-installed (`scripts/run_video_mac.sh` now says so and how to fix it). LiDAR
-and photo tiers need no Docker.
+Video tier on the same Mac: blocked at first, in this order — Docker Desktop
+not installed (script now says so); apt "Hash Sum mismatch" on that network
+over plain HTTP (Dockerfile now uses HTTPS sources); then "ffmpeg must be
+installed" after I had wrongly dropped ffmpeg (restored). After those fixes,
+**cold run of walk 1 (no caches): poses 104 s in Docker emulation + 58 s
+native (depth 52 s, layout 3 s, damage 3 s) ≈ 2.7 min**, 3 spaces (2 rooms +
+passage), footprint 33.28 m² vs 33.0 m² from the cached cloud run (~1 %
+cross-machine difference on the cold path). LiDAR and photo tiers need no
+Docker.
