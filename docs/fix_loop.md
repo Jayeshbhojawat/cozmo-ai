@@ -1,5 +1,12 @@
 # Fix Loop (Part 4)
 
+**The scored fix-loop declaration is `docs/fix_declaration.md`** (fix loop 3:
+declared and committed before shipping, developed on walk 1, measured on
+held-out walks 2-3, prediction wrong, post-mortem included). This file keeps
+the two earlier loops: the LiDAR camera-convention bug (no tape ground truth)
+and the first video-layout repair on the measured home.
+
+
 ## Post-mortem of the first declaration (kept on purpose)
 
 The first version of this file (commit `6d4217c`) declared polygon
