@@ -76,6 +76,18 @@ def measured_room_area(plan_room: dict, gt_room: dict) -> tuple[float | None, fl
     return float(area), gap
 
 
+def sheet_room_area(sheet_room: dict) -> float | None:
+    """True floor area straight from the tape when the room is a rectangle
+    (4 walls, opposite walls equal within 3 %): mean(A, C) x mean(B, D).
+    Explicit "area_m2" in the sheet wins. Otherwise None."""
+    if sheet_room.get("area_m2"):
+        return float(sheet_room["area_m2"])
+    w = [_mean(v) / 100.0 for v in sheet_room["walls_cm"]]
+    if len(w) == 4 and abs(w[0] - w[2]) <= 0.03 * w[0] and abs(w[1] - w[3]) <= 0.03 * w[1]:
+        return (w[0] + w[2]) / 2 * (w[1] + w[3]) / 2
+    return None
+
+
 def wall_rel_errors(gt: dict) -> list[float]:
     return [abs(w["predicted"] - w["measured"]) / w["measured"]
             for r in gt["rooms"] for w in r["walls"] if w["measured"]]
@@ -149,8 +161,12 @@ def main(argv=None):
         sc = score(plan, gt)
         rooms = {r["room_id"]: r for r in plan["rooms"]}
         areas, gaps = [], []
+        sheet_by_name = {r.get("name"): r for r in sheet["rooms"]}
         for g in gt["rooms"]:
-            ar, gap = measured_room_area(rooms[g["room_id"]], g)
+            ar = sheet_room_area(sheet_by_name.get(g["your_name_for_it"], {"walls_cm": []}))
+            gap = 0.0
+            if ar is None:
+                ar, gap = measured_room_area(rooms[g["room_id"]], g)
             if ar is not None:
                 areas.append((rooms[g["room_id"]]["floor_area_m2"]["value"], ar))
                 gaps.append(gap)

@@ -17,6 +17,7 @@ Writes <out>/plan.json (schema/capture_schema.json) and <out>/plan.png.
 from __future__ import annotations
 
 import argparse
+import os
 import datetime
 import json
 import sys
@@ -199,7 +200,13 @@ def run_posed_video(input_path: Path, out_dir: Path, recompute: bool = False, ma
         video, source = input_path / "rgb.mp4", "strayscanner_video_and_poses_only"
     t1 = time.time()
     depth_keep = {} if damage else None
-    raw, used, st = posed_clouds(cap, video, max_frames=max_frames, keep_depth=depth_keep)
+    cache = None if recompute else input_path / f"depth_cache_{max_frames}.npz"
+    raw, used, st = posed_clouds(cap, video, max_frames=max_frames, keep_depth=depth_keep, cache_path=cache)
+    if os.environ.get("COZMO_DUMP_CLOUDS"):          # debugging aid: world points + path, subsampled
+        out_dir.mkdir(parents=True, exist_ok=True)
+        np.savez_compressed(out_dir / "clouds_debug.npz",
+                            pts=np.concatenate([p[::3] for _, p in raw]),
+                            path=np.array([f.position for f in cap.frames]))
     t2 = time.time()
     traj = np.array([f.position[[0, 2]] for f in cap.frames])
     ts = [f.timestamp for f in used]

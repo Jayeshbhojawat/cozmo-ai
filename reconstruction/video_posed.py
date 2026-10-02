@@ -26,6 +26,8 @@ LiDAR tier (drift audit, layout, rooms, doors, ceilings).
 """
 from __future__ import annotations
 
+from pathlib import Path
+
 import cv2
 import numpy as np
 
@@ -296,19 +298,30 @@ def video_frame_clouds_v2(cap, video_path, max_frames=300, stride=4, max_depth=5
     return clouds, used, stats
 
 
-def posed_clouds(cap, video_path, max_frames=300, stride=4, max_depth=5.0, log=None, keep_depth=None):
+def posed_clouds(cap, video_path, max_frames=300, stride=4, max_depth=5.0, log=None, keep_depth=None,
+                 cache_path=None):
     """Generic posed-video path (frames looked up by video frame number, so it
     works for any pose source: StrayScanner odometry or Spectacular AI VIO).
     Per-frame scale from triangulation against nearby frames using the known
     poses; frames without enough triangulated points borrow neighbours' scale.
     Returns (frame_clouds, used_frames, stats). If keep_depth is a dict, it
     is filled with {frame_index: (metric_depth, valid_mask)} at DEPTH_W x
-    DEPTH_H (used by the damage detector to lift 2D candidates to 3D)."""
+    DEPTH_H (used by the damage detector to lift 2D candidates to 3D).
+    cache_path: optional .npz holding the model depth and triangulated scale
+    per frame (the slow part, ~8 min on 2 CPUs); reused only if the frame
+    list matches exactly, so changing max_frames or the poses recomputes."""
     by_idx = {f.index: f for f in cap.frames}
     nums = sorted(by_idx)
     step = max(1, len(nums) // max_frames)
     want = nums[::step]
     want_set = set(want)
+    if cache_path is not None and Path(cache_path).exists():
+        z = np.load(cache_path)
+        if list(z["seq"]) == [k for k in want]:
+            seq = [int(k) for k in z["seq"]]
+            depths = {k: z["depth"][a].astype(np.float32) for a, k in enumerate(seq)}
+            return _finish_posed(cap, by_idx, seq, depths, list(z["scale"]), list(z["npts"]),
+                                 stride, max_depth, keep_depth, cached=True)
     vc = cv2.VideoCapture(str(video_path))
     imgs, grays, i = {}, {}, 0
     while True:
@@ -347,6 +360,16 @@ def posed_clouds(cap, video_path, max_frames=300, stride=4, max_depth=5.0, log=N
         npts.append(best[1])
         if log and c % 50 == 0:
             log(f"  posed video: {c}/{len(seq)} frames")
+    if cache_path is not None:
+        try:
+            np.savez_compressed(cache_path, seq=np.array(seq), depth=np.stack([depths[k] for k in seq]).astype(np.float16),
+                                scale=np.array(sc, float), npts=np.array(npts))
+        except OSError:
+            pass
+    return _finish_posed(cap, by_idx, seq, depths, sc, npts, stride, max_depth, keep_depth, cached=False)
+
+
+def _finish_posed(cap, by_idx, seq, depths, sc, npts, stride, max_depth, keep_depth, cached):
     sv = np.array(sc, float)
     good = np.isfinite(sv)
     if good.sum() < 3:
@@ -374,5 +397,6 @@ def posed_clouds(cap, video_path, max_frames=300, stride=4, max_depth=5.0, log=N
     stats = {"frames": len(seq), "frames_scaled_directly": int(good.sum()),
              "median_triangulated_points": float(np.median(npts)),
              "scale_median": float(np.median(smooth)),
-             "scale_p10_p90": [float(np.percentile(smooth, 10)), float(np.percentile(smooth, 90))]}
+             "scale_p10_p90": [float(np.percentile(smooth, 10)), float(np.percentile(smooth, 90))],
+             "depth_cache_used": cached}
     return clouds, used, stats

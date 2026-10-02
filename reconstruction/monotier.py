@@ -31,7 +31,7 @@ from reconstruction.pivot import pivot_room_clouds, frame_orientation, _yaw_of
 from reconstruction.mono_depth import predict_depth
 from stitching.stitch import raster_union_overlap
 
-IMG_EXT = {".jpg", ".jpeg", ".png", ".heic", ".JPG", ".JPEG", ".PNG"}
+IMG_EXT = {".jpg", ".jpeg", ".png", ".heic", ".heif"}       # compared lower-case
 WALL_THICKNESS_M = 0.15     # typical interior partition; doors sit in a wall this thick
 
 
@@ -195,7 +195,7 @@ def photo_tier(folder: Path, log=print):
     room_dirs = sorted([d for d in folder.iterdir() if d.is_dir()]) or [folder]
     rooms, stats = [], {}
     for d in room_dirs:
-        files = sorted([p for p in d.iterdir() if p.suffix in IMG_EXT])
+        files = sorted([p for p in d.iterdir() if p.suffix.lower() in IMG_EXT])
         imgs, K = [], None
         for p in files:
             img = _read_image(p)                           # upright (EXIF orientation applied)
