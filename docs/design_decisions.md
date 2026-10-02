@@ -177,6 +177,33 @@ I reset the width to the measured 95th-percentile error (±58 % video,
 Coverage now 25/32. The rest are walls broken into fragments — a shape
 failure, not something a wider interval should hide.
 
+## 17. Fix loop 3 — the one to defend (docs/fix_declaration.md)
+**Order, provable from git:** declaration with prediction committed
+(`3f602b9`) → fix shipped (`a997d09`) → measured (`8feb70c`).
+**Gate:** video walls ±3 %, 4/24 walls within. **Hypothesis:** smeared
+depth makes notches; notches split real walls into pieces.
+**Discipline:** developed on walk 1 only; walks 2-3 held out.
+**Prediction:** 5-8/16 held-out walls within 3 %. **Measured:** 2/16 —
+wrong. **Why:** the real problem on walks 2-3 was room 1 merged with the
+passage; and the old fragmented outline had *flattered* the score because
+the matcher could pick lucky pieces. Say this plainly: the held-out split
+is what caught it.
+
+## 18. Path doorways — the post-mortem's next fix
+A door is where *you walked through* a narrow gap. Along the camera path I
+measure free-space width straight across the walking direction (left +
+right, not distance to the nearest wall — that would fire every time you
+walk near a wall). A dip below 1.3 m with ≥ 0.5 m wider on both sides = a
+doorway; the cut is that cross-section. Result: walk 1 median wall error
+**2.9 %**, 4/8 walls within 3 %; overall 6/24 (from 4/24). Gate still fails.
+Weak spot: needs the capturer to walk through each door (the protocol says so).
+
+## 19. Mac walk-in plan
+Only the pose step needs the x86 SDK → Docker for that step only
+(`scripts/run_video_mac.sh`), everything else native. LiDAR and photo tiers
+are native. Caches make the benchmark replay deterministic; the live path
+ignores them when they are absent.
+
 ## More likely questions
 - *Why didn't you hit 3 %?* Each frame's depth scale is uncertain by about
   ±18 %; on blank walls nothing pins it down. Walls smear over ~30 cm.
