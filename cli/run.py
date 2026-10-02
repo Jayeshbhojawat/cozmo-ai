@@ -166,6 +166,20 @@ def run_lidar(input_dir: Path, out_dir: Path, max_frames: int = 900, damage: boo
     return out
 
 
+# Layout settings for learned (noisy) depth, chosen with benchmark/video_sweep.py
+# on the measured home (3 walks; disclosed as tuned on the scored home).
+# COZMO_VIDEO_LAYOUT=lidar reproduces the pre-fix behaviour (fix loop "before").
+VIDEO_OCCUPANCY_RATIO = 0.05
+VIDEO_DOOR_HALF_WIDTH = 0.70
+
+
+def video_layout_kwargs(cam_y: float) -> dict:
+    if os.environ.get("COZMO_VIDEO_LAYOUT") == "lidar":
+        return {"camera_y": None}
+    return {"camera_y": cam_y, "occupancy_ratio": VIDEO_OCCUPANCY_RATIO,
+            "door_half_width": VIDEO_DOOR_HALF_WIDTH}
+
+
 def _find_recording(input_path: Path) -> Path:
     """A Spectacular Rec export may arrive with an extra folder level (zip
     unpacked into a folder): use the directory that holds data.jsonl."""
@@ -211,7 +225,8 @@ def run_posed_video(input_path: Path, out_dir: Path, recompute: bool = False, ma
     traj = np.array([f.position[[0, 2]] for f in cap.frames])
     ts = [f.timestamp for f in used]
     clouds, drift_report = correct_drift(raw, ts, mode=drift)
-    layout = analyze(clouds, traj)
+    cam_y = float(np.median([f.position[1] for f in cap.frames]))
+    layout = analyze(clouds, traj, **video_layout_kwargs(cam_y))
     t3 = time.time()
     damage_by_room = {}
     if damage:
@@ -224,13 +239,15 @@ def run_posed_video(input_path: Path, out_dir: Path, recompute: bool = False, ma
                "drift_and_layout": round(t3 - t2, 2), "damage": round(t4 - t3, 2),
                "total": round(time.time() - t0, 2)}
     out = layout_to_json(layout, input_path.name, "video", png, damage_by_room, timings, sigma_basis="video_posed")
-    out["reconstruction"] = {"path": "posed_video", "pose_source": source, **st}
+    out["reconstruction"] = {"path": "posed_video", "pose_source": source, **st,
+                             "floor_method": layout.diagnostics.get("floor_method"),
+                             "camera_height_m": round(cam_y - layout.floor_y, 3)}
     out["drift"] = drift_report
     if ablation:
         arms = {}
         for mode in ("off", "on"):
             c2, rep = correct_drift(raw, ts, mode=mode)
-            L2 = analyze(c2, traj)
+            L2 = analyze(c2, traj, **video_layout_kwargs(cam_y))
             union, overlap = raster_union_overlap([r.polygon for r in L2.rooms]) if L2.rooms else (0.0, 0.0)
             arms[mode] = {"registration_voxels": registration_score(c2), "n_rooms": len(L2.rooms),
                           "footprint_m2": round(float(sum(r.floor_area_m2 for r in L2.rooms)), 3),

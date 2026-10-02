@@ -45,6 +45,8 @@ from __future__ import annotations
 import dataclasses
 
 import cv2
+import os
+
 import numpy as np
 from scipy import ndimage as ndi
 from skimage.segmentation import watershed
@@ -144,14 +146,45 @@ def dominant_angle(xz: np.ndarray) -> float:
 
 # ------------------------------------------------------------ main entry
 
-def analyze(frame_clouds: list[tuple[np.ndarray, np.ndarray]], trajectory_xz: np.ndarray) -> Layout:
-    """frame_clouds: list of (camera_position_xyz, world_points) per frame."""
+def find_floor_y_handheld(points: np.ndarray, camera_y: float, below=(0.9, 1.9)) -> tuple[float, str]:
+    """Floor for captures WITHOUT direct depth (learned depth): the phone is
+    hand-held, so the floor lies 0.9-1.9 m below the camera path. Only that
+    window is searched. A clear horizontal peak there is the floor; if none
+    (the phone rarely looked down and the floor is hidden by furniture), the
+    floor is the window's lower edge (1st percentile of the points in it),
+    reported as estimated. Without the window, the global histogram picked
+    a bed / counter top 0.5-0.7 m below the camera on the measured home."""
+    y = points[:, 1]
+    w = y[(y > camera_y - below[1]) & (y < camera_y - below[0])]
+    if len(w) < 200:
+        return camera_y - 1.45, "prior_only"
+    hist, edges = np.histogram(w, bins=np.arange(w.min(), w.max() + 0.02, 0.02))
+    k = int(np.argmax(hist))
+    if hist[k] > 3.0 * np.median(hist) and k < len(hist) * 0.5:
+        return float((edges[k] + edges[k + 1]) / 2), "peak"
+    return float(np.percentile(w, 1.0)), "lower_edge"
+
+
+def analyze(frame_clouds: list[tuple[np.ndarray, np.ndarray]], trajectory_xz: np.ndarray,
+            camera_y: float | None = None, occupancy_ratio: float | None = None,
+            door_half_width: float | None = None) -> Layout:
+    """frame_clouds: list of (camera_position_xyz, world_points) per frame.
+    camera_y: median camera height for hand-held captures without direct
+    depth; switches the floor search to find_floor_y_handheld.
+    occupancy_ratio: for noisy (learned) depth. A cell is an obstacle only
+    if its wall-band hits are at least this fraction of the camera rays that
+    PASS THROUGH it (a real wall stops rays; a stray point in open space is
+    passed through many times). None = LiDAR behaviour (>= 2 hits)."""
     all_pts = np.concatenate([p for _, p in frame_clouds])
     keys = np.floor(all_pts / 0.02).astype(np.int64)
     _, keep = np.unique(keys, axis=0, return_index=True)
     pts = all_pts[keep]                       # 2cm-deduplicated cloud
 
-    floor_y = find_floor_y(pts)
+    floor_method = "histogram"
+    if camera_y is not None and os.environ.get("COZMO_VIDEO_FLOOR", "handheld") == "handheld":
+        floor_y, floor_method = find_floor_y_handheld(pts, camera_y)
+    else:
+        floor_y = find_floor_y(pts)
     h = pts[:, 1] - floor_y
     band = (h > 0.3) & (h < 1.9)
     theta = dominant_angle(pts[band][:, [0, 2]])
@@ -172,7 +205,7 @@ def analyze(frame_clouds: list[tuple[np.ndarray, np.ndarray]], trajectory_xz: np
     iu, iv = cells(uv[tall])
     obstacle = np.zeros(shape, np.int32)
     np.add.at(obstacle, (iu, iv), 1)
-    obstacle = obstacle >= 2
+    hits = obstacle
 
     # Free-space carving with 2D rays.
     free = np.zeros(shape[0] * shape[1], np.int32)
@@ -196,7 +229,12 @@ def analyze(frame_clouds: list[tuple[np.ndarray, np.ndarray]], trajectory_xz: np
         s = c + d[idx] * t[:, None]
         a, b = cells(s)
         free += np.bincount(a * shape[1] + b, minlength=shape[0] * shape[1])
-    free = free.reshape(shape) >= 2
+    passes = free.reshape(shape)
+    if occupancy_ratio is None:
+        obstacle = hits >= 2
+    else:
+        obstacle = (hits >= 2) & (hits >= occupancy_ratio * passes)
+    free = passes >= 2
 
     # Close small ray-sampling gaps in free space FIRST, then re-impose the
     # obstacles: closing after masking would also erase one-cell-thick
@@ -214,7 +252,7 @@ def analyze(frame_clouds: list[tuple[np.ndarray, np.ndarray]], trajectory_xz: np
 
     # Room segmentation.
     dt = ndi.distance_transform_edt(interior) * RES
-    seeds, n_seeds = ndi.label(dt > DOOR_HALF_WIDTH)
+    seeds, n_seeds = ndi.label(dt > (door_half_width or DOOR_HALF_WIDTH))
     if n_seeds:
         seed_area = ndi.sum(np.ones(shape), seeds, range(1, n_seeds + 1)) * RES * RES
         for i, a in enumerate(seed_area, start=1):
@@ -250,7 +288,7 @@ def analyze(frame_clouds: list[tuple[np.ndarray, np.ndarray]], trajectory_xz: np
             if rid in by_id:
                 _attach_doorway(by_id[rid], other, centre, cut_dir, left, right, sigma)
     return Layout(rooms=rooms, adjacency=adjacency, theta_rad=theta, origin=origin, floor_y=floor_y,
-                  diagnostics={"grid_shape": shape, "n_points": int(len(pts)),
+                  diagnostics={"grid_shape": shape, "n_points": int(len(pts)), "floor_method": floor_method,
                                "interior_m2": float(interior.sum() * RES * RES),
                                "labels": labels, "obstacle": obstacle})
 
