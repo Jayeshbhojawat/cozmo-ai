@@ -370,6 +370,7 @@ def posed_clouds(cap, video_path, max_frames=300, stride=4, max_depth=5.0, log=N
 
 
 def _finish_posed(cap, by_idx, seq, depths, sc, npts, stride, max_depth, keep_depth, cached):
+    import os
     sv = np.array(sc, float)
     good = np.isfinite(sv)
     if good.sum() < 3:
@@ -378,6 +379,18 @@ def _finish_posed(cap, by_idx, seq, depths, sc, npts, stride, max_depth, keep_de
     smooth = np.array([np.median(filled[max(0, a - 4):a + 5]) for a in range(len(seq))])
     ys, xs = np.mgrid[0:DEPTH_H:stride, 0:DEPTH_W:stride].astype(np.float32)
     sx, sy = DEPTH_W / cap.rgb_shape[1], DEPTH_H / cap.rgb_shape[0]
+    if os.environ.get("COZMO_SCALE_REFINE", "0") == "1":
+        # multi-view agreement: start every frame at the median triangulated
+        # scale, then let each frame move (+-25 %) to land on the others
+        fr = []
+        for a, k in enumerate(seq):
+            f = by_idx[k]
+            d = depths[k][::stride, ::stride]
+            gy, gx = np.gradient(np.log(np.maximum(depths[k], 1e-3)))
+            m = np.hypot(gx, gy)[::stride, ::stride] < 0.08
+            fx, fy, cx, cy = f.fx * sx, f.fy * sy, f.cx * sx, f.cy * sy
+            fr.append((f.pose_matrix(), np.stack([(xs[m] - cx) / fx * d[m], (ys[m] - cy) / fy * d[m], d[m]], 1)))
+        smooth = refine_frame_scales(fr, float(np.median(smooth)), rounds=3, span=0.25, steps=26)
     clouds, used = [], []
     for a, k in enumerate(seq):
         f = by_idx[k]
