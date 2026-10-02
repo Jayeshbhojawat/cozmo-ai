@@ -1,7 +1,7 @@
 {
   "capture_id": "spectacular_3",
   "tier": "video",
-  "generated_at": "2026-10-02T12:27:47.694532+00:00",
+  "generated_at": "2026-10-02T12:46:07.836598+00:00",
   "pipeline_version": "0.2.0",
   "confidence_note": "video-tier intervals are priors (no depth sensor; scale from assumed camera height).",
   "plan_frame": {
@@ -22,16 +22,16 @@
       "ceiling_height_m": {
         "value": 2.9847,
         "unit": "m",
-        "ci_low": 2.3281,
-        "ci_high": 3.6414,
-        "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+        "ci_low": 1.2536,
+        "ci_high": 4.7158,
+        "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
       },
       "floor_area_m2": {
         "value": 17.9316,
         "unit": "m2",
-        "ci_low": 10.0417,
-        "ci_high": 25.8214,
-        "basis": "video_posed-tier interval +-44% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+        "ci_low": 0.0,
+        "ci_high": 38.7322,
+        "basis": "video_posed-tier interval +-116% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
       },
       "polygon": [
         [
@@ -107,9 +107,9 @@
           "length_m": {
             "value": 1.4999,
             "unit": "m",
-            "ci_low": 1.1699,
-            "ci_high": 1.8299,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.63,
+            "ci_high": 2.3699,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -128,9 +128,9 @@
           "length_m": {
             "value": 3.2521,
             "unit": "m",
-            "ci_low": 2.5367,
-            "ci_high": 3.9676,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 1.3659,
+            "ci_high": 5.1384,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -149,9 +149,9 @@
           "length_m": {
             "value": 0.2845,
             "unit": "m",
-            "ci_low": 0.2219,
-            "ci_high": 0.347,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.1195,
+            "ci_high": 0.4495,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -170,9 +170,9 @@
           "length_m": {
             "value": 2.5066,
             "unit": "m",
-            "ci_low": 1.9552,
-            "ci_high": 3.0581,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 1.0528,
+            "ci_high": 3.9604,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -191,9 +191,9 @@
           "length_m": {
             "value": 0.1978,
             "unit": "m",
-            "ci_low": 0.1543,
-            "ci_high": 0.2414,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.0831,
+            "ci_high": 0.3126,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -212,9 +212,9 @@
           "length_m": {
             "value": 3.0338,
             "unit": "m",
-            "ci_low": 2.3664,
-            "ci_high": 3.7012,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 1.2742,
+            "ci_high": 4.7934,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -233,9 +233,9 @@
           "length_m": {
             "value": 1.4807,
             "unit": "m",
-            "ci_low": 1.1549,
-            "ci_high": 1.8065,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.6219,
+            "ci_high": 2.3395,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -254,9 +254,9 @@
           "length_m": {
             "value": 1.7565,
             "unit": "m",
-            "ci_low": 1.3701,
-            "ci_high": 2.1429,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.7377,
+            "ci_high": 2.7752,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -275,9 +275,9 @@
           "length_m": {
             "value": 0.3609,
             "unit": "m",
-            "ci_low": 0.2815,
-            "ci_high": 0.4403,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.1516,
+            "ci_high": 0.5703,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -296,9 +296,9 @@
           "length_m": {
             "value": 1.0203,
             "unit": "m",
-            "ci_low": 0.7958,
-            "ci_high": 1.2448,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.4285,
+            "ci_high": 1.6121,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -317,9 +317,9 @@
           "length_m": {
             "value": 1.251,
             "unit": "m",
-            "ci_low": 0.9758,
-            "ci_high": 1.5263,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.5254,
+            "ci_high": 1.9766,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -338,9 +338,9 @@
           "length_m": {
             "value": 5.6483,
             "unit": "m",
-            "ci_low": 4.4057,
-            "ci_high": 6.891,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 2.3723,
+            "ci_high": 8.9244,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": [
             {
@@ -352,9 +352,9 @@
               "width_m": {
                 "value": 1.1676,
                 "unit": "m",
-                "ci_low": 1.1545,
-                "ci_high": 1.1806,
-                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+                "ci_low": 0.4904,
+                "ci_high": 1.8448,
+                "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
               }
             }
           ]
@@ -374,9 +374,9 @@
           "length_m": {
             "value": 0.7842,
             "unit": "m",
-            "ci_low": 0.6117,
-            "ci_high": 0.9568,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.3294,
+            "ci_high": 1.2391,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -395,9 +395,9 @@
           "length_m": {
             "value": 0.3674,
             "unit": "m",
-            "ci_low": 0.2866,
-            "ci_high": 0.4482,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.1543,
+            "ci_high": 0.5805,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         }
@@ -525,16 +525,16 @@
       "ceiling_height_m": {
         "value": 2.3961,
         "unit": "m",
-        "ci_low": 1.8689,
-        "ci_high": 2.9232,
-        "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+        "ci_low": 1.0063,
+        "ci_high": 3.7858,
+        "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
       },
       "floor_area_m2": {
         "value": 9.8034,
         "unit": "m2",
-        "ci_low": 5.4899,
-        "ci_high": 14.1169,
-        "basis": "video_posed-tier interval +-44% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+        "ci_low": 0.0,
+        "ci_high": 21.1753,
+        "basis": "video_posed-tier interval +-116% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
       },
       "polygon": [
         [
@@ -618,9 +618,9 @@
           "length_m": {
             "value": 1.2249,
             "unit": "m",
-            "ci_low": 0.9554,
-            "ci_high": 1.4943,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.5144,
+            "ci_high": 1.9353,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -639,9 +639,9 @@
           "length_m": {
             "value": 1.0076,
             "unit": "m",
-            "ci_low": 0.7859,
-            "ci_high": 1.2293,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.4232,
+            "ci_high": 1.592,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -660,9 +660,9 @@
           "length_m": {
             "value": 0.1464,
             "unit": "m",
-            "ci_low": 0.1142,
-            "ci_high": 0.1786,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.0615,
+            "ci_high": 0.2313,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -681,9 +681,9 @@
           "length_m": {
             "value": 1.7948,
             "unit": "m",
-            "ci_low": 1.4,
-            "ci_high": 2.1897,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.7538,
+            "ci_high": 2.8358,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -702,9 +702,9 @@
           "length_m": {
             "value": 0.456,
             "unit": "m",
-            "ci_low": 0.3557,
-            "ci_high": 0.5563,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.1915,
+            "ci_high": 0.7205,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -723,9 +723,9 @@
           "length_m": {
             "value": 1.4577,
             "unit": "m",
-            "ci_low": 1.137,
-            "ci_high": 1.7784,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.6122,
+            "ci_high": 2.3031,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -744,9 +744,9 @@
           "length_m": {
             "value": 0.3802,
             "unit": "m",
-            "ci_low": 0.2966,
-            "ci_high": 0.4639,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.1597,
+            "ci_high": 0.6007,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -765,9 +765,9 @@
           "length_m": {
             "value": 0.7526,
             "unit": "m",
-            "ci_low": 0.587,
-            "ci_high": 0.9181,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.3161,
+            "ci_high": 1.189,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -786,9 +786,9 @@
           "length_m": {
             "value": 1.8803,
             "unit": "m",
-            "ci_low": 1.4666,
-            "ci_high": 2.294,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.7897,
+            "ci_high": 2.9709,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -807,9 +807,9 @@
           "length_m": {
             "value": 0.717,
             "unit": "m",
-            "ci_low": 0.5592,
-            "ci_high": 0.8747,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.3011,
+            "ci_high": 1.1328,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -828,9 +828,9 @@
           "length_m": {
             "value": 0.5718,
             "unit": "m",
-            "ci_low": 0.446,
-            "ci_high": 0.6976,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.2402,
+            "ci_high": 0.9035,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -849,9 +849,9 @@
           "length_m": {
             "value": 0.5125,
             "unit": "m",
-            "ci_low": 0.3998,
-            "ci_high": 0.6253,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.2153,
+            "ci_high": 0.8098,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -870,9 +870,9 @@
           "length_m": {
             "value": 0.3403,
             "unit": "m",
-            "ci_low": 0.2655,
-            "ci_high": 0.4152,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.1429,
+            "ci_high": 0.5377,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -891,9 +891,9 @@
           "length_m": {
             "value": 1.4298,
             "unit": "m",
-            "ci_low": 1.1153,
-            "ci_high": 1.7444,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.6005,
+            "ci_high": 2.2591,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -912,9 +912,9 @@
           "length_m": {
             "value": 1.6382,
             "unit": "m",
-            "ci_low": 1.2778,
-            "ci_high": 1.9986,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.6881,
+            "ci_high": 2.5884,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         },
@@ -933,9 +933,9 @@
           "length_m": {
             "value": 2.3534,
             "unit": "m",
-            "ci_low": 1.8356,
-            "ci_high": 2.8711,
-            "basis": "video_posed-tier interval +-22% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+            "ci_low": 0.9884,
+            "ci_high": 3.7183,
+            "basis": "video_posed-tier interval +-58% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
           },
           "openings": []
         }
@@ -961,18 +961,18 @@
     "footprint_m2": {
       "value": 27.7349,
       "unit": "m2",
-      "ci_low": 15.5316,
-      "ci_high": 39.9383,
-      "basis": "video_posed-tier interval +-44% PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
+      "ci_low": 0.0,
+      "ci_high": 59.9075,
+      "basis": "video_posed-tier interval +-116% from the 95th-percentile wall error against tape on the measured home (24 walls, 3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"
     },
     "render_path": "benchmark/results/home/spectacular_3/plan.png"
   },
   "timing_s": {
     "poses": 0.55,
-    "depth_and_scale": 37.78,
-    "drift_and_layout": 4.63,
-    "damage": 41.04,
-    "total": 84.15
+    "depth_and_scale": 36.3,
+    "drift_and_layout": 4.55,
+    "damage": 39.08,
+    "total": 80.64
   },
   "reconstruction": {
     "path": "posed_video",

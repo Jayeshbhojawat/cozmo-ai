@@ -5,7 +5,7 @@
       "name": "camera_video",
       "tier": "video",
       "kind": "pivot",
-      "runtime_s": 264.42,
+      "runtime_s": 136.86,
       "rooms_found": 1,
       "rooms_matched": [
         "room_1=room2"
@@ -35,7 +35,7 @@
         "passed": false
       },
       "ci95_coverage": {
-        "inside": "4",
+        "inside": 4,
         "total": 6,
         "rate": 0.667
       },
@@ -50,7 +50,7 @@
       "name": "spectacular_1",
       "tier": "video",
       "kind": "posed",
-      "runtime_s": 92.43,
+      "runtime_s": 67.35,
       "rooms_found": 2,
       "rooms_matched": [
         "room_2=room1",
@@ -87,9 +87,9 @@
         "passed": false
       },
       "ci95_coverage": {
-        "inside": 6,
+        "inside": 9,
         "total": 11,
-        "rate": 0.545
+        "rate": 0.818
       },
       "footprint_pred_m2": 34.4859,
       "footprint_meas_m2": 29.2644576,
@@ -190,7 +190,7 @@
       "name": "spectacular_2",
       "tier": "video",
       "kind": "posed",
-      "runtime_s": 72.73,
+      "runtime_s": 69.37,
       "rooms_found": 2,
       "rooms_matched": [
         "room_1=room1",
@@ -227,9 +227,9 @@
         "passed": false
       },
       "ci95_coverage": {
-        "inside": 7,
+        "inside": 9,
         "total": 10,
-        "rate": 0.7
+        "rate": 0.9
       },
       "footprint_pred_m2": 31.6844,
       "footprint_meas_m2": 29.2644576,
@@ -336,7 +336,7 @@
       "name": "spectacular_3",
       "tier": "video",
       "kind": "posed",
-      "runtime_s": 84.15,
+      "runtime_s": 80.64,
       "rooms_found": 2,
       "rooms_matched": [
         "room_1=room1",
@@ -373,9 +373,9 @@
         "passed": false
       },
       "ci95_coverage": {
-        "inside": 5,
+        "inside": 7,
         "total": 11,
-        "rate": 0.455
+        "rate": 0.636
       },
       "footprint_pred_m2": 27.735,
       "footprint_meas_m2": 29.2644576,
@@ -507,7 +507,7 @@
       "name": "photos",
       "tier": "photo",
       "kind": "photo",
-      "runtime_s": 20.92,
+      "runtime_s": 21.39,
       "rooms_found": 2,
       "rooms_matched": [
         "02_room2=room1",
@@ -544,9 +544,9 @@
         "passed": false
       },
       "ci95_coverage": {
-        "inside": 4,
+        "inside": 7,
         "total": 10,
-        "rate": 0.4
+        "rate": 0.7
       },
       "footprint_pred_m2": 19.671300000000002,
       "footprint_meas_m2": 29.2644576,

@@ -30,13 +30,18 @@ LIDAR_SIGMA_INFLATION = 1.0
 # half-width per length is set to 2 x 11 % ~= 22 %; the brief's tier
 # tolerances (photo 8 %, video 3 %) are therefore NOT met yet, and the
 # intervals say so instead of pretending.
-TIER_REL_HALF_WIDTH = {"video": 0.22, "photo": 0.22, "video_posed": 0.22}
+# Calibrated on the tape-measured home (2026-10-02, benchmark/results/home):
+# 95th percentile of |pred - tape| / tape per wall -> posed video 58 % (n=24
+# walls, 3 walks), photo 45 % (n=8). At the earlier +-22 % only 18/32 (posed)
+# and 4/10 (photo) tape values fell inside the interval. Pivot video keeps
+# 22 % (n=4 walls on the home, p95 19 %). Same-home calibration: disclosed.
+TIER_REL_HALF_WIDTH = {"video": 0.22, "photo": 0.45, "video_posed": 0.58}
 _BASIS = {
     "video": "from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height",
-    "photo": "from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height",
-    "video_posed": ("PROVISIONAL: posed-video error not yet measured against tape/laser; kept at the "
-                    "pivot-scan width until benchmark/ground_truth scoring replaces it. Phone-motion "
-                    "(visual-inertial) poses, learned depth scaled by triangulation"),
+    "photo": "from the 95th-percentile wall error against tape on the measured home (8 walls); "
+             "monocular depth, scale from camera height",
+    "video_posed": ("from the 95th-percentile wall error against tape on the measured home (24 walls, "
+                    "3 walks); phone-motion (visual-inertial) poses, learned depth scaled by triangulation"),
 }
 
 

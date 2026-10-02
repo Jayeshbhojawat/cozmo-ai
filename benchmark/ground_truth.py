@@ -113,7 +113,7 @@ def score(plan: dict, gt: dict) -> dict:
                                     "median": sorted(wall_err)[len(wall_err) // 2] if wall_err else None,
                                     "max": max(wall_err) if wall_err else None},
         "footprint_error_pct": round(100 * (pred_fp - fp) / fp, 2) if fp else None,
-        "calibration_95ci_coverage": {"inside": inside, "total": total,
+        "calibration_95ci_coverage": {"inside": int(inside), "total": int(total),
                                       "rate": round(inside / total, 3) if total else None},
         "openings": op_rows,
     }

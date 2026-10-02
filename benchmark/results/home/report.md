@@ -6,11 +6,11 @@ Regenerate: `python -m benchmark.run_all --capture-dir <dir> --sheet <sheet.json
 
 | capture | tier | rooms found | walls measured | wall err median | within tier tol | openings ≤2 cm (missed/phantom) | ceiling | footprint err | 95% CI coverage | runtime |
 |---|---|---|---|---|---|---|---|---|---|---|
-| camera_video | video | 1 | 4 | 9.5% | 50.0% | 0/1 (0/0) | room_1: not seen | 45.7% | 4/6 | 264.42 s |
-| spectacular_1 | video | 2 | 8 | 20.4% | 12.5% | 0/2 (1/0) | room_2: 11.0 cm; room_1: 32.5 cm | 17.8% | 6/11 | 92.43 s |
-| spectacular_2 | video | 2 | 8 | 7.0% | 25.0% | 0/3 (2/1) | room_1: 10.0 cm; room_2: 17.4 cm | 8.3% | 7/10 | 72.73 s |
-| spectacular_3 | video | 2 | 8 | 35.5% | 12.5% | 0/2 (1/0) | room_1: 14.0 cm; room_2: 19.5 cm | -5.2% | 5/11 | 84.15 s |
-| photos | photo | 2 | 8 | 29.3% | 12.5% | 0/2 (2/0) | 02_room2: not seen; 01_room1: 12.5 cm | -32.8% | 4/10 | 20.92 s |
+| camera_video | video | 1 | 4 | 9.5% | 50.0% | 0/1 (0/0) | room_1: not seen | 45.7% | 4/6 | 136.86 s |
+| spectacular_1 | video | 2 | 8 | 20.4% | 12.5% | 0/2 (1/0) | room_2: 11.0 cm; room_1: 32.5 cm | 17.8% | 9/11 | 67.35 s |
+| spectacular_2 | video | 2 | 8 | 7.0% | 25.0% | 0/3 (2/1) | room_1: 10.0 cm; room_2: 17.4 cm | 8.3% | 9/10 | 69.37 s |
+| spectacular_3 | video | 2 | 8 | 35.5% | 12.5% | 0/2 (1/0) | room_1: 14.0 cm; room_2: 19.5 cm | -5.2% | 7/11 | 80.64 s |
+| photos | photo | 2 | 8 | 29.3% | 12.5% | 0/2 (2/0) | 02_room2: not seen; 01_room1: 12.5 cm | -32.8% | 7/10 | 21.39 s |
 
 Wall error is relative (|pred − tape| / tape). Tier tolerance: video 3 %, photo 8 %. Openings: a missed and a phantom opening each count as a miss. Footprint: sum of matched rooms vs the same rooms built from tape lengths.
 

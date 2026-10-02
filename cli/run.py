@@ -30,13 +30,20 @@ PIPELINE_VERSION = "0.2.0"
 CEILING_PLAUSIBLE_MAX = 4.5
 
 
-def _opening_json(o, wall_id, j):
-    from reconstruction.confidence import from_sigma
+def _opening_json(o, wall_id, j, sigma_basis="lidar"):
+    """Door/window width with its 95 % interval. The jamb-to-jamb model sigma
+    (~1 cm) only holds for LiDAR depth; the other tiers use their measured
+    per-length error (on the measured home the LiDAR sigma had been applied
+    to video doors too, giving +-1 cm intervals around 27-190 % errors)."""
+    from reconstruction.confidence import from_sigma, tier_prior
+    if sigma_basis == "lidar":
+        width = from_sigma(o.width_m, o.width_sigma_m, "m", "jamb-to-jamb from surface points (model sigma, 95%)")
+    else:
+        width = tier_prior(o.width_m, sigma_basis)
     return {
         "opening_id": f"{wall_id}_o{j}", "kind": o.kind, "leads_to": o.leads_to,
         "start_m": round(o.start_m, 4), "end_m": round(o.end_m, 4),
-        "width_m": from_sigma(o.width_m, o.width_sigma_m, "m",
-                              "jamb-to-jamb from surface points (model sigma, 95%)").to_dict(),
+        "width_m": width.to_dict(),
     }
 
 
@@ -57,7 +64,7 @@ def layout_to_json(layout, capture_id, tier, render_path, damage_by_room, timing
                 "p0": [round(float(w.p0[0]), 4), round(float(w.p0[1]), 4)],
                 "p1": [round(float(w.p1[0]), 4), round(float(w.p1[1]), 4)],
                 "length_m": length.to_dict(),
-                "openings": [_opening_json(o, w.wall_id, j) for j, o in enumerate(w.openings)],
+                "openings": [_opening_json(o, w.wall_id, j, sigma_basis) for j, o in enumerate(w.openings)],
             })
         if r.ceiling_observed:
             ceiling = (from_sigma(r.ceiling_height_m, r.ceiling_sigma_m, "m",

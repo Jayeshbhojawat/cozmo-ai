@@ -1,7 +1,7 @@
 {
   "capture_id": "photos",
   "tier": "photo",
-  "generated_at": "2026-10-02T12:28:16.972741+00:00",
+  "generated_at": "2026-10-02T12:46:37.482985+00:00",
   "pipeline_version": "0.2.0",
   "confidence_note": "photo-tier intervals are priors (no depth sensor; scale from assumed camera height).",
   "plan_frame": {
@@ -22,16 +22,16 @@
       "ceiling_height_m": {
         "value": 2.7153,
         "unit": "m",
-        "ci_low": 2.1179,
-        "ci_high": 3.3127,
-        "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+        "ci_low": 1.4934,
+        "ci_high": 3.9372,
+        "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
       },
       "floor_area_m2": {
         "value": 8.8153,
         "unit": "m2",
-        "ci_low": 4.9365,
-        "ci_high": 12.694,
-        "basis": "photo-tier interval +-44% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+        "ci_low": 0.8815,
+        "ci_high": 16.749,
+        "basis": "photo-tier interval +-90% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
       },
       "polygon": [
         [
@@ -107,9 +107,9 @@
           "length_m": {
             "value": 2.8538,
             "unit": "m",
-            "ci_low": 2.226,
-            "ci_high": 3.4816,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 1.5696,
+            "ci_high": 4.138,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -128,9 +128,9 @@
           "length_m": {
             "value": 2.3776,
             "unit": "m",
-            "ci_low": 1.8545,
-            "ci_high": 2.9006,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 1.3077,
+            "ci_high": 3.4475,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -149,9 +149,9 @@
           "length_m": {
             "value": 1.0124,
             "unit": "m",
-            "ci_low": 0.7897,
-            "ci_high": 1.2352,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.5568,
+            "ci_high": 1.468,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -170,9 +170,9 @@
           "length_m": {
             "value": 0.677,
             "unit": "m",
-            "ci_low": 0.5281,
-            "ci_high": 0.8259,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.3724,
+            "ci_high": 0.9817,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -191,9 +191,9 @@
           "length_m": {
             "value": 2.2534,
             "unit": "m",
-            "ci_low": 1.7577,
-            "ci_high": 2.7492,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 1.2394,
+            "ci_high": 3.2674,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -212,9 +212,9 @@
           "length_m": {
             "value": 1.7711,
             "unit": "m",
-            "ci_low": 1.3815,
-            "ci_high": 2.1607,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.9741,
+            "ci_high": 2.5681,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -233,9 +233,9 @@
           "length_m": {
             "value": 0.5028,
             "unit": "m",
-            "ci_low": 0.3922,
-            "ci_high": 0.6134,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.2765,
+            "ci_high": 0.729,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -254,9 +254,9 @@
           "length_m": {
             "value": 0.1879,
             "unit": "m",
-            "ci_low": 0.1466,
-            "ci_high": 0.2293,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.1034,
+            "ci_high": 0.2725,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -275,9 +275,9 @@
           "length_m": {
             "value": 0.9616,
             "unit": "m",
-            "ci_low": 0.75,
-            "ci_high": 1.1732,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.5289,
+            "ci_high": 1.3943,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -296,9 +296,9 @@
           "length_m": {
             "value": 0.1613,
             "unit": "m",
-            "ci_low": 0.1258,
-            "ci_high": 0.1968,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.0887,
+            "ci_high": 0.2339,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -317,9 +317,9 @@
           "length_m": {
             "value": 0.2388,
             "unit": "m",
-            "ci_low": 0.1863,
-            "ci_high": 0.2914,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.1314,
+            "ci_high": 0.3463,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -338,9 +338,9 @@
           "length_m": {
             "value": 0.1599,
             "unit": "m",
-            "ci_low": 0.1247,
-            "ci_high": 0.195,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.0879,
+            "ci_high": 0.2318,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -359,9 +359,9 @@
           "length_m": {
             "value": 1.2912,
             "unit": "m",
-            "ci_low": 1.0071,
-            "ci_high": 1.5752,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.7101,
+            "ci_high": 1.8722,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -380,9 +380,9 @@
           "length_m": {
             "value": 1.47,
             "unit": "m",
-            "ci_low": 1.1466,
-            "ci_high": 1.7934,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.8085,
+            "ci_high": 2.1315,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         }
@@ -406,9 +406,9 @@
       "floor_area_m2": {
         "value": 10.856,
         "unit": "m2",
-        "ci_low": 6.0794,
-        "ci_high": 15.6327,
-        "basis": "photo-tier interval +-44% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+        "ci_low": 1.0856,
+        "ci_high": 20.6265,
+        "basis": "photo-tier interval +-90% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
       },
       "polygon": [
         [
@@ -484,9 +484,9 @@
           "length_m": {
             "value": 4.1126,
             "unit": "m",
-            "ci_low": 3.2079,
-            "ci_high": 5.0174,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 2.2619,
+            "ci_high": 5.9633,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -505,9 +505,9 @@
           "length_m": {
             "value": 1.0798,
             "unit": "m",
-            "ci_low": 0.8423,
-            "ci_high": 1.3174,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.5939,
+            "ci_high": 1.5658,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -526,9 +526,9 @@
           "length_m": {
             "value": 0.5938,
             "unit": "m",
-            "ci_low": 0.4632,
-            "ci_high": 0.7244,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.3266,
+            "ci_high": 0.861,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -547,9 +547,9 @@
           "length_m": {
             "value": 1.0199,
             "unit": "m",
-            "ci_low": 0.7956,
-            "ci_high": 1.2443,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.561,
+            "ci_high": 1.4789,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -568,9 +568,9 @@
           "length_m": {
             "value": 0.6075,
             "unit": "m",
-            "ci_low": 0.4738,
-            "ci_high": 0.7411,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.3341,
+            "ci_high": 0.8809,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -589,9 +589,9 @@
           "length_m": {
             "value": 2.7657,
             "unit": "m",
-            "ci_low": 2.1573,
-            "ci_high": 3.3742,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 1.5211,
+            "ci_high": 4.0103,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -610,9 +610,9 @@
           "length_m": {
             "value": 2.3315,
             "unit": "m",
-            "ci_low": 1.8186,
-            "ci_high": 2.8445,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 1.2824,
+            "ci_high": 3.3807,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -631,9 +631,9 @@
           "length_m": {
             "value": 0.5037,
             "unit": "m",
-            "ci_low": 0.3929,
-            "ci_high": 0.6145,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.277,
+            "ci_high": 0.7303,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -652,9 +652,9 @@
           "length_m": {
             "value": 1.0997,
             "unit": "m",
-            "ci_low": 0.8578,
-            "ci_high": 1.3416,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.6048,
+            "ci_high": 1.5946,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -673,9 +673,9 @@
           "length_m": {
             "value": 0.6744,
             "unit": "m",
-            "ci_low": 0.526,
-            "ci_high": 0.8228,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.3709,
+            "ci_high": 0.9779,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -694,9 +694,9 @@
           "length_m": {
             "value": 0.3217,
             "unit": "m",
-            "ci_low": 0.2509,
-            "ci_high": 0.3925,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.1769,
+            "ci_high": 0.4665,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -715,9 +715,9 @@
           "length_m": {
             "value": 0.1757,
             "unit": "m",
-            "ci_low": 0.137,
-            "ci_high": 0.2144,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 0.0966,
+            "ci_high": 0.2548,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -736,9 +736,9 @@
           "length_m": {
             "value": 4.4038,
             "unit": "m",
-            "ci_low": 3.4349,
-            "ci_high": 5.3726,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 2.4221,
+            "ci_high": 6.3855,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         },
@@ -757,9 +757,9 @@
           "length_m": {
             "value": 1.8232,
             "unit": "m",
-            "ci_low": 1.4221,
-            "ci_high": 2.2243,
-            "basis": "photo-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+            "ci_low": 1.0028,
+            "ci_high": 2.6437,
+            "basis": "photo-tier interval +-45% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
           },
           "openings": []
         }
@@ -777,14 +777,14 @@
     "footprint_m2": {
       "value": 19.6713,
       "unit": "m2",
-      "ci_low": 11.0159,
-      "ci_high": 28.3267,
-      "basis": "photo-tier interval +-44% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
+      "ci_low": 1.9671,
+      "ci_high": 37.3755,
+      "basis": "photo-tier interval +-90% from the 95th-percentile wall error against tape on the measured home (8 walls); monocular depth, scale from camera height"
     },
     "render_path": "benchmark/results/home/photos/plan.png"
   },
   "timing_s": {
-    "total": 20.92,
+    "total": 21.39,
     "rec_rooms_in": 2,
     "rec_rooms_out": 2
   },

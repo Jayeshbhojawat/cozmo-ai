@@ -1,7 +1,7 @@
 {
   "capture_id": "camera_video.MOV",
   "tier": "video",
-  "generated_at": "2026-10-02T12:23:18.799482+00:00",
+  "generated_at": "2026-10-02T12:42:15.020405+00:00",
   "pipeline_version": "0.2.0",
   "confidence_note": "video-tier intervals are priors (no depth sensor; scale from assumed camera height).",
   "plan_frame": {
@@ -268,9 +268,9 @@
               "width_m": {
                 "value": 2.68,
                 "unit": "m",
-                "ci_low": 2.6444,
-                "ci_high": 2.7156,
-                "basis": "jamb-to-jamb from surface points (model sigma, 95%)"
+                "ci_low": 2.0904,
+                "ci_high": 3.2696,
+                "basis": "video-tier interval +-22% from measured pivot-scan error vs LiDAR (5 rooms, area RMS 22%); monocular depth, scale from camera height"
               }
             }
           ]
@@ -421,7 +421,7 @@
     "render_path": "benchmark/results/home/camera_video/plan.png"
   },
   "timing_s": {
-    "total": 264.42,
+    "total": 136.86,
     "rec_frames": 258,
     "rec_pivots": 1
   },
