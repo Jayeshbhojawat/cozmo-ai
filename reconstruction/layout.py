@@ -167,7 +167,8 @@ def find_floor_y_handheld(points: np.ndarray, camera_y: float, below=(0.9, 1.9))
 
 def analyze(frame_clouds: list[tuple[np.ndarray, np.ndarray]], trajectory_xz: np.ndarray,
             camera_y: float | None = None, occupancy_ratio: float | None = None,
-            door_half_width: float | None = None, min_feature_m: float | None = None) -> Layout:
+            door_half_width: float | None = None, min_feature_m: float | None = None,
+            path_doorways: bool = False) -> Layout:
     """frame_clouds: list of (camera_position_xyz, world_points) per frame.
     camera_y: median camera height for hand-held captures without direct
     depth; switches the floor search to find_floor_y_handheld.
@@ -262,6 +263,17 @@ def analyze(frame_clouds: list[tuple[np.ndarray, np.ndarray]], trajectory_xz: np
         for i, a in enumerate(seed_area, start=1):
             if a < 0.25:
                 seeds[seeds == i] = 0
+    path_cuts = []
+    if path_doorways:
+        cut_interior, path_cuts = _path_door_cuts(interior, traj_uv)
+        if path_cuts:
+            comp, n_comp = ndi.label(cut_interior)
+            if n_comp:
+                areas_c = ndi.sum(np.ones(shape), comp, range(1, n_comp + 1)) * RES * RES
+                for i, a in enumerate(areas_c, start=1):
+                    if a < MIN_ROOM_AREA:
+                        comp[comp == i] = 0
+            seeds = comp
     labels = watershed(-dt, seeds, mask=interior)
     labels = _merge_open_plan(labels)
 
@@ -293,8 +305,81 @@ def analyze(frame_clouds: list[tuple[np.ndarray, np.ndarray]], trajectory_xz: np
                 _attach_doorway(by_id[rid], other, centre, cut_dir, left, right, sigma)
     return Layout(rooms=rooms, adjacency=adjacency, theta_rad=theta, origin=origin, floor_y=floor_y,
                   diagnostics={"grid_shape": shape, "n_points": int(len(pts)), "floor_method": floor_method,
+                               "path_doorway_cuts": [round(c[3], 2) for c in path_cuts],
                                "interior_m2": float(interior.sum() * RES * RES),
                                "labels": labels, "obstacle": obstacle})
+
+
+def _path_door_cuts(interior: np.ndarray, traj_uv: np.ndarray, max_width=1.3, rise=0.5,
+                    window=2.0, step=0.05):
+    """Doorways from the walking path: sample the path every `step` m, measure
+    the free-space width straight across the walking direction (left + right
+    run to the boundary), and cut where that width has a local minimum below
+    `max_width` with at least `rise` more width within `window` m of path on
+    BOTH sides. The cut is the measured cross-section itself, so it spans the
+    opening exactly. Unlike a global clearance threshold this separates a
+    1.2 m passage from the room it opens into (the passage is wider than its
+    doors). Returns (cut_interior, cuts) where cuts = [(p_from, p_to, width)]."""
+    shape = interior.shape
+    d = np.diff(traj_uv, axis=0)
+    seg = np.linalg.norm(d, axis=1)
+    keep = np.concatenate([[True], np.cumsum(seg) // step != np.concatenate([[-1], (np.cumsum(seg) // step)[:-1]])])
+    P = traj_uv[keep]
+    if len(P) < 20:
+        return interior, []
+    s = np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(P, axis=0), axis=1))])
+
+    def inside(q):
+        i, j = int(q[0] / RES), int(q[1] / RES)
+        return 0 <= i < shape[0] and 0 <= j < shape[1] and interior[i, j]
+
+    widths, normals = np.full(len(P), np.nan), np.zeros((len(P), 2))
+    for k in range(len(P)):
+        a, b = max(0, k - 6), min(len(P) - 1, k + 6)
+        t = P[b] - P[a]
+        if np.linalg.norm(t) < 1e-6 or not inside(P[k]):
+            continue
+        t /= np.linalg.norm(t)
+        n = np.array([-t[1], t[0]])
+        run = []
+        for sgn in (1, -1):
+            r = 0.0
+            while r < 4.0 and inside(P[k] + sgn * n * (r + RES)):
+                r += RES
+            run.append(r)
+        widths[k] = run[0] + run[1]
+        normals[k] = n
+    cuts = []
+    out = interior.copy()
+    w = widths
+    for k in range(len(P)):
+        if not np.isfinite(w[k]) or w[k] > max_width:
+            continue
+        lo = (s >= s[k] - window) & (s < s[k])
+        hi = (s > s[k]) & (s <= s[k] + window)
+        if not (np.isfinite(w[lo]).any() and np.isfinite(w[hi]).any()):
+            continue
+        if w[k] > np.nanmin(w[(s >= s[k] - 0.3) & (s <= s[k] + 0.3)]) + 1e-9:
+            continue                                  # not the local minimum
+        if np.nanmax(w[lo]) < w[k] + rise or np.nanmax(w[hi]) < w[k] + rise:
+            continue
+        if cuts and np.linalg.norm(cuts[-1][2] - P[k]) < 0.5:
+            continue                                  # same doorway
+        n = normals[k]
+        ends = []
+        for sgn in (1, -1):
+            r = 0.0
+            while r < 4.0 and inside(P[k] + sgn * n * (r + RES)):
+                r += RES
+                q = P[k] + sgn * n * r
+                out[int(q[0] / RES), int(q[1] / RES)] = False
+            ends.append(P[k] + sgn * n * r)
+        out[int(P[k][0] / RES), int(P[k][1] / RES)] = False
+        # thicken the cut to 2 cells so 8-connected labelling cannot leak through
+        cuts.append((ends[0], ends[1], P[k].copy(), float(w[k])))
+    if cuts:
+        out = out & ~ndi.binary_dilation(~out & interior, iterations=1)
+    return out, cuts
 
 
 def _merge_open_plan(labels: np.ndarray) -> np.ndarray:

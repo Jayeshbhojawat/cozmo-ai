@@ -191,7 +191,10 @@ def video_layout_kwargs(cam_y: float) -> dict:
         return {"camera_y": None}
     mf = float(os.environ.get("COZMO_VIDEO_MIN_FEATURE", VIDEO_MIN_FEATURE_M))
     return {"camera_y": cam_y, "occupancy_ratio": VIDEO_OCCUPANCY_RATIO,
-            "door_half_width": VIDEO_DOOR_HALF_WIDTH, "min_feature_m": mf or None}
+            "door_half_width": VIDEO_DOOR_HALF_WIDTH, "min_feature_m": mf or None,
+            # doorways where the walking path squeezes through (fix-loop follow-up);
+            # COZMO_VIDEO_PATH_DOORS=0 turns it off
+            "path_doorways": os.environ.get("COZMO_VIDEO_PATH_DOORS", "1") == "1"}
 
 
 def _find_recording(input_path: Path) -> Path:
