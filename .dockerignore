@@ -1,6 +1,10 @@
 .git
+.venv
+venv
 data
 outputs
 models
+benchmark/results
 **/__pycache__
 .pytest_cache
+*.bundle
