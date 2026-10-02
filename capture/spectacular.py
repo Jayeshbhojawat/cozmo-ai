@@ -30,7 +30,14 @@ W_SAI_TO_OURS = np.array([[1.0, 0, 0], [0, 0, 1.0], [0, -1.0, 0]])
 
 
 def _run_vio(folder: Path) -> list[dict]:
-    import spectacularAI
+    try:
+        import spectacularAI
+    except ImportError:
+        raise SystemExit(
+            "Camera poses for this recording are not computed yet and the Spectacular AI SDK is not "
+            "installed here (it has no macOS build). On a Mac run:\n"
+            "    scripts/run_video_mac.sh <recording> <out_dir>\n"
+            "or first:  docker run --rm --platform linux/amd64 -v <recording>:/rec cozmo poses --input /rec")
     out = []
 
     def on_output(o):

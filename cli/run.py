@@ -307,7 +307,22 @@ def main(argv=None):
                    help="video tier (Spectacular Rec): recompute camera poses instead of using poses_cache.json")
     p.add_argument("--drift", choices=["auto", "on", "off"], default="auto",
                    help="plane-anchored heading-drift correction (auto = keep only if it improves registration)")
+    pp = sub.add_parser("poses", help="Video tier, step 1 only: camera poses for a Spectacular Rec "
+                                      "recording -> <recording>/poses_cache.json (the only step that "
+                                      "needs the x86-only Spectacular AI SDK; run it in Docker on a Mac)")
+    pp.add_argument("--input", required=True)
+    pp.add_argument("--recompute-poses", action="store_true")
     args = parser.parse_args(argv)
+
+    if args.command == "poses":
+        from capture.spectacular import load_spectacular
+        rec = _find_recording(Path(args.input))
+        t0 = time.time()
+        cap = load_spectacular(rec, recompute=args.recompute_poses)
+        print(json.dumps({"recording": str(rec), "frames_tracked": len(cap.frames),
+                          "poses_cache": str(rec / "poses_cache.json"),
+                          "seconds": round(time.time() - t0, 1)}, indent=2))
+        return 0
 
     inp, out = Path(args.input), Path(args.out)
     if args.tier == "lidar":

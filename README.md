@@ -54,12 +54,12 @@ any iPhone 15+; needs `pip install -r requirements-video.txt`, Linux/Windows x86
 python -m cli.run capture --input path/to/spectacular_recording --tier video --out outputs/my_flat_video
 ```
 
-On an Apple Silicon Mac (no native build of the motion-tracking library), use Docker:
+On an Apple Silicon Mac (no native build of the motion-tracking library), one
+command runs the pose step in Docker and everything else natively (needs Docker
+Desktop; the image builds once, ~5 min):
 
 ```bash
-docker build --platform linux/amd64 -t cozmo .
-docker run --rm --platform linux/amd64 -v "$PWD/data:/data" -v "$PWD/outputs:/outputs" cozmo \
-    capture --input /data/my_recording --tier video --out /outputs/my_flat_video
+scripts/run_video_mac.sh path/to/spectacular_recording outputs/my_flat_video
 ```
 
 Video tier fallback (stock Camera clip; turn a full circle in the middle of every room):
